@@ -10,7 +10,7 @@
 
 function onListViewItemclick(e) {
 
-	// We've set the items special itemId-property to the controller name 
+	// We've set the items special itemId-property to the controller name
 	var controllerName = e.itemId;
 
 	// Which we use to create the controller, get the window and open it in the navigation window
