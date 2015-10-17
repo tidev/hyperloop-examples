@@ -9,6 +9,7 @@
 			<ListView onItemclick="onListViewItemclick">
 				<ListSection>
 					<ListItem itemId="autolayout" platform="ios" title="Auto Layout"/>
+					<ListItem itemId="touchid" platform="ios" title="Apple Touch ID"/>
 				</ListSection>
 			</ListView>
 		</Window>

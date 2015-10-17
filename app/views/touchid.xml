@@ -1,0 +1,9 @@
+<Alloy>
+	<Window id="win" title="Apple Touch ID">
+
+		<ScrollView>
+			<View class="vbox" id="touchid_container"></View>
+		</ScrollView>
+
+	</Window>
+</Alloy>
