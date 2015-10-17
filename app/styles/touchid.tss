@@ -1,0 +1,12 @@
+'#message': {
+	top: 10,
+	left: 10,
+	right: 10,
+	textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER
+}
+
+'#image': {
+	top:'140dp',
+	image: 'touchid.png',
+	opacity: 0
+}

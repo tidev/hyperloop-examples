@@ -2,7 +2,8 @@
 	<Window id="win" title="Apple Touch ID">
 
 		<ScrollView>
-			<View class="vbox" id="touchid_container"></View>
+			<Label id="message" />
+			<ImageView id="image" />
 		</ScrollView>
 
 	</Window>

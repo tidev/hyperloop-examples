@@ -430,10 +430,6 @@
 					if (path.extname(file) !== '.js') {
 						return;
 					}
-					// Skip files inside of the hyperloop metabase dir.
-					if (file.indexOf('hyperloop') >= 0) {
-						return;
-					}
 					match (file);
 				})
 				.on('end', function () {
@@ -500,6 +496,34 @@
 			return newBuffer;
 		}
 
+		//https://github.com/LouisT/node-soundex/blob/master/index.js
+		function soundEx(str, scale) {
+			var split = String(str).toUpperCase().replace(/[^A-Z]/g, '').split(''),
+				map = {
+					BFPV: 1,
+					CGJKQSXZ: 2,
+					DT: 3,
+					L: 4,
+					MN: 5,
+					R: 6
+				},
+				keys = Object.keys(map).reverse();
+			var build = split.map(function (letter, index, array) {
+				for (var num in keys) {
+					if (keys[num].indexOf(letter) != -1) {
+						return map[keys[num]];
+					};
+				};
+			});
+			var first = build.splice(0, 1)[0];
+			build = build.filter(function (num, index, array) {
+				return ((index === 0) ? num !== first : num !== array[index - 1]);
+			});
+			var len = build.length,
+				max = (scale ? ((max = ~~((len * 2 / 3.5))) > 3 ? max : 3) : 3);
+			return split[0] + (build.join('') + (new Array(max + 1).join('0'))).slice(0, max);
+		}
+
 		// look for any require which matches our hyperloop system frameworks
 		function findHyperloopRequires (file) {
 			if (!fs.existsSync(file)) {
@@ -514,16 +538,26 @@
 						tok = fn.split('/');
 
 					// hyperloop includes will always have a slash
-					if (tok.length <= 1) {
+					if (tok[0] === 'alloy' || tok[0].charAt(0) === '.' || tok[0].charAt(0) === '/') {
 						return;
 					}
 
 					var pkg = tok[0],
-						fn = tok[1],
+						// if we use something like require("UIKit")
+						// that should require the helper such as require("UIKit/UIKit");
+						fn = tok[1] || pkg,
 						fwk = frameworks[pkg],
 						isBuiltin = pkg === 'Titanium';
 
 					if (!fwk && !isBuiltin) {
+						var fwkeys = Object.keys(frameworks);
+						for (var f = 0; f < fwkeys.length; f++) {
+							var framework = fwkeys[f];
+							if (soundEx(framework) === soundEx(pkg)) {
+								logger.error('The iOS framework "' + pkg + '" could not be found. Are you trying to use "' + framework + '" instead?');
+								process.exit(1);
+							}
+						}
 						return;
 					}
 
@@ -532,9 +566,25 @@
 						packages[pkg] = 1;
 					}
 
+					var include = fwk[fn];
+
+					if (!include && fn !== pkg) {
+						var keys = Object.keys(fwk);
+						for (var c = 0; c < keys.length; c++) {
+							var key = keys[c];
+							if (soundEx(key) === soundEx(fn)) {
+								logger.error('The iOS class "' + fn + '" could not be found in the framework "' + pkg + '". Are you trying to use "' + key + '" instead?');
+								process.exit(1);
+							}
+						}
+						logger.error('The iOS class "' + fn + '" could not be found in the framework "' + pkg + '".');
+						process.exit(1);
+					}
+
 					// replace the require to point to our generated file path
 					var ref = 'hyperloop/' + pkg.toLowerCase() + '/' + fn.toLowerCase();
 					var str = "require('" + ref + "')";
+
 					contents = replaceAll(contents, m, str);
 					found.push(ref);
 
@@ -551,7 +601,6 @@
 		// generate the metabase from required hyperloop files
 		// and then generate the source files from that metabase
 		function generateSourceFiles (buildDir, includes, json, callback) {
-
 			// no hyperloop files detected, we can stop here
 			if (!includes.length && !Object.keys(references).length) {
 				logger.info('Skipping ' + HL + ' compile, no usage found ...');
