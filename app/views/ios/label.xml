@@ -1,0 +1,9 @@
+<Alloy>
+	<Window id="win" title="Styled Labels">
+
+		<ScrollView>
+			<View class="vbox" id="label_container"></View>
+		</ScrollView>
+
+	</Window>
+</Alloy>

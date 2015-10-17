@@ -554,7 +554,7 @@
 						for (var f = 0; f < fwkeys.length; f++) {
 							var framework = fwkeys[f];
 							if (soundEx(framework) === soundEx(pkg)) {
-								logger.error('The iOS framework "' + pkg + '" could not be found. Are you trying to use "' + framework + '" instead?');
+								logger.error('The iOS framework "' + pkg + '" could not be found. Are you trying to use "' + framework + '" instead? (' + path.relative(generatedResourcesDir, file) + ')');
 								process.exit(1);
 							}
 						}
@@ -569,15 +569,27 @@
 					var include = fwk[fn];
 
 					if (!include && fn !== pkg) {
+						var fkeys = Object.keys(frameworks);
+						for (var c = 0; c < fkeys.length; c++) {
+							var f = fkeys[c];
+							var ckeys = Object.keys(frameworks[f]);
+							for (var i = 0; i < ckeys.length; i++) {
+								var k = ckeys[i];
+								if (k === fn) {
+									logger.error('Are you trying to use the iOS class "' + fn + '" located in the framework "' + f + '", not in "' + pkg + '"? (' + path.basename(file) + ')');
+									process.exit(1);
+								}
+							}
+						}
 						var keys = Object.keys(fwk);
 						for (var c = 0; c < keys.length; c++) {
 							var key = keys[c];
 							if (soundEx(key) === soundEx(fn)) {
-								logger.error('The iOS class "' + fn + '" could not be found in the framework "' + pkg + '". Are you trying to use "' + key + '" instead?');
+								logger.error('The iOS class "' + fn + '" could not be found in the framework "' + pkg + '". Are you trying to use "' + key + '" instead? (' + path.basename(file) + ')');
 								process.exit(1);
 							}
 						}
-						logger.error('The iOS class "' + fn + '" could not be found in the framework "' + pkg + '".');
+						logger.error('The iOS class "' + fn + '" could not be found in the framework "' + pkg + '". (' + path.basename(file) + ')');
 						process.exit(1);
 					}
 
