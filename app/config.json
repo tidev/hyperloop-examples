@@ -1,0 +1,16 @@
+{
+	"global": {
+		"brandPrimary": "#CD1625",
+		"theme": "foo",
+		"foo": "Hello from: Alloy.CFG.foo"
+	},
+	"env:development": {},
+	"env:test": {},
+	"env:production": {},
+	"os:android": {},
+	"os:blackberry": {},
+	"os:ios": {},
+	"os:mobileweb": {},
+	"os:windows": {},
+	"dependencies": {}
+}

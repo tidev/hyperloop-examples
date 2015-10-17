@@ -1,0 +1,54 @@
+/*
+
+This is your global styles file. Selectors and rules you define
+here will be applied throughout your app. However, these rules
+have the lowest priority of any style settings.
+
+For more information, see the 'Style Priorities' section of
+http://docs.appcelerator.com/titanium/latest/#!/guide/Alloy_Styles_and_Themes
+
+For example, the following would apply to all labels, windows,
+and text fields (depending on platform) in your app unless you
+overrode the settings with other TSS, XML, or JS settings:
+
+*/
+
+'Window[platform=ios]': {
+
+	// Navigation bar
+	barColor: Alloy.CFG.brandPrimary,
+	navTintColor: '#FFF',
+	translucent: false,
+	titleAttributes: {
+		color: '#FFF'
+	},
+
+	backgroundColor: '#FFF'
+}
+
+'TextField[platform=ios]': {
+	width: Ti.UI.FILL,
+	
+	borderStyle: Ti.UI.INPUT_BORDERSTYLE_ROUNDED
+}
+
+'ScrollView': {
+	contentWidth: Ti.UI.FILE,
+	contentHeight: Ti.UI.SIZE,
+
+	scrollType: 'vertical'
+}
+
+'.vbox': {
+	layout: 'vertical',
+	top: 20,
+	right: 20,
+	bottom: 20,
+	left: 20,
+
+	height: Ti.UI.SIZE
+}
+
+'.tpad': {
+	top: 20
+}

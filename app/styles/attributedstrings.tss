@@ -1,0 +1,64 @@
+'Label[formFactor=tablet]': {
+	left: 0,
+	width: 400
+}
+
+'.asLabel[platform=ios]' : {
+	attributes: [
+		{
+			type: Ti.UI.ATTRIBUTE_LINE_BREAK,
+			value: Ti.UI.ATTRIBUTE_LINE_BREAK_BY_CHAR_WRAPPING,
+			range: [0, 119]
+		},
+		{
+			type: Ti.UI.ATTRIBUTE_LINE_BREAK,
+			value: Ti.UI.ATTRIBUTE_LINE_BREAK_BY_CLIPPING,
+			range: [121, 104]
+		},
+		{
+			type: Ti.UI.ATTRIBUTE_LINE_BREAK,
+			value: Ti.UI.ATTRIBUTE_LINE_BREAK_BY_TRUNCATING_HEAD,
+			range: [227, 125]
+		},
+		{
+			type: Ti.UI.ATTRIBUTE_LINE_BREAK,
+			value: Ti.UI.ATTRIBUTE_LINE_BREAK_BY_TRUNCATING_MIDDLE,
+			range: [354, 131]
+		},
+		{
+			type: Ti.UI.ATTRIBUTE_LINE_BREAK,
+			value: Ti.UI.ATTRIBUTE_LINE_BREAK_BY_TRUNCATING_TAIL,
+			range: [487, 125]
+		},
+		{
+			type: Ti.UI.ATTRIBUTE_LINE_BREAK,
+			value: Ti.UI.ATTRIBUTE_LINE_BREAK_BY_WORD_WRAPPING,
+			range: [614, 119]
+		}
+	]
+}
+
+'.asTextField': {
+	attributes: [
+		{
+			type: Ti.UI.ATTRIBUTE_FOREGROUND_COLOR,
+			value: Alloy.CFG.brandPrimary,
+			range: [11, 9]
+		}
+	]
+}
+
+'.ahTextField': {
+	attributes: [
+		{
+			type: Ti.UI.ATTRIBUTE_FOREGROUND_COLOR,
+			value: '#999',
+			range: [0, 8]
+		},
+		{
+			type: Ti.UI.ATTRIBUTE_FOREGROUND_COLOR,
+			value: Alloy.CFG.brandPrimary,
+			range: [8, 18]
+		}
+	]
+}

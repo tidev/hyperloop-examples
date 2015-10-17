@@ -1,0 +1,22 @@
+'Window': {
+
+	// Lighter background to show both elevation shadow and picker title
+	backgroundColor: '#ccc'
+}
+
+'#elvView': {
+
+	// We need some space or our parent will clip our elevation shadow
+	top: 20,
+	left: 20,
+	right: 20,
+	bottom: 20,
+
+	height: 50,
+
+	backgroundColor: Alloy.CFG.brandPrimary
+}
+
+'PickerRow': {
+	color: '#000'
+}

@@ -1,0 +1,9 @@
+<Alloy>
+	<Window id="win" title="Auto Layout">
+
+		<ScrollView>
+			<View class="vbox" id="autolayout_container"></View>
+		</ScrollView>
+
+	</Window>
+</Alloy>
