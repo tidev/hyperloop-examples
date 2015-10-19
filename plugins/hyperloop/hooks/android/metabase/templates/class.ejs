@@ -1,0 +1,340 @@
+<%
+var sanitizedName = classDefinition.name.replace('$', '.'),
+	parts = sanitizedName.split('.'),
+	BASE_URL = 'http://developer.android.com/reference/' + classDefinition.name.replace(/\./g, '/').replace('$', '.') + '.html'; // Used to build up API URLs
+-%>
+/**
+ * Hyperloop
+ * Generated code is Copyright (c) <%= new Date().getFullYear() %> Appcelerator, Inc. and subject to the
+ * Appcelerator Platform Subscription agreement.
+ *
+ * WARNING: This is generated code. Modify at your own risk and without support
+ *
+ * @module <%= sanitizedName %>
+ */
+var Hyperloop = require('hyperloop');
+
+<%
+// build up the namespace to hang the class off of
+for (var i = 0; i < parts.length - 1; i++) { // don't include last segment: class base name
+-%>
+global.<%= parts.slice(0, i + 1).join('.') %> = global.<%= parts.slice(0, i + 1).join('.') %> || {};
+<%
+}
+-%>
+
+/**
+ * @class <%= sanitizedName %>
+<% if (classDefinition.superClass) {-%> * @extends <%= classDefinition.superClass.replace('$', '.') %> <%} -%>
+ * @constructor
+ * @see {@link <%- BASE_URL %>}
+ **/
+<%= sanitizedName %> = function() {
+	var result;
+	// Allow the constructor to either invoke the real java constructor, or function as a "wrapping" method that will take
+	// a single argument that is a native hyperloop proxy for this class type and just wraps it in our JS type.
+	if (arguments.length == 1 && arguments[0].apiName && arguments[0].apiName === '<%= classDefinition.name %>') {
+		result = arguments[0];
+	}
+	else {
+		result = Hyperloop.createProxy({
+			class: '<%= classDefinition.name %>',
+			alloc: true,
+			args: Array.prototype.slice.call(arguments)
+		}); 
+	}
+	
+	this.native = result;
+	this._hasPointer = result != null;
+	this._private = {};
+};
+
+<% if (classDefinition.superClass) {
+	// This is a subclass, let's extend the superclass!
+-%>
+var SuperClass = require('<%= classDefinition.superClass.replace('$', '.') %>');
+<%= sanitizedName %>.prototype = Object.create(SuperClass.prototype);
+<%= sanitizedName %>.prototype.constructor = <%= sanitizedName %>;
+<%
+} else {
+-%>
+<%= sanitizedName %>.toString = function() {
+	return "[object " + this.className + "]";
+};
+
+<%= sanitizedName %>.prototype.toString = function() {
+	if (this._hasPointer) {
+		return "[object " + this.className + "]";
+	}
+	return null;
+};
+
+<%= sanitizedName %>.isInstanceOf = function (self, cls) {
+	if (typeof cls !== "function" || typeof self !== "function") { return false; }
+	while (self) {
+		if (cls === self || self instanceof cls || self.className === cls.className) {
+			return true;
+		}
+		self = self.__superclass__;
+	}
+	return false;
+};
+<%
+}
+-%>
+
+<%= sanitizedName %>.className = "<%= classDefinition.name %>";
+<%= sanitizedName %>.prototype.className = "<%= classDefinition.name %>";
+
+// Constants
+<%
+for (var propertyName in classDefinition.properties) {
+	var propertyDefinition = classDefinition.properties[propertyName];
+	if (propertyDefinition.metatype == 'constant') {
+-%>
+/**
+ * @constant
+ * @default
+ * @see {@link <%- BASE_URL %>#<%= propertyName %>}
+ */
+<%= sanitizedName %>.<%= propertyName %> = <%- propertyDefinition.value %>;
+<%
+	}
+}
+-%>
+
+// Static fields
+<%
+for (var propertyName in classDefinition.properties) {
+	var propertyDefinition = classDefinition.properties[propertyName];
+	// static fields
+	if (propertyDefinition.metatype == 'field' && !propertyDefinition.instance) {
+-%>
+// <%- BASE_URL %>#<%= propertyName %>
+Object.defineProperty(<%= sanitizedName %>, '<%= propertyName %>', {
+	get: function() {
+		var classProxy = Hyperloop.createProxy({
+			class: this.className,			
+			alloc: false
+		});
+		if (!classProxy) return null;
+
+		var result = classProxy.getNativeField({
+			field: '<%= propertyName %>'
+		});
+		if (!result) {
+			return null;
+		}
+		// Wrap result if it's not a primitive type?
+		if (result.apiName) {
+			if (result.apiName === '<%= classDefinition.name %>') {
+				return new this(result);
+			} else {
+				var ctor = require(result.apiName);
+				return new ctor(result);
+			}
+		}
+		return result;
+	},
+<%
+		// Assume fields marked final are "read-only"
+		if (propertyDefinition.attributes.indexOf('final') == -1) {
+-%>
+	set: function(newValue) {
+		var classProxy = Hyperloop.createProxy({
+			class: this.className,			
+			alloc: false
+		});
+		if (!classProxy) return;
+
+		classProxy.setNativeField({
+			field: '<%= propertyName %>',
+			value: newValue
+		});
+	},
+<%		} -%>
+	enumerable: true
+});
+<%
+	}
+}
+-%>
+
+// Instance Fields
+<%
+for (var propertyName in classDefinition.properties) {
+	var propertyDefinition = classDefinition.properties[propertyName];
+	// instance fields
+	if (propertyDefinition.metatype == 'field' && propertyDefinition.instance) {
+-%>
+// <%- BASE_URL %>#<%= propertyName %>
+Object.defineProperty(<%= sanitizedName %>.prototype, '<%= propertyName %>', {
+	get: function() {
+		if (!this._hasPointer) return null;
+
+		var result = this.native.getNativeField({
+			field: '<%= propertyName %>'
+		});
+		if (!result) {
+			return null;
+		}
+		// Wrap result if it's not a primitive type?
+		if (result.apiName) {
+			if (result.apiName === '<%= classDefinition.name %>') {
+				return new this(result);
+			} else {
+				var ctor = require(result.apiName);
+				return new ctor(result);
+			}
+		}
+		return result;
+	},
+<%
+		// Assume fields marked final are "read-only"
+		if (propertyDefinition.attributes.indexOf('final') == -1) {
+-%>
+	set: function(newValue) {
+		if (!this._hasPointer) return;
+
+		this.native.setNativeField({
+			field: '<%= propertyName %>',
+			value: newValue
+		});
+	},
+<%		} -%>
+	enumerable: true
+});
+<%
+	}
+}
+-%>
+
+// Static methods
+<%
+for (var methodName in classDefinition.methods) {
+	// skip constructors
+	if (methodName == '<init>' || methodName == '<clinit>') {
+		continue;
+	}
+	var overloads = classDefinition.methods[methodName];
+	// filter to static variants
+	overloads = overloads.filter(function (each) {
+		return !each.instance;
+	});
+	if (overloads.length == 0) {
+		continue;
+	}
+-%>
+/**
+ * TODO Fill out docs more...
+ * @function <%= methodName %>
+ * @static
+<% 	for (var x = 0 ; x < overloads.length; x++) {
+		var args = overloads[x].args;
+		var types = [];
+		for (var y = 0; y < args.length; y++) {
+			types.push(args[y].type);
+		}
+-%>
+ * @see {@link <%- BASE_URL %>#<%= methodName %>(<%= types.join(', ') %>)}
+<%
+	}
+-%>
+ **/
+<%= sanitizedName %>.<%= methodName %> = function() {
+	var classProxy = Hyperloop.createProxy({
+			class: this.className,			
+			alloc: false
+	});
+	if (!classProxy) return null;
+
+	// FIXME If it's not a "known" type, we need to wrap the result in JS wrapper
+	// TODO If return type is void, return null/undefined?
+	var result = classProxy.callNativeFunction({
+		func: '<%= methodName %>',
+		instanceMethod: false,
+		args: Array.prototype.slice.call(arguments)
+	});
+	if (!result) {
+		return null;
+	}
+	// Wrap result if it's not a primitive type?
+	if (result.apiName) {
+		if (result.apiName === '<%= classDefinition.name %>') {
+			return new this(result);
+		} else {
+			var ctor = require(result.apiName);
+			return new ctor(result);
+		}
+	}
+	return result;
+};
+<%
+}
+-%>
+
+// Instance methods
+<%
+for (var methodName in classDefinition.methods) {
+	// skip constructors
+	if (methodName == '<init>' || methodName == '<clinit>') {
+		continue;
+	}
+	var overloads = classDefinition.methods[methodName];
+	// filter to instance variants
+	overloads = overloads.filter(function (each) {
+		return each.instance;
+	});
+	// TODO Skip overriding methods (i.e. equals(), toString(), etc)? Right now metadata doesn't contain info on that...
+	if (overloads.length == 0) {
+		continue;
+	}
+	// FIXME There are some cases where overloaded methods return different types
+	// We can't assume all the overloads return the same type. I've seen cases where some overloads return void while others return boolean; some return String while another returns Object; etc.
+	var returnType = overloads[0].returnType;
+-%>
+/**
+ * TODO Fill out docs more...
+ * @function <%= methodName %>
+ * @memberof
+ * @instance
+<% 	for (var x = 0 ; x < overloads.length; x++) {
+		var args = overloads[x].args;
+		var types = [];
+		for (var y = 0; y < args.length; y++) {
+			types.push(args[y].type);
+		}
+-%>
+ * @see {@link <%- BASE_URL %>#<%= methodName %>(<%= types.join(', ') %>)}
+<%
+	}
+-%>
+ **/
+<%= sanitizedName %>.prototype.<%= methodName %> = function() {
+	if (!this._hasPointer) return null;
+
+	var result = this.native.callNativeFunction({
+		func: '<%= methodName %>',
+		instanceMethod: true,
+		args: Array.prototype.slice.call(arguments)
+	});
+	if (!result) {
+		return null;
+	}
+	// Wrap result if it's not a primitive type?
+	if (result.apiName) {
+		if (result.apiName === '<%= classDefinition.name %>') {
+			return new this(result);
+		} else {
+			var ctor = require(result.apiName);
+			return new ctor(result);
+		}
+	}
+	return result;
+};
+<%
+}
+-%>
+
+// export the class
+module.exports = <%= sanitizedName %>;
