@@ -6,9 +6,7 @@
 		CGRectMake = require('CoreGraphics').CGRectMake,
 		CGPointMake = require('CoreGraphics').CGPointMake,
 		UIGraphicsGetCurrentContext = require('UIKit').UIGraphicsGetCurrentContext,
-		CGContextFillRect = require('CoreGraphics').CGContextFillRect,
-		CGRect = require('hyperloop/coregraphics/cgrect');
-
+		CGContextFillRect = require('CoreGraphics').CGContextFillRect;
 
 	var CustomDrawRectClass = Hyperloop.defineClass('CustomDrawRectClass', 'UIView');
 
