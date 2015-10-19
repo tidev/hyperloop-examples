@@ -28,7 +28,7 @@ overrode the settings with other TSS, XML, or JS settings:
 
 'TextField[platform=ios]': {
 	width: Ti.UI.FILL,
-	
+
 	borderStyle: Ti.UI.INPUT_BORDERSTYLE_ROUNDED
 }
 
@@ -46,7 +46,7 @@ overrode the settings with other TSS, XML, or JS settings:
 	bottom: 20,
 	left: 20,
 
-	height: Ti.UI.SIZE
+	height: Ti.UI.FILL
 }
 
 '.tpad': {

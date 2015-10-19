@@ -35,6 +35,7 @@
 		target,
 		afs,
 		force,
+		parserState,
 		references = {},
 		files = {},
 		natives = {},
@@ -153,10 +154,20 @@
 		var PBXFileReference = proj.PBXFileReference;
 		var PBXSourcesBuildPhase = proj.PBXSourcesBuildPhase;
 		var PBXGroup = proj.PBXGroup;
+		var name = path.basename(fn);
+
+		// see if we already have it add
+		var pkeys = Object.keys(PBXFileReference);
+		for (var c = 0; c < pkeys.length; c++) {
+			var entry = PBXFileReference[pkeys[c]];
+			if (entry.name === name) {
+				return;
+			}
+		}
+
 		var x1 = xcodeIdPrefix + (xcodeId++);
 		var x2 = xcodeIdPrefix + (xcodeId++);
 		var x3 = xcodeIdPrefix + (xcodeId++);
-		var name = path.basename(fn);
 		PBXBuildFile[x1] = {
 			isa: 'PBXBuildFile',
 			fileRef: x2
@@ -176,6 +187,22 @@
 			value: x1,
 			comment: name + ' in Sources'
 		});
+
+		// check to see if we already have the group and if so, don't add it again
+		pkeys = Object.keys(PBXGroup);
+		for (var c = 0; c < pkeys.length; c++) {
+			var child = PBXGroup[pkeys[c]];
+			if (child.name === 'Hyperloop') {
+				// we already have the group, just add the child
+				child.children.push({
+					value: x2,
+					comment: name
+				});
+				return;
+			}
+		}
+
+		// didn't find the group, add it
 		PBXGroup[x3] = {
 			isa: 'PBXGroup',
 			children: [
@@ -339,6 +366,12 @@
 					keys.forEach(function (fn) {
 						addXCodeSourceFile(proj, fn);
 					});
+
+					// check to see if we compiled a custom class and if so, we need to add it to the project
+					var customClass = path.join(hyperloopBuildDir, 'js', 'hyperloop', 'custom.m');
+					if (fs.existsSync(customClass)) {
+						addXCodeSourceFile(proj, customClass);
+					}
 				}
 				finished();
 			}
@@ -531,6 +564,17 @@
 			}
 			else {
 				var contents = fs.readFileSync(file, 'UTF-8');
+
+				// parse the contents
+				// TODO: move all the regex require stuff into the parser
+				try {
+					parserState = hm.generate.parseFromBuffer(contents, file, parserState);
+				}
+				catch (E) {
+					logger.error(E.message);
+					process.exit(1);
+				}
+
 				var found = [];
 				(contents.match(requireRegex) || []).forEach(function (m) {
 					var re = /require\s*\([\\"']+([\w_/-\\.]+)[\\"']+\)/i.exec(m),
@@ -632,7 +676,7 @@
 					callback();
 				} else {
 					// now generate the stubs
-					hm.generate.generateFromJSON (filesDir, result, callback);
+					hm.generate.generateFromJSON (filesDir, result, parserState, callback);
 				}
 			}, force);
 		}

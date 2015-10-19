@@ -12,6 +12,7 @@
 					<ListItem itemId="touchid" platform="ios" title="Apple Touch ID"/>
 					<ListItem itemId="animateview" platform="ios" title="View Animation"/>
 					<ListItem itemId="label" platform="ios" title="Styled Labels"/>
+					<ListItem itemId="drawrect" platform="ios" title="Custom Drawing"/>
 				</ListSection>
 			</ListView>
 		</Window>

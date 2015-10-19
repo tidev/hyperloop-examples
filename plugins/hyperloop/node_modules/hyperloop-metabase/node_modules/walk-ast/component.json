@@ -1,0 +1,9 @@
+{
+  "name": "walk-ast",
+  "version": "0.0.2",
+  "main": "lib/walk.js",
+  "scripts": [
+    "lib/types.js",
+    "lib/walk.js"
+  ]
+}
