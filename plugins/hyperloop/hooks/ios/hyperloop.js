@@ -565,6 +565,11 @@
 			else {
 				var contents = fs.readFileSync(file, 'UTF-8');
 
+				// skip empty content
+				if (!contents.length) {
+					return [];
+				}
+
 				// parse the contents
 				// TODO: move all the regex require stuff into the parser
 				try {
@@ -574,6 +579,14 @@
 					logger.error(E.message);
 					process.exit(1);
 				}
+
+				// empty AST
+				if (!parserState) {
+					return [];
+				}
+
+				// get the result source code in case it was transformed
+				contents = parserState.getSourceCode() || contents;
 
 				var found = [];
 				(contents.match(requireRegex) || []).forEach(function (m) {
