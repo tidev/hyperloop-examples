@@ -1,87 +1,79 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ti:app xmlns:ti="http://ti.appcelerator.org">
-  <id>com.appcelerator.sample.hyperloop</id>
-  <name>Hyperloop_Sample</name>
-  <version>1.0</version>
-  <publisher>Appcelerator</publisher>
-  <url>http://www.appcelerator.com</url>
-  <description>This app demonstrates Hyperloop</description>
-  <copyright>2015 by Appcelerator, Inc.</copyright>
-  <icon>appicon.png</icon>
+	<id>com.appcelerator.sample.hyperloop</id>
+	<name>Hyperloop_Sample</name>
+	<version>1.0</version>
+	<publisher>Appcelerator</publisher>
+	<url>http://www.appcelerator.com</url>
+	<description>This app demonstrates Hyperloop</description>
+	<copyright>2015 by Appcelerator, Inc.</copyright>
+	<icon>appicon.png</icon>
 
-  <!-- Change to true and remove the <application> tag to select Theme.AppCompat.NoTitleBar -->
-  <navbar-hidden>false</navbar-hidden>
+	<!-- Change to true and remove the <application> tag to select Theme.AppCompat.NoTitleBar -->
+	<navbar-hidden>false</navbar-hidden>
 
-  <!-- Change to true and remove the <application> tag to select Theme.AppCompat.NoTitleBar.Fullscreen -->
-  <fullscreen>false</fullscreen>
+	<!-- Change to true and remove the <application> tag to select Theme.AppCompat.NoTitleBar.Fullscreen -->
+	<fullscreen>false</fullscreen>
 
-  <analytics>false</analytics>
-  <guid>11111111-1111-1111-1111-111111111111</guid>
-  <property name="ti.ui.defaultunit" type="string">dp</property>
-  <ios>
-    <run-on-main-thread>true</run-on-main-thread>
-    <use-jscore-framework>true</use-jscore-framework>
-    <plist>
-      <dict>
-        <key>UISupportedInterfaceOrientations~iphone</key>
-        <array>
-          <string>UIInterfaceOrientationPortrait</string>
-		  <string>UIInterfaceOrientationPortraitUpsideDown</string>
-          <string>UIInterfaceOrientationLandscapeLeft</string>
-          <string>UIInterfaceOrientationLandscapeRight</string>
-        </array>
-        <key>UISupportedInterfaceOrientations~ipad</key>
-        <array>
-          <string>UIInterfaceOrientationPortrait</string>
-          <string>UIInterfaceOrientationPortraitUpsideDown</string>
-          <string>UIInterfaceOrientationLandscapeLeft</string>
-          <string>UIInterfaceOrientationLandscapeRight</string>
-        </array>
-        <key>UIRequiresPersistentWiFi</key>
-        <false/>
-        <key>UIPrerenderedIcon</key>
-        <false/>
-        <key>UIStatusBarHidden</key>
-        <false/>
-        <key>UIStatusBarStyle</key>
-        <string>UIStatusBarStyleLightContent</string>
-      </dict>
-    </plist>
-  </ios>
-  <android xmlns:android="http://schemas.android.com/apk/res/android">
-    <manifest>
-
-        <!-- Use one of the built-in Titanium Android Themes like this:
-        <application android:theme="@style/Theme.AppCompat.NoTitleBar" />
-        <application android:theme="@style/Theme.AppCompat.NoTitleBar.Fullscreen" />
-        -->
-
-        <application android:theme="@style/appcelerator" />
-
-    </manifest>
-
-  </android>
-  <mobileweb>
-    <precache/>
-    <splash>
-      <enabled>true</enabled>
-      <inline-css-images>true</inline-css-images>
-    </splash>
-    <theme>default</theme>
-  </mobileweb>
-  <modules>
-	  <module>hyperloop</module>
-  </modules>
-  <deployment-targets>
-    <target device="android">true</target>
-    <target device="ipad">true</target>
-    <target device="iphone">true</target>
-    <target device="mobileweb">false</target>
-    <target device="windows">true</target>
-  </deployment-targets>
-  <sdk-version>5.1.0</sdk-version>
-  <plugins>
-    <plugin version="1.0">ti.alloy</plugin>
-	<plugin>hyperloop</plugin>
-  </plugins>
+	<analytics>false</analytics>
+	<guid>11111111-1111-1111-1111-111111111111</guid>
+	<property name="ti.ui.defaultunit" type="string">dp</property>
+	<ios>
+		<run-on-main-thread>true</run-on-main-thread>
+		<use-jscore-framework>true</use-jscore-framework>
+		<plist>
+			<dict>
+				<key>UISupportedInterfaceOrientations~iphone</key>
+				<array>
+					<string>UIInterfaceOrientationPortrait</string>
+					<string>UIInterfaceOrientationPortraitUpsideDown</string>
+					<string>UIInterfaceOrientationLandscapeLeft</string>
+					<string>UIInterfaceOrientationLandscapeRight</string>
+				</array>
+				<key>UISupportedInterfaceOrientations~ipad</key>
+				<array>
+					<string>UIInterfaceOrientationPortrait</string>
+					<string>UIInterfaceOrientationPortraitUpsideDown</string>
+					<string>UIInterfaceOrientationLandscapeLeft</string>
+					<string>UIInterfaceOrientationLandscapeRight</string>
+				</array>
+				<key>UIRequiresPersistentWiFi</key>
+				<false/>
+				<key>UIPrerenderedIcon</key>
+				<false/>
+				<key>UIStatusBarHidden</key>
+				<false/>
+				<key>UIStatusBarStyle</key>
+				<string>UIStatusBarStyleLightContent</string>
+			</dict>
+		</plist>
+	</ios>
+	<android xmlns:android="http://schemas.android.com/apk/res/android">
+		<manifest>
+			<application android:theme="@style/appcelerator"/>
+		</manifest>
+	</android>
+	<mobileweb>
+		<precache/>
+		<splash>
+			<enabled>true</enabled>
+			<inline-css-images>true</inline-css-images>
+		</splash>
+		<theme>default</theme>
+	</mobileweb>
+	<modules>
+		<module>hyperloop</module>
+	</modules>
+	<deployment-targets>
+		<target device="android">true</target>
+		<target device="ipad">true</target>
+		<target device="iphone">true</target>
+		<target device="mobileweb">false</target>
+		<target device="windows">true</target>
+	</deployment-targets>
+	<sdk-version>5.1.0</sdk-version>
+	<plugins>
+		<plugin version="1.0">ti.alloy</plugin>
+		<plugin>hyperloop</plugin>
+	</plugins>
 </ti:app>
