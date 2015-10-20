@@ -2,7 +2,6 @@
 
 	var UIView = require('UIKit/UIView'),
 		UIPanGestureRecognizer = require('UIKit/UIPanGestureRecognizer'),
-		UITapGestureRecognizer = require('UIKit/UITapGestureRecognizer'),
 		CGRectMake = require('CoreGraphics').CGRectMake,
 		CGPointZero = require('CoreGraphics').CGPointZero,
 		CGPointMake = require('CoreGraphics').CGPointMake,
