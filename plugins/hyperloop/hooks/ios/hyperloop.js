@@ -7,16 +7,18 @@
 (function () {
 
 	// set this to enforce a ios-min-version
-	var IOS_MIN = '7.1';
+	var IOS_MIN = '7.0';
 	// set this to enforce a minimum Titanium SDK
-	var TI_MIN = '5.1.0';
+	var TI_MIN = '5.2.0';
 
 	var path = require('path'),
 		findit = require('findit'),
 		hm = require('hyperloop-metabase'),
 		fs = require('fs'),
 		crypto = require('crypto'),
-		chalk = require(path.join(__dirname, '..', '..', 'node_modules', 'hyperloop-metabase','node_modules','chalk'));
+		chalk = hm.chalk,
+		async = hm.async,
+		wrench = hm.wrench;
 
 	/*
 	 State.
@@ -32,91 +34,22 @@
 		hyperloopBuildDir,
 		minIOSVersion,
 		buildDir,
-		target,
 		afs,
 		force,
+		isAlloy,
 		parserState,
+		system_frameworks,
 		references = {},
 		files = {},
 		natives = {},
 		packages = {},
+		buildSettings,
 		cleanup = [],
 		pluginDir = path.join(__dirname, '..'),
 		metabaseDir = path.join(pluginDir, 'metabase'),
 		requireRegex = /require\s*\([\\"']+([\w_/-\\.]+)[\\"']+\)/ig,
 		xcodeIdPrefix = '90000000000000000000000',
 		xcodeId = 0;
-
-	//copied from https://github.com/ryanmcgrath/wrench-js/blob/master/lib/wrench.js
-	function mkdirSyncRecursive(p, mode) {
-		p = path.normalize(p)
-		try {
-			fs.mkdirSync(p, mode);
-		} catch(err) {
-			if(err.code === "ENOENT") {
-				var slashIdx = p.lastIndexOf(path.sep);
-				if(slashIdx > 0) {
-					var parentPath = p.substring(0, slashIdx);
-					mkdirSyncRecursive(parentPath, mode);
-					mkdirSyncRecursive(p, mode);
-				} else {
-					throw err;
-				}
-			} else if(err.code === "EEXIST") {
-				return;
-			} else {
-				throw err;
-			}
-		}
-	}
-
-	/* copied from https://github.com/ryanmcgrath/wrench-js/blob/master/lib/wrench.js
-	 *
-	 *  Recursively dives through directories and obliterates everything about it. This is a
-	 *  Sync-function, which blocks things until it's done. No idea why anybody would want an
-	 *  Asynchronous version. :\
-	 */
-	function rmdirSyncRecursive (fp, failSilent) {
-		var files;
-		var isWindows = !!process.platform.match(/^win/);
-
-		try {
-			files = fs.readdirSync(fp);
-		} catch (err) {
-
-			if(failSilent) return;
-			throw new Error(err.message);
-		}
-
-		/*  Loop through and delete everything in the sub-tree after checking it */
-		for(var i = 0; i < files.length; i++) {
-			var file = path.join(fp, files[i]);
-			var currFile = fs.lstatSync(file);
-
-			if(currFile.isDirectory())  {
-				// Recursive function back to the beginning
-				rmdirSyncRecursive(file);
-			} else if(currFile.isSymbolicLink()) {
-				// Unlink symlinks
-				if (isWindows) {
-					fs.chmodSync(file, 666) // Windows needs this unless joyent/node#3006 is resolved..
-				}
-
-				fs.unlinkSync(file);
-			} else {
-				// Assume it's a file - perhaps a try/catch belongs here?
-				if (isWindows) {
-					fs.chmodSync(file, 666) // Windows needs this unless joyent/node#3006 is resolved..
-				}
-
-				fs.unlinkSync(file);
-			}
-		}
-
-		/*  Now that we know everything in the sub-tree has been deleted, we can delete the main
-		 directory. Huzzah for the shopkeep. */
-		return fs.rmdirSync(fp);
-	}
 
 	/**
 	 * inject a Framework into the xcode project
@@ -224,11 +157,13 @@
 	/**
 	 * main entry point for our plugin
 	 */
-	exports.init = function (_logger, _config, _cli, appc) {
+	exports.init = function (_logger, _config, _cli, appc, _hyperloopConfig, callback) {
 		config = _config;
 		cli = _cli;
 		logger = _logger;
 		afs = appc.fs;
+
+		var builder = this;
 
 		// hyperloop requires a later version
 		if (!appc.version.satisfies(_cli.sdk.manifest.version, '>=' + TI_MIN)) {
@@ -243,6 +178,7 @@
 		if (fs.existsSync(path.join(projectDir, 'app'))) {
 			generatedResourcesDir = path.join(projectDir, 'Resources');
 			projectDir = path.join(projectDir, 'app');
+			isAlloy = true;
 		}
 		else {
 			projectDir = path.join(projectDir, 'Resources');
@@ -261,84 +197,11 @@
 		// create a temporary hyperloop directory
 		hyperloopBuildDir = path.join(buildDir, 'hyperloop', 'ios');
 		if (!fs.existsSync(hyperloopBuildDir)) {
-			mkdirSyncRecursive(hyperloopBuildDir);
+			wrench.mkdirSyncRecursive(hyperloopBuildDir);
 		}
 
 		// set the resources directory
 		cli.argv['platform-dir'] = resourcesDir;
-
-		cli.on('build.pre.construct', function (builder, callback) {
-			force = builder.cli.argv.force;
-			minIOSVersion = builder.minIosVer;
-			buildDir = builder.buildDir;
-			target = builder.target === 'simulator' ? 'iphonesimulator' : 'iphone';
-
-			// check to make sure the hyperloop module is actually configured
-			var moduleFound = builder.modules.map(function (i) {
-				if (i.id === 'hyperloop') { return i };
-			}).filter(function (a) { return !!a; });
-
-			// check that it was found
-			if (!moduleFound.length) {
-				logger.error('You cannot use the Hyperloop compiler without configuring the module.');
-				logger.error('Add the following to your tiapp.xml <modules> section:');
-				var pkg = JSON.parse(path.join(__dirname, '../package.json'));
-				logger.error('');
-				logger.error('	<module version="' + pkg.version + '">hyperloop</module>');
-				logger.warn('');
-				process.exit(1);
-			}
-
-			// check for the run-on-main-thread configuration
-			if (!builder.tiapp.ios['run-on-main-thread']) {
-				logger.error('You cannot use the Hyperloop compiler without configuring iOS to use main thread execution.');
-				logger.error('Add the following to your tiapp.xml <ios> section:');
-				logger.error('');
-				logger.error('	<run-on-main-thread>true</run-on-main-thread>');
-				logger.warn('');
-				process.exit(1);
-			}
-
-			// check for built-in JSCore but only warn if not set
-			if (builder.tiapp.ios['use-jscore-framework'] === undefined) {
-				logger.info('Hyperloop compiler works best with the built-in iOS JavaScript library.');
-				logger.info('Add the following to your tiapp.xml <ios> section to enable or disable this:');
-				logger.info('');
-				logger.info('	<use-jscore-framework>true</use-jscore-framework>');
-				logger.info('');
-				logger.info('Using Apple JavaScriptCore by default when not specified.');
-				builder.tiapp.ios['use-jscore-framework'] = true;
-			}
-
-			// check for min ios version
-			if (parseFloat(builder.tiapp.ios['min-ios-ver']) < parseFloat(IOS_MIN)) {
-				logger.error('Hyperloop compiler works best with iOS ' + IOS_MIN + ' or greater.');
-				logger.error('Your setting is currently set to: ' + builder.tiapp.ios['min-ios-ver']);
-				logger.error('You can change the version by adding the following to your');
-				logger.error('tiapp.xml <ios> section:');
-				logger.error('');
-				logger.error('	<min-ios-ver>' + IOS_MIN + '</min-ios-ver>');
-				logger.warn('');
-				process.exit(1);
-			}
-
-			// update to use the correct libhyperloop based on which JS engine is configured
-			if (builder.nativeLibModules) {
-				for (var c = 0; c < builder.nativeLibModules.length; c++) {
-					var mod = builder.nativeLibModules[c];
-					if (mod.id == 'hyperloop') {
-						var frag = builder.tiapp.ios['use-jscore-framework'] ? 'js' : 'ti';
-						mod.libName = 'libhyperloop-' + frag + 'core.a';
-						mod.libFile = path.join(mod.modulePath, mod.libName);
-						mod.hash = crypto.createHash('md5').update(fs.readFileSync(mod.libFile)).digest('hex');
-						logger.debug('Using Hyperloop library -> ' + mod.libName);
-						break;
-					}
-				}
-			}
-
-			callback();
-		});
 
 		cli.addHook('build.ios.xcodeproject', {
 			pre: function (build, finished) {
@@ -356,11 +219,23 @@
 					// we are going to add it
 					Object.keys(packages).forEach(function (n) {
 						var name = n + '.framework';
-						if (!(name in frameworks)) {
+						if (!(name in frameworks) && name in system_frameworks) {
 							// we need to add it
 							addXCodeFramework(proj, name);
 						}
 					});
+
+					// attempt to add any custom configured frameworks
+					if (_hyperloopConfig.ios && _hyperloopConfig.ios.xcodebuild && _hyperloopConfig.ios.xcodebuild.frameworks) {
+						_hyperloopConfig.ios.xcodebuild.frameworks.forEach(function (fn) {
+							if (!/\.framework$/.test(fn)) {
+								fn += '.framework';
+							}
+							if (!(fn in frameworks)) {
+								addXCodeFramework(proj, fn);
+							}
+						});
+					}
 
 					// add the source files to xcode to compile
 					keys.forEach(function (fn) {
@@ -383,6 +258,25 @@
 					// speed up the build by only building the target architecture
 					builder.args[1].push('ONLY_ACTIVE_ARCH=1');
 				}
+				// add any compiler specific flags
+				var map;
+				if (_hyperloopConfig.ios && _hyperloopConfig.ios.xcodebuild && _hyperloopConfig.ios.xcodebuild.flags) {
+					map = _hyperloopConfig.ios.xcodebuild.flags;
+				} else {
+					map = {};
+				}
+				buildSettings && Object.keys(buildSettings).forEach(function (n) {
+					if (map && n in map) {
+						// merge
+						map[n] = map[n] + ' ' + buildSettings[n];
+					} else {
+						map[n] = buildSettings[n];
+					}
+				});
+				Object.keys(map).forEach(function (n) {
+					var arg = map[n];
+					builder.args[1].push(n + '=' + arg);
+				});
 				finished();
 			}
 		});
@@ -416,31 +310,107 @@
 		});
 
 		cli.addHook('build.pre.compile', {
-			post: function (build, finished) {
-				prepareBuild(finished);
-			}
+			post: prepareBuild
 		});
 
 		cli.addHook('build.ios.removeFiles', {
 			post: function (build, finished) {
-				logger.debug('removing temporary hyperloop files');
-				cleanup.forEach(function (fn) {
-					logger.debug('removing %s', fn);
-					fs.unlinkSync(fn);
-				});
-				var hyperloopResources = path.join(projectDir, 'hyperloop');
-				if (fs.existsSync(hyperloopResources)) {
-					rmdirSyncRecursive(hyperloopResources);
+				// remove temporary Resources directory if not alloy. if alloy,
+				// since they are temporary and not checked in to source control,
+				// we can just leave it
+				if (!isAlloy) {
+					var hyperloopResources = path.join(projectDir, 'hyperloop');
+					if (fs.existsSync(hyperloopResources)) {
+						wrench.rmdirSyncRecursive(hyperloopResources);
+					}
+				}
+				// remove empty Framework directory that might have been created by cocoapods
+				var fwk = path.join(builder.xcodeAppDir, 'Frameworks');
+				if (fs.existsSync(fwk)) {
+					var files = fs.readdirSync(fwk);
+					if (files.length === 0) {
+						wrench.rmdirSyncRecursive(fwk);
+					}
 				}
 				finished();
 			}
 		});
+
+		force = builder.cli.argv.force;
+		minIOSVersion = builder.minIosVer;
+		buildDir = builder.buildDir;
+
+		// check to make sure the hyperloop module is actually configured
+		var moduleFound = builder.modules.map(function (i) {
+			if (i.id === 'hyperloop') { return i };
+		}).filter(function (a) { return !!a; });
+
+		// check that it was found
+		if (!moduleFound.length) {
+			logger.error('You cannot use the Hyperloop compiler without configuring the module.');
+			logger.error('Add the following to your tiapp.xml <modules> section:');
+			var pkg = JSON.parse(path.join(__dirname, '../package.json'));
+			logger.error('');
+			logger.error('	<module version="' + pkg.version + '">hyperloop</module>');
+			logger.warn('');
+			process.exit(1);
+		}
+
+		// check for the run-on-main-thread configuration
+		if (!builder.tiapp.ios['run-on-main-thread']) {
+			logger.error('You cannot use the Hyperloop compiler without configuring iOS to use main thread execution.');
+			logger.error('Add the following to your tiapp.xml <ios> section:');
+			logger.error('');
+			logger.error('	<run-on-main-thread>true</run-on-main-thread>');
+			logger.warn('');
+			process.exit(1);
+		}
+
+		// check for built-in JSCore but only warn if not set
+		if (builder.tiapp.ios['use-jscore-framework'] === undefined) {
+			logger.info('Hyperloop compiler works best with the built-in iOS JavaScript library.');
+			logger.info('Add the following to your tiapp.xml <ios> section to enable or disable this:');
+			logger.info('');
+			logger.info('	<use-jscore-framework>true</use-jscore-framework>');
+			logger.info('');
+			logger.info('Using Apple JavaScriptCore by default when not specified.');
+			builder.tiapp.ios['use-jscore-framework'] = true;
+		}
+
+		// check for min ios version
+		if (parseFloat(builder.tiapp.ios['min-ios-ver']) < parseFloat(IOS_MIN)) {
+			logger.error('Hyperloop compiler works best with iOS ' + IOS_MIN + ' or greater.');
+			logger.error('Your setting is currently set to: ' + builder.tiapp.ios['min-ios-ver']);
+			logger.error('You can change the version by adding the following to your');
+			logger.error('tiapp.xml <ios> section:');
+			logger.error('');
+			logger.error('	<min-ios-ver>' + IOS_MIN + '</min-ios-ver>');
+			logger.warn('');
+			process.exit(1);
+		}
+
+		// update to use the correct libhyperloop based on which JS engine is configured
+		if (builder.nativeLibModules) {
+			for (var c = 0; c < builder.nativeLibModules.length; c++) {
+				var mod = builder.nativeLibModules[c];
+				if (mod.id == 'hyperloop') {
+					var frag = builder.tiapp.ios['use-jscore-framework'] ? 'js' : 'ti';
+					mod.libName = 'libhyperloop-' + frag + 'core.a';
+					mod.libFile = path.join(mod.modulePath, mod.libName);
+					mod.hash = crypto.createHash('md5').update(fs.readFileSync(mod.libFile)).digest('hex');
+					logger.debug('Using Hyperloop library -> ' + mod.libName);
+					break;
+				}
+			}
+		}
+
+		callback();
 	};
 
 	/**
 	 * Sets up the build for using the hyperloop module.
 	 */
-	function prepareBuild(callback) {
+	function prepareBuild(builder, callback) {
 		logger.info('Starting ' + HL + ' assembly');
 
 		var frameworks,
@@ -449,58 +419,80 @@
 		// set our CLI logger
 		hm.util.setLog(logger);
 
-		// find our system frameworks
-		hm.metabase.getSystemFrameworks(buildDir, target, minIOSVersion, function (err, json) {
-			if (err) { return callback(err); }
-
-			// setup our framework mappings
-			frameworks = json;
-
-			// look for any hyperloop libraries in our JS files
-			findit(generatedResourcesDir)
-				.on('file', function (file, stat) {
-					// Only consider JS files.
-					if (path.extname(file) !== '.js') {
-						return;
-					}
-					match (file);
-				})
-				.on('end', function () {
-					generateSourceFiles(buildDir, Object.keys(includes), json, copyNativeReferences);
+		async.waterfall([
+			function (cb) {
+				// find our system frameworks
+				hm.metabase.getSystemFrameworks(buildDir, builder.xcodeTargetOS, minIOSVersion, cb);
+			},
+			function (json, cb) {
+				// setup our framework mappings
+				system_frameworks = frameworks = json;
+				// attempt to handle cocoapods for third-party frameworks
+				hm.metabase.generateCocoaPods(hyperloopBuildDir, cli.argv['project-dir'], builder.xcodeAppDir, builder.xcodeTargetOS, builder.iosSdkVersion, IOS_MIN, builder.xcodeEnv.executables, function (err, settings, symbols) {
+					buildSettings = settings;
+					cb(err, symbols);
 				});
-		});
-
-		// copy any native generated file references so that we can compile them
-		// as part of xcodebuild
-		function copyNativeReferences () {
-			var keys = Object.keys(references);
-			// only if we found references, otherwise, skip
-			if (keys.length) {
-				// check to see if we have any specific file native modules and copy them in
-				keys.forEach(function (ref) {
-					var fp = path.join(filesDir, ref.replace(/^hyperloop\//,'') + '.m');
-					if (fs.existsSync(fp)) {
-						natives[fp] = 1;
-					}
+			},
+			function (symbols, cb) {
+				symbols && Object.keys(symbols).forEach(function (k) {
+					frameworks[k] = symbols[k];
 				});
-				// check to see if we have any package modules and copy them in
-				Object.keys(packages).forEach(function (k) {
-					var fp = path.join(filesDir, k.toLowerCase() + '/' + k.toLowerCase() + '.m');
-					if (fs.existsSync(fp)) {
-						natives[fp] = 1;
-					}
-				});
-				var hyperloopResources = path.join(generatedResourcesDir, 'hyperloop');
-				mkdirSyncRecursive(hyperloopResources);
-				afs.copyDirRecursive(filesDir, hyperloopResources, function (err) {
+				cb();
+			},
+			function (cb) {
+				// look for any hyperloop libraries in our JS files
+				findit(generatedResourcesDir)
+					.on('file', function (file, stat) {
+						// Only consider JS files.
+						if (path.extname(file) !== '.js') {
+							return;
+						}
+						match (file);
+					})
+					.on('end', function () {
+						generateSourceFiles(buildDir, Object.keys(includes), frameworks, cb);
+					});
+			},
+			function (cb) {
+				// copy any native generated file references so that we can compile them
+				// as part of xcodebuild
+				var keys = Object.keys(references);
+				// only if we found references, otherwise, skip
+				if (keys.length) {
+					// check to see if we have any specific file native modules and copy them in
+					keys.forEach(function (ref) {
+						var fp = path.join(filesDir, ref.replace(/^hyperloop\//,'') + '.m');
+						if (fs.existsSync(fp)) {
+							natives[fp] = 1;
+						}
+					});
+					// check to see if we have any package modules and copy them in
+					Object.keys(packages).forEach(function (k) {
+						var fp = path.join(filesDir, k.toLowerCase() + '/' + k.toLowerCase() + '.m');
+						if (fs.existsSync(fp)) {
+							natives[fp] = 1;
+						}
+					});
+					var hyperloopResources = path.join(generatedResourcesDir, 'hyperloop');
+					!fs.existsSync(hyperloopResources) && wrench.mkdirSyncRecursive(hyperloopResources);
+					builder.copyDirSync(filesDir, hyperloopResources, {
+						ignoreFiles: /\.(m|mm|h|hpp|c|cpp)$/,
+						beforeCopy: function (srcFile, destFile, srcStat) {
+							builder.currentBuildManifest.files[destFile] = {
+								hash: 0,
+								mtime: srcStat.mtime,
+								size: srcStat.size
+							};
+						}
+					});
 					logger.info('Finished Hyperloop assembly');
-					callback(err);
-				});
-			} else {
-				logger.info('Finished ' + HL + ' assembly');
-				callback();
+					cb();
+				} else {
+					logger.info('Finished ' + HL + ' assembly');
+					cb();
+				}
 			}
-		}
+		], callback);
 
 		function match (file) {
 			var matches = findHyperloopRequires(file);
@@ -678,7 +670,7 @@
 
 			filesDir = path.join(hyperloopBuildDir, 'js');
 			if (!fs.existsSync(filesDir)) {
-				mkdirSyncRecursive(filesDir);
+				wrench.mkdirSyncRecursive(filesDir);
 			}
 
 			// generate the metabase from our includes

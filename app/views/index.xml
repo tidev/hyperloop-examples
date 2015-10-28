@@ -14,6 +14,7 @@
 					<ListItem itemId="label" platform="ios" title="Styled Labels"/>
 					<ListItem itemId="drawrect" platform="ios" title="Custom Drawing"/>
 					<ListItem itemId="touches" platform="ios" title="Touches"/>
+					<ListItem itemId="charting" platform="ios" title="Charting (3rd party integration)"/>
 				</ListSection>
 			</ListView>
 		</Window>

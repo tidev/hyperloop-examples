@@ -1,0 +1,10 @@
+<Alloy>
+	<Window id="win" title="Charting (3rd party)">
+
+		<ScrollView>
+			<Label>3rd party charting library via CocoaPods</Label>
+			<View class="vbox" id="chart_container"></View>
+		</ScrollView>
+
+	</Window>
+</Alloy>

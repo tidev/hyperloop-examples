@@ -8,8 +8,10 @@
 		UIKit = require('UIKit'),
 		UIColor = require('UIKit/UIColor');
 
+	// create a custom implementation of UIPanGestureRecognizer
 	var NativePanGestureRecognizer = Hyperloop.defineClass('NativePanGestureRecognizer', 'UIPanGestureRecognizer');
 
+	// we are going to implement a callback which will do the changes as the user moves the view
 	NativePanGestureRecognizer.addMethod({
 		signature: 'onAction:',
 		arguments: '@',
@@ -28,6 +30,7 @@
 		}
 	});
 
+	// create an instance of the class - one for each instance of the view
  	var panGesture1 = new NativePanGestureRecognizer();
 	panGesture1.addTargetAction(panGesture1, 'onAction:');
 

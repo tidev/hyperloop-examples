@@ -6,6 +6,7 @@
 		CGAffineTransformScale = require('CoreGraphics').CGAffineTransformScale,
 		CGAffineTransformIdentity = require('CoreGraphics').CGAffineTransformIdentity;
 
+	// create a view box we're going to animate when you click the button
 	var view = UIView.alloc().initWithFrame(CGRectMake(10, 10, 50, 50));
 	view.backgroundColor = UIColor.redColor();
 	container.add(view);
@@ -15,7 +16,10 @@
 	$.button.addEventListener('click', function () {
 		flag = !flag;
 		$.notice.setText('');
+		// animate the UIView
 		UIView.animateWithDurationAnimationsCompletion(1.0, function () {
+			// this function will be called to handle the animation
+			// any changes done in this function will be animated
 			if (flag) {
 				view.frame = CGRectMake(100, 100, 200, 200);
 				view.layer.opacity = 0.8;
@@ -30,6 +34,7 @@
 				view.backgroundColor = UIColor.redColor();
 			}
 		}, function (_done) {
+			// this function is called after the animation completes
 			$.notice.setText('Animation completed!');
 			setTimeout(function () {
 				$.notice.setText('');

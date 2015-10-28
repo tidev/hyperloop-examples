@@ -8,8 +8,10 @@
 		UIGraphicsGetCurrentContext = require('UIKit').UIGraphicsGetCurrentContext,
 		CGContextFillRect = require('CoreGraphics').CGContextFillRect;
 
+	// create a unique UIView subclass for doing our custom drawing
 	var CustomDrawRectClass = Hyperloop.defineClass('CustomDrawRectClass', 'UIView');
 
+	// convenience function for converting an angle in degress to radians
 	function DEGREES_TO_RADIANS (angle) { return (Number(angle) / 180.0 * Math.PI) };
 
 	// http://stackoverflow.com/a/14991292/795295
@@ -18,6 +20,8 @@
 		instance: true,
 		encoding: 'v@:{CGRect={CGPoint=dd}{CGSize=dd}}',
 		callback: function(rect) {
+
+			// this function is called when the drawRect: is invoked to render the view
 
 			var beams = 9;
 			var radius = rect.size.width / 2;
