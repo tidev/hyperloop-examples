@@ -17,6 +17,7 @@
 					<ListItem itemId="charting" platform="ios" title="Charting (3rd party integration)"/>
 					<ListItem itemId="alert" platform="ios" title="Alert"/>
 					<ListItem itemId="xib" platform="ios" title="Interface Builder UI"/>
+					<ListItem itemId="donutchart" platform="ios" title="Donut Chart"/>
 				</ListSection>
 			</ListView>
 		</Window>
