@@ -615,9 +615,9 @@
 						packages[pkg] = 1;
 					}
 
-					var include = fwk[fn];
+					var include = fwk && fwk[fn];
 
-					if (!include && fn !== pkg) {
+					if (!include && fn !== pkg && !isBuiltin) {
 						var fkeys = Object.keys(frameworks);
 						for (var c = 0; c < fkeys.length; c++) {
 							var f = fkeys[c];
