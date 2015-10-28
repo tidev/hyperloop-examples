@@ -1,0 +1,9 @@
+<Alloy>
+	<Window id="win" title="Interface Builder View (XIB)">
+
+		<ScrollView>
+			<View class="vbox" id="xib_container"></View>
+		</ScrollView>
+
+	</Window>
+</Alloy>

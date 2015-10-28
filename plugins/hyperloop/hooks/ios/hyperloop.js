@@ -485,12 +485,18 @@
 							};
 						}
 					});
-					logger.info('Finished Hyperloop assembly');
 					cb();
 				} else {
-					logger.info('Finished ' + HL + ' assembly');
 					cb();
 				}
+			},
+			function (cb) {
+				var sdk = builder.xcodeTargetOS + builder.iosSdkVersion;
+				hm.metabase.compileResources(generatedResourcesDir, sdk, builder.xcodeAppDir, false, cb);
+			},
+			function (cb) {
+				logger.info('Finished ' + HL + ' assembly');
+				cb();
 			}
 		], callback);
 

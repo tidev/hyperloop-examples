@@ -16,6 +16,7 @@
 					<ListItem itemId="touches" platform="ios" title="Touches"/>
 					<ListItem itemId="charting" platform="ios" title="Charting (3rd party integration)"/>
 					<ListItem itemId="alert" platform="ios" title="Alert"/>
+					<ListItem itemId="xib" platform="ios" title="Interface Builder UI"/>
 				</ListSection>
 			</ListView>
 		</Window>
