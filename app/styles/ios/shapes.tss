@@ -1,0 +1,23 @@
+'#message': {
+	color: '#ececec',
+	bottom: 50
+}
+
+'#button': {
+	font:{
+		fontSize: 35,
+		fontWeight: 'bold'
+	},
+	height: 80,
+	width: 80,
+	borderRadius: 40,
+	backgroundColor: '#555'
+}
+
+'#win': {
+	backgroundColor: '#333'
+}
+
+'#shapes_container': {
+	backgroundColor: 'transparent'
+}

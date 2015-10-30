@@ -1,0 +1,12 @@
+<Alloy>
+	<Window id="win" title="Shapes &amp; Animation">
+
+		<ScrollView>
+			<View id="shapes_container">
+				<Label id="button"></Label>
+			</View>
+			<Label id="message">click the circle to start animation</Label>
+		</ScrollView>
+
+	</Window>
+</Alloy>

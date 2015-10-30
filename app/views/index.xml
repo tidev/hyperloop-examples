@@ -18,6 +18,7 @@
 					<ListItem itemId="alert" platform="ios" title="Alert"/>
 					<ListItem itemId="xib" platform="ios" title="Interface Builder UI"/>
 					<ListItem itemId="donutchart" platform="ios" title="Donut Chart"/>
+					<ListItem itemId="shapes" platform="ios" title="Shapes &amp; Animation"/>
 				</ListSection>
 			</ListView>
 		</Window>
