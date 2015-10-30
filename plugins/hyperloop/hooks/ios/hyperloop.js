@@ -39,6 +39,7 @@
 		isAlloy,
 		parserState,
 		system_frameworks,
+		hyperloopConfig,
 		references = {},
 		files = {},
 		natives = {},
@@ -162,6 +163,7 @@
 		cli = _cli;
 		logger = _logger;
 		afs = appc.fs;
+		hyperloopConfig = _hyperloopConfig;
 
 		var builder = this;
 
@@ -226,13 +228,31 @@
 					});
 
 					// attempt to add any custom configured frameworks
-					if (_hyperloopConfig.ios && _hyperloopConfig.ios.xcodebuild && _hyperloopConfig.ios.xcodebuild.frameworks) {
-						_hyperloopConfig.ios.xcodebuild.frameworks.forEach(function (fn) {
+					if (hyperloopConfig.ios && hyperloopConfig.ios.xcodebuild && hyperloopConfig.ios.xcodebuild.frameworks) {
+						hyperloopConfig.ios.xcodebuild.frameworks.forEach(function (fn) {
 							if (!/\.framework$/.test(fn)) {
 								fn += '.framework';
 							}
 							if (!(fn in frameworks)) {
 								addXCodeFramework(proj, fn);
+							}
+						});
+					}
+
+					// add any source files we want to include in the compile
+					if (hyperloopConfig && hyperloopConfig.ios && hyperloopConfig.ios.thirdparty) {
+						Object.keys(hyperloopConfig.ios.thirdparty).forEach(function(k) {
+							var src = hyperloopConfig.ios.thirdparty[k].source;
+							if (src) {
+								if (typeof(src) === 'string') {
+									src = [src];
+								}
+								src.forEach(function (fn) {
+									var dirs = hm.metabase.recursiveReadDir(path.resolve(cli.argv['project-dir'], fn));
+									dirs.forEach(function (f) {
+										/\.(m|mm)$/.test(f) && addXCodeSourceFile(proj, f);
+									});
+								});
 							}
 						});
 					}
@@ -260,8 +280,8 @@
 				}
 				// add any compiler specific flags
 				var map;
-				if (_hyperloopConfig.ios && _hyperloopConfig.ios.xcodebuild && _hyperloopConfig.ios.xcodebuild.flags) {
-					map = _hyperloopConfig.ios.xcodebuild.flags;
+				if (hyperloopConfig.ios && hyperloopConfig.ios.xcodebuild && hyperloopConfig.ios.xcodebuild.flags) {
+					map = hyperloopConfig.ios.xcodebuild.flags;
 				} else {
 					map = {};
 				}
@@ -273,6 +293,22 @@
 						map[n] = buildSettings[n];
 					}
 				});
+				// add our header include paths if we have custom ones
+				if (hyperloopConfig && hyperloopConfig.ios && hyperloopConfig.ios.thirdparty) {
+					Object.keys(hyperloopConfig.ios.thirdparty).forEach(function (k) {
+						var src = hyperloopConfig.ios.thirdparty[k].header;
+						if (src) {
+							if (typeof(src) === 'string') {
+								src = [src];
+							}
+							var headers = [];
+							src.forEach(function (fn) {
+								headers.push(path.resolve(cli.argv['project-dir'], fn));
+							});
+							map.HEADER_SEARCH_PATHS = map.HEADER_SEARCH_PATHS + ' ' + headers.join(' ');
+						}
+					});
+				}
 				Object.keys(map).forEach(function (n) {
 					var arg = map[n];
 					builder.args[1].push(n + '=' + arg);
@@ -438,6 +474,52 @@
 					frameworks[k] = symbols[k];
 				});
 				cb();
+			},
+			function (cb) {
+				// if we have any custom includes, we need to also add them so we can reference them
+				if (hyperloopConfig && hyperloopConfig.ios && hyperloopConfig.ios.thirdparty) {
+					async.each(Object.keys(hyperloopConfig.ios.thirdparty), function (k, cb2) {
+						var header = hyperloopConfig.ios.thirdparty[k].header;
+						if (header) {
+							header = typeof(header) === 'string' ? [header] : header;
+							header = header.map(function (f) {
+								return path.resolve(cli.argv['project-dir'], f);
+							});
+							hm.metabase.getUserFrameworks(hyperloopBuildDir, header, function (cb, includes) {
+								includes && Object.keys(includes).forEach(function (key) {
+									frameworks[k] = includes[key];
+								});
+								cb2();
+							}, k);
+						} else {
+							cb2();
+						}
+					}, cb);
+				} else {
+					cb();
+				}
+			},
+			function (cb) {
+				// compile any custom resources
+				var sdk = builder.xcodeTargetOS + builder.iosSdkVersion;
+				if (hyperloopConfig && hyperloopConfig.ios && hyperloopConfig.ios.thirdparty) {
+					async.each(Object.keys(hyperloopConfig.ios.thirdparty), function (k, cb2) {
+						var resource = hyperloopConfig.ios.thirdparty[k].resource;
+						if (resource) {
+							resource = typeof(resource) === 'string' ? [resource] : resource;
+							resource = resource.map(function (f) {
+								return path.resolve(cli.argv['project-dir'], f);
+							});
+							async.each(resource, function (dir, cb3) {
+								hm.metabase.compileResources(dir, sdk, builder.xcodeAppDir, true, cb3);
+							}, cb2);
+						} else {
+							cb2();
+						}
+					}, cb);
+				} else {
+					cb();
+				}
 			},
 			function (cb) {
 				// look for any hyperloop libraries in our JS files
@@ -687,7 +769,7 @@
 					callback();
 				} else {
 					// now generate the stubs
-					hm.generate.generateFromJSON (filesDir, result, parserState, callback);
+					hm.generate.generateFromJSON (filesDir, result, parserState, callback, frameworks);
 				}
 			}, force);
 		}

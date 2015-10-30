@@ -1,0 +1,10 @@
+<Alloy>
+	<Window id="win" title="Custom Classes">
+
+		<ScrollView>
+			<Label>Custom objective-c class from the src directory</Label>
+			<View class="vbox" id="custom_container"></View>
+		</ScrollView>
+
+	</Window>
+</Alloy>
