@@ -221,7 +221,7 @@
 					// we are going to add it
 					Object.keys(packages).forEach(function (n) {
 						var name = n + '.framework';
-						if (!(name in frameworks) && name in system_frameworks) {
+						if (!(name in frameworks) && n in system_frameworks) {
 							// we need to add it
 							addXCodeFramework(proj, name);
 						}
@@ -368,6 +368,12 @@
 						wrench.rmdirSyncRecursive(fwk);
 					}
 				}
+				// remove any of these files that are found in the app directory
+				fs.readdirSync(builder.xcodeAppDir).filter(function (f) {
+					return /\.(xib|storyboard|m|mm|cpp|h|hpp|swift|xcdatamodel)$/.test(f);
+				}).forEach(function (f) {
+					fs.unlinkSync(path.join(builder.xcodeAppDir, f));
+				});
 				finished();
 			}
 		});
@@ -449,7 +455,7 @@
 	function prepareBuild(builder, callback) {
 		logger.info('Starting ' + HL + ' assembly');
 
-		var frameworks,
+		var frameworks = {},
 			includes = [];
 
 		// set our CLI logger
@@ -461,8 +467,13 @@
 				hm.metabase.getSystemFrameworks(buildDir, builder.xcodeTargetOS, minIOSVersion, cb);
 			},
 			function (json, cb) {
-				// setup our framework mappings
-				system_frameworks = frameworks = json;
+				// setup our system framework mappings
+				system_frameworks = json;
+				// copy in our system frameworks into frameworks
+				// which will include both system and user generated
+				Object.keys(system_frameworks).forEach(function (k) {
+					frameworks[k] = system_frameworks[k];
+				});
 				// attempt to handle cocoapods for third-party frameworks
 				hm.metabase.generateCocoaPods(hyperloopBuildDir, cli.argv['project-dir'], builder.xcodeAppDir, builder.xcodeTargetOS, builder.iosSdkVersion, IOS_MIN, builder.xcodeEnv.executables, function (err, settings, symbols) {
 					buildSettings = settings;
@@ -571,6 +582,10 @@
 				} else {
 					cb();
 				}
+			},
+			function (cb) {
+				var fn = path.join(hyperloopBuildDir, 'symbol_references.json');
+				fs.writeFile(fn, JSON.stringify(parserState.getReferences(), null, 2), cb);
 			},
 			function (cb) {
 				var sdk = builder.xcodeTargetOS + builder.iosSdkVersion;
