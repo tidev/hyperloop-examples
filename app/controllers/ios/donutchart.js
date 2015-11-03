@@ -166,7 +166,8 @@
 	/** Create an Instance of the DonutChartView **/
 	var view = new DonutChartView();
 	var bounds = UIScreen.mainScreen().bounds;
-	view.frame = CGRectMake(60, 170, 256, 256);
+	view.frame = CGRectMake(0, 0, 256, 256);
+	view.center = CGPointMake(bounds.size.width / 2, (bounds.size.height / 2) - 30);
 	view.backgroundColor = UIColor.clearColor();
 	view.layer.allowsEdgeAntialiasing = true;
 	view.layer.cornerRadius = 10;
