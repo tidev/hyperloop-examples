@@ -10,6 +10,8 @@
 	var IOS_MIN = '7.0';
 	// set this to enforce a minimum Titanium SDK
 	var TI_MIN = '5.2.0';
+	// set the iOS SDK minium
+	var IOS_SDK_MIN = '9.0';
 
 	var path = require('path'),
 		findit = require('findit'),
@@ -175,6 +177,13 @@
 
 		var builder = this;
 
+		// hyperloop requires a minimum iOS SDK
+		if (!appc.version.satisfies(builder.iosSdkVersion, '>=' + IOS_SDK_MIN)) {
+			logger.error('You cannot use the Hyperloop compiler with a version of iOS SDK older than ' + IOS_SDK_MIN);
+			logger.error('Please update to the latest iOS SDK and try again.');
+			process.exit(1);
+		}
+
 		// hyperloop requires a later version
 		if (!appc.version.satisfies(_cli.sdk.manifest.version, '>=' + TI_MIN)) {
 			logger.error('You cannot use the Hyperloop compiler with a version of Titanium older than ' + TI_MIN);
@@ -215,6 +224,7 @@
 
 		cli.addHook('build.ios.xcodeproject', {
 			pre: function (build, finished) {
+
 				var keys = Object.keys(natives);
 				if (keys.length) {
 					var proj = build.args[0].hash.project.objects,
