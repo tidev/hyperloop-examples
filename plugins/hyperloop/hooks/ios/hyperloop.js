@@ -46,6 +46,7 @@
 		packages = {},
 		buildSettings,
 		cleanup = [],
+		containsSwift,
 		pluginDir = path.join(__dirname, '..'),
 		metabaseDir = path.join(pluginDir, 'metabase'),
 		requireRegex = /require\s*\([\\"']+([\w_/-\\.]+)[\\"']+\)/ig,
@@ -83,7 +84,7 @@
 	/**
 	 * inject a source file into the xcode project
 	 */
-	function addXCodeSourceFile(proj, fn) {
+	function addXCodeSourceFile (proj, fn) {
 		var PBXBuildFile = proj.PBXBuildFile;
 		var PBXFileReference = proj.PBXFileReference;
 		var PBXSourcesBuildPhase = proj.PBXSourcesBuildPhase;
@@ -99,6 +100,13 @@
 			}
 		}
 
+		// determine the language
+		var lang = 'c.objc';
+		if (/\.swift$/.test(fn)) {
+			lang = 'swift';
+			containsSwift = true;
+		}
+
 		var x1 = xcodeIdPrefix + (xcodeId++);
 		var x2 = xcodeIdPrefix + (xcodeId++);
 		var x3 = xcodeIdPrefix + (xcodeId++);
@@ -110,7 +118,7 @@
 		PBXFileReference[x2] = {
 			isa: 'PBXFileReference',
 			fileEncoding: 4,
-			lastKnownFileType: 'sourcecode.c.objc',
+			lastKnownFileType: 'sourcecode.' + lang,
 			name: name,
 			path: '"' + fn + '"',
 			sourceTree: '"<absolute>"'
@@ -250,7 +258,7 @@
 								src.forEach(function (fn) {
 									var dirs = hm.metabase.recursiveReadDir(path.resolve(cli.argv['project-dir'], fn));
 									dirs.forEach(function (f) {
-										/\.(m|mm)$/.test(f) && addXCodeSourceFile(proj, f);
+										/\.(m|mm|swift)$/.test(f) && addXCodeSourceFile(proj, f);
 									});
 								});
 							}
@@ -308,6 +316,11 @@
 							map.HEADER_SEARCH_PATHS = map.HEADER_SEARCH_PATHS + ' ' + headers.join(' ');
 						}
 					});
+				}
+				// check to see if we have any swift code and if case, indicate to xcode we do
+				if (containsSwift) {
+					map.EMBEDDED_CONTENT_CONTAINS_SWIFT = 'YES';
+					map.LD_RUNPATH_SEARCH_PATHS = (map.LD_RUNPATH_SEARCH_PATHS || '') + ' $(inherited) @executable_path/Frameworks';
 				}
 				Object.keys(map).forEach(function (n) {
 					var arg = map[n];
@@ -456,7 +469,8 @@
 		logger.info('Starting ' + HL + ' assembly');
 
 		var frameworks = {},
-			includes = [];
+			includes = [],
+			swift_sources = [];
 
 		// set our CLI logger
 		hm.util.setLog(logger);
@@ -533,6 +547,34 @@
 				}
 			},
 			function (cb) {
+				// generate metabase for swift files (if found)
+				if (hyperloopConfig && hyperloopConfig.ios && hyperloopConfig.ios.thirdparty) {
+					async.each(Object.keys(hyperloopConfig.ios.thirdparty), function (k, cb2) {
+						var source = hyperloopConfig.ios.thirdparty[k].source;
+						if (source) {
+							source = typeof(source) === 'string' ? [source] : source;
+							source = source.map(function (f) {
+								return path.resolve(cli.argv['project-dir'], f);
+							});
+							source.forEach(function (dir) {
+								var files = fs.readdirSync(dir);
+								files.forEach(function (sf) {
+									if (/\.swift$/.test(sf)) {
+										swift_sources.push({
+											framework: k,
+											source: path.join(dir, sf)
+										});
+									}
+								});
+							});
+						}
+						cb2();
+					}, cb);
+				} else {
+					cb();
+				}
+			},
+			function (cb) {
 				// look for any hyperloop libraries in our JS files
 				findit(generatedResourcesDir)
 					.on('file', function (file, stat) {
@@ -569,7 +611,7 @@
 					var hyperloopResources = path.join(generatedResourcesDir, 'hyperloop');
 					!fs.existsSync(hyperloopResources) && wrench.mkdirSyncRecursive(hyperloopResources);
 					builder.copyDirSync(filesDir, hyperloopResources, {
-						ignoreFiles: /\.(m|mm|h|hpp|c|cpp)$/,
+						ignoreFiles: /\.(m|mm|h|hpp|c|cpp|swift)$/,
 						beforeCopy: function (srcFile, destFile, srcStat) {
 							builder.currentBuildManifest.files[destFile] = {
 								hash: 0,
@@ -778,13 +820,24 @@
 
 			// generate the metabase from our includes
 			return hm.metabase.generateMetabase(hyperloopBuildDir, json.$metadata.sdkType, json.$metadata.sdkPath, json.$metadata.minVersion, includes, false, function (err, result, outfile, header, cached) {
-				if (cached) {
+				if (cached && swift_sources.length === 0) {
 					// if cached, skip generation
 					logger.info('Skipping ' + HL + ' compile, already generated ...');
 					callback();
 				} else {
-					// now generate the stubs
-					hm.generate.generateFromJSON (filesDir, result, parserState, callback, frameworks);
+					var mb = result;
+					async.each(swift_sources, function (entry, cb) {
+						logger.info('Generating metabase for swift ' + chalk.cyan(entry.framework + ' ' + entry.source));
+						hm.metabase.generateSwiftMetabase(hyperloopBuildDir, json.$metadata.sdkType, json.$metadata.sdkPath, json.$metadata.minVersion, mb, entry.framework, entry.source, function (err, r, m) {
+							if (err) { return cb(err); }
+							mb  = m;
+							cb();
+						});
+					}, function (err) {
+						if (err) { return callback(err); }
+						// now generate the stubs
+						hm.generate.generateFromJSON(cli.tiapp.name, filesDir, mb, parserState, callback, frameworks);
+					});
 				}
 			}, force);
 		}

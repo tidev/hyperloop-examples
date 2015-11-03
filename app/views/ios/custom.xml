@@ -2,8 +2,8 @@
 	<Window id="win" title="Custom Classes">
 
 		<ScrollView>
-			<Label>Custom objective-c class from the src directory</Label>
-			<View class="vbox" id="custom_container"></View>
+			<Label>Custom objective-c and swift from the src directory</Label>
+			<View id="custom_container"></View>
 		</ScrollView>
 
 	</Window>
