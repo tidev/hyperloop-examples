@@ -18,6 +18,7 @@
 	<analytics>false</analytics>
 	<guid>11111111-1111-1111-1111-111111111111</guid>
 	<property name="ti.ui.defaultunit" type="string">dp</property>
+	<property name="run-on-main-thread" type="boolean">true</property>
 	<ios>
 		<run-on-main-thread>true</run-on-main-thread>
 		<use-jscore-framework>true</use-jscore-framework>
