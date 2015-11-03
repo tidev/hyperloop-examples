@@ -332,6 +332,7 @@
 					map.EMBEDDED_CONTENT_CONTAINS_SWIFT = 'YES';
 					map.LD_RUNPATH_SEARCH_PATHS = (map.LD_RUNPATH_SEARCH_PATHS || '') + ' $(inherited) @executable_path/Frameworks';
 				}
+				map.GCC_PREPROCESSOR_DEFINITIONS = (map.GCC_PREPROCESSOR_DEFINITIONS || '') + ' HYPERLOOP=1';
 				Object.keys(map).forEach(function (n) {
 					var arg = map[n];
 					builder.args[1].push(n + '=' + arg);
