@@ -67,9 +67,13 @@ exports.cliVersion = '>=3.2';
 		resourcesDir = path.join(cli.argv['project-dir'], 'Resources');
 		hyperloopResources = path.join(resourcesDir, 'android', 'hyperloop');
 
-		var buildDir = path.join(resourcesDir, 'build');
+		var buildDir = path.join(cli.argv['project-dir'], 'build');
+		var buildPlatform = path.join(buildDir, 'platform');
 		if (!afs.exists(buildDir)) {
 			fs.mkdirSync(buildDir);
+		}
+		else if (afs.exists(buildPlatform)) {
+			wrench.rmdirSyncRecursive(buildPlatform);
 		}
 		if (!afs.exists(resourcesDir)) {
 			fs.mkdirSync(resourcesDir);
