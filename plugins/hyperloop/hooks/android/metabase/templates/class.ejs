@@ -41,10 +41,10 @@ global.<%= parts.slice(0, i + 1).join('.') %> = global.<%= parts.slice(0, i + 1)
 			class: '<%= classDefinition.name %>',
 			alloc: true,
 			args: Array.prototype.slice.call(arguments)
-		}); 
+		});
 	}
-	
-	this.native = result;
+
+	this.$native = result;
 	this._hasPointer = result != null;
 	this._private = {};
 };
@@ -114,7 +114,7 @@ for (var propertyName in classDefinition.properties) {
 Object.defineProperty(<%= sanitizedName %>, '<%= propertyName %>', {
 	get: function() {
 		var classProxy = Hyperloop.createProxy({
-			class: this.className,			
+			class: this.className,
 			alloc: false
 		});
 		if (!classProxy) return null;
@@ -142,7 +142,7 @@ Object.defineProperty(<%= sanitizedName %>, '<%= propertyName %>', {
 -%>
 	set: function(newValue) {
 		var classProxy = Hyperloop.createProxy({
-			class: this.className,			
+			class: this.className,
 			alloc: false
 		});
 		if (!classProxy) return;
@@ -172,7 +172,7 @@ Object.defineProperty(<%= sanitizedName %>.prototype, '<%= propertyName %>', {
 	get: function() {
 		if (!this._hasPointer) return null;
 
-		var result = this.native.getNativeField({
+		var result = this.$native.getNativeField({
 			field: '<%= propertyName %>'
 		});
 		if (!result) {
@@ -196,7 +196,7 @@ Object.defineProperty(<%= sanitizedName %>.prototype, '<%= propertyName %>', {
 	set: function(newValue) {
 		if (!this._hasPointer) return;
 
-		this.native.setNativeField({
+		this.$native.setNativeField({
 			field: '<%= propertyName %>',
 			value: newValue
 		});
@@ -243,7 +243,7 @@ for (var methodName in classDefinition.methods) {
  **/
 <%= sanitizedName %>.<%= methodName %> = function() {
 	var classProxy = Hyperloop.createProxy({
-			class: this.className,			
+			class: this.className,
 			alloc: false
 	});
 	if (!classProxy) return null;
@@ -313,7 +313,7 @@ for (var methodName in classDefinition.methods) {
 <%= sanitizedName %>.prototype.<%= methodName %> = function() {
 	if (!this._hasPointer) return null;
 
-	var result = this.native.callNativeFunction({
+	var result = this.$native.callNativeFunction({
 		func: '<%= methodName %>',
 		instanceMethod: true,
 		args: Array.prototype.slice.call(arguments)

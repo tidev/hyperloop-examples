@@ -15,7 +15,7 @@
 					<ListItem itemId="drawrect" platform="ios" title="Custom Drawing"/>
 					<ListItem itemId="touches" title="Touches"/>
 					<ListItem itemId="charting" platform="ios" title="Charting (3rd party integration)"/>
-					<ListItem itemId="alert" platform="ios" title="Alert"/>
+					<ListItem itemId="alert" title="Alert"/>
 					<ListItem itemId="xib" platform="ios" title="Interface Builder UI"/>
 					<ListItem itemId="donutchart" platform="ios" title="Donut Chart"/>
 					<ListItem itemId="shapes" platform="ios" title="Shapes &amp; Animation"/>
