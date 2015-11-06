@@ -1,6 +1,6 @@
 {
 	"name": "hyperloop",
-	"version": "0.3.0",
+	"version": "0.3.2",
 	"description": "Access native Android and Java APIs from within Titanium.",
 	"scripts": {
 	},
