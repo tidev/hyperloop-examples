@@ -6,6 +6,7 @@
         View = require('android.view.View'),
         Activity = require('android.app.Activity'),
         LayoutParams = require('android.widget.FrameLayout.LayoutParams'),
+        Runnable = require('java.lang.Runnable'),
 		activity = new Activity(Ti.Android.currentActivity),
         view,
         main,
@@ -33,13 +34,22 @@
 	$.button.addEventListener('click', function () {
 		$.notice.setText('');
 		flag = !flag;
+		
+		// this function is called after the animation completes
+		var runnable = new Runnable({
+			run: function () {
+				$.notice.setText('Animation completed!');
+				setTimeout(function () {
+					$.notice.setText('');
+				}, 2000);
+			}
+		});
+		
 		// animate the UIView
-		// TODO When the animation is done, change teh notice text. tried to add withEndAction and a Runnable instance,
-		// but this causes a crash, likely because the Runnable anonymous instance in JS is getting GC'ed before it gets called at the end of the animation
 		if (flag) {
-			 view.animate().alpha(0.8).scaleX(6).scaleY(6).xBy(250).yBy(250).rotation(180).setDuration(1000).start();
+			 view.animate().alpha(0.8).scaleX(6).scaleY(6).xBy(250).yBy(250).rotation(180).setDuration(1000).withEndAction(runnable).start();
 		} else {
-			 view.animate().alpha(1.0).scaleX(1).scaleY(1).xBy(-250).yBy(-250).rotation(-180).setDuration(1000).start();
+			 view.animate().alpha(1.0).scaleX(1).scaleY(1).xBy(-250).yBy(-250).rotation(-180).setDuration(1000).withEndAction(runnable).start();
 		}
 	});
 
