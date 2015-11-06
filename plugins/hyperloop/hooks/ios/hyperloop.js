@@ -40,6 +40,9 @@
 		force,
 		isAlloy,
 		parserState,
+		forceMetabase,
+		forceRegeneration,
+		metabase,
 		system_frameworks,
 		hyperloopConfig,
 		references = {},
@@ -586,6 +589,8 @@
 				}
 			},
 			function (cb) {
+				var cachedFile = path.join(hyperloopBuildDir,'files.md5');
+				var cacheToken = crypto.createHash('md5');
 				// look for any hyperloop libraries in our JS files
 				findit(generatedResourcesDir)
 					.on('file', function (file, stat) {
@@ -596,6 +601,12 @@
 						match (file);
 					})
 					.on('end', function () {
+						cacheToken.update(JSON.stringify(references));
+						cacheToken = cacheToken.digest('hex');
+						if (!fs.existsSync(cachedFile) || fs.readFileSync(cachedFile).toString() !== cacheToken) {
+							forceMetabase = true;
+						}
+						fs.writeFileSync(cachedFile, cacheToken);
 						generateSourceFiles(buildDir, Object.keys(includes), frameworks, cb);
 					});
 			},
@@ -638,11 +649,25 @@
 			},
 			function (cb) {
 				var fn = path.join(hyperloopBuildDir, 'symbol_references.json');
-				fs.writeFile(fn, JSON.stringify(parserState.getReferences(), null, 2), cb);
+				var buf = fs.existsSync(fn) && fs.readFileSync(fn);
+				var json = JSON.stringify(parserState.getReferences(), null, 2);
+				if (!fs.existsSync(fn) || buf.toString() != json) {
+					forceRegeneration = true;
+					logger.trace('forcing regeneration of wrappers');
+				}
+				fs.writeFile(fn, json, cb);
 			},
 			function (cb) {
 				var sdk = builder.xcodeTargetOS + builder.iosSdkVersion;
 				hm.metabase.compileResources(generatedResourcesDir, sdk, builder.xcodeAppDir, false, cb);
+			},
+			function (cb) {
+				if (forceRegeneration) {
+					// now generate the stubs
+					hm.generate.generateFromJSON(cli.tiapp.name, filesDir, metabase, parserState, cb, frameworks);
+				} else {
+					cb();
+				}
 			},
 			function (cb) {
 				logger.info('Finished ' + HL + ' assembly');
@@ -829,9 +854,15 @@
 				wrench.mkdirSyncRecursive(filesDir);
 			}
 
+			if (force || forceMetabase) {
+				logger.trace('forcing a metabase rebuild');
+			} else {
+				logger.trace('not necessarily forcing a metabase rebuild if already cached');
+			}
+
 			// generate the metabase from our includes
 			return hm.metabase.generateMetabase(hyperloopBuildDir, json.$metadata.sdkType, json.$metadata.sdkPath, json.$metadata.minVersion, includes, false, function (err, result, outfile, header, cached) {
-				if (cached && swift_sources.length === 0) {
+				if (cached && swift_sources.length === 0 && !forceMetabase) {
 					// if cached, skip generation
 					logger.info('Skipping ' + HL + ' compile, already generated ...');
 					callback();
@@ -841,16 +872,12 @@
 						logger.info('Generating metabase for swift ' + chalk.cyan(entry.framework + ' ' + entry.source));
 						hm.metabase.generateSwiftMetabase(hyperloopBuildDir, json.$metadata.sdkType, json.$metadata.sdkPath, json.$metadata.minVersion, mb, entry.framework, entry.source, function (err, r, m) {
 							if (err) { return cb(err); }
-							mb  = m;
+							metabase  = m;
 							cb();
 						});
-					}, function (err) {
-						if (err) { return callback(err); }
-						// now generate the stubs
-						hm.generate.generateFromJSON(cli.tiapp.name, filesDir, mb, parserState, callback, frameworks);
-					});
+					}, callback);
 				}
-			}, force);
+			}, force || forceMetabase);
 		}
 
 	}
