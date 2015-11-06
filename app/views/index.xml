@@ -10,7 +10,7 @@
 				<ListSection>
 					<ListItem itemId="autolayout" platform="ios" title="Auto Layout"/>
 					<ListItem itemId="touchid" platform="ios" title="Apple Touch ID"/>
-					<ListItem itemId="animateview" platform="ios" title="View Animation"/>
+					<ListItem itemId="animateview" title="View Animation"/>
 					<ListItem itemId="label" title="Styled Labels"/>
 					<ListItem itemId="drawrect" platform="ios" title="Custom Drawing"/>
 					<ListItem itemId="touches" title="Touches"/>
