@@ -36,7 +36,7 @@ public class JavaMetabaseGenerator
      * This probably isn't even needed anymore after out whitelist, but could be used to further narrow down specific classes out of the whitelisted packages we allowed.
      */
     private static final Pattern blacklist = Pattern
-            .compile("^(javax\\/|com\\/sun|com\\/oracle|jdk\\/internal|org\\/apache\\/bcel|org\\/jcp|org\\/json|org\\/ietf|sun\\/|com\\/apple|quicktime\\/|apple\\/|com\\/oracle\\/jrockit|oracle\\/jrockit|sunw\\/|org\\/omg|java\\/awt|java\\/applet|junit\\/|edu\\/umd\\/cs\\/findbugs|orgpath\\/icedtea)");
+            .compile("^(com\\/sun|com\\/oracle|jdk\\/internal|org\\/apache\\/bcel|org\\/jcp|org\\/json|org\\/ietf|sun\\/|com\\/apple|quicktime\\/|apple\\/|com\\/oracle\\/jrockit|oracle\\/jrockit|sunw\\/|org\\/omg|java\\/awt|java\\/applet|junit\\/|edu\\/umd\\/cs\\/findbugs|orgpath\\/icedtea)");
 
     /**
      * Basically we just want:
@@ -72,7 +72,10 @@ public class JavaMetabaseGenerator
                 }
                 try {
                     JavaClass cls = repo.loadClass(classname);
-                    if (!cls.isPrivate() && !anonymousClass.matcher(classname).matches()) {
+                    // skip private/package-level classes
+                    // skip anonymous classes.
+                    if ((cls.isPublic() || cls.isProtected()) && !cls.isAnonymous()
+                            && !anonymousClass.matcher(classname).matches()) {
                         writer.key(classname);
                         writer.object();
                         asJSON(cls, writer);
@@ -201,11 +204,12 @@ public class JavaMetabaseGenerator
         Method methods[] = javaClass.getMethods();
         for (Method method : methods)
         {
-            // Skip private methods entirely to save space since we don't want them for now
-            if (method.isPrivate()) {
+            // Skip private and package-level methods entirely to save space
+            // since we don't want them for now.
+            if ((!method.isPublic() && !method.isProtected()) || method.getName().startsWith("access$")) {
                 continue;
             }
-            
+
             JSONObject methodJSON = new JSONObject();
             methodJSON.put("attributes", addAttributes(method));
             methodJSON.put("signature",method.getSignature());
@@ -251,11 +255,12 @@ public class JavaMetabaseGenerator
         Field fields[] = javaClass.getFields();
         for (Field field : fields)
         {
-            // Skip private fields entirely to save space since we don't want them for now
-            if (field.isPrivate()) {
+            // Skip private and package-level fields entirely to save space
+            // since we don't want them for now
+            if (!field.isPublic() && !field.isProtected()) {
                 continue;
             }
-            
+
             JSONObject fieldJSON = new JSONObject();
             fieldJSON.put("name", field.getName());
             fieldJSON.put("attributes", addAttributes(field));

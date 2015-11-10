@@ -37,11 +37,15 @@ global.<%= parts.slice(0, i + 1).join('.') %> = global.<%= parts.slice(0, i + 1)
 		result = arguments[0];
 	}
 	else {
+<% if (classDefinition.attributes.indexOf('abstract') != -1) { -%>
+		Ti.API.error('Cannot instantiate instance of abstract class: <%= classDefinition.name %>. Create a subclass using <%= sanitizedName %>.extend();' );
+<% } else { -%>
 		result = Hyperloop.createProxy({
 			class: '<%= classDefinition.name %>',
 			alloc: true,
 			args: Array.prototype.slice.call(arguments)
 		});
+<% } -%>
 	}
 
 	this.$native = result;
@@ -85,6 +89,43 @@ var SuperClass = require('<%- classDefinition.superClass %>');
 
 <%= sanitizedName %>.className = "<%= classDefinition.name %>";
 <%= sanitizedName %>.prototype.className = "<%= classDefinition.name %>";
+
+// class property
+Object.defineProperty(<%= sanitizedName %>, 'class', {
+	get: function() {
+		return Hyperloop.createProxy({
+			class: '<%= classDefinition.name %>',
+			alloc: false,
+			args: []
+		});
+	},
+	enumerable: true,
+	configurable: false
+});
+
+<%
+// Don't allow subclassing final classes, or non-public/protected
+if (classDefinition.attributes.indexOf('final') == -1 &&
+	(classDefinition.attributes.indexOf('public') != -1 ||
+	classDefinition.attributes.indexOf('protected') != -1)) {
+-%>
+// Allow subclassing
+<%= sanitizedName %>.extend = function (overrides) {
+	// dynamically extend the class
+	// TODO Do we need to hack the overrides to fix 'this' like we do for interfaces?
+	// May also be more efficient to just jump to invoking js impl in overrides, rather than calling our stub which
+	// does callNativeFunction via reflection, which then just calls the JS impl in overrides
+	// TODO Freeze overrides object?
+	var native = Hyperloop.extend({
+		class: '<%= classDefinition.name %>',
+		overrides: overrides
+	});
+	// wrap in JS proxy
+	return new <%= sanitizedName %>(native);
+};
+<%
+}
+-%>
 
 // Constants
 <%

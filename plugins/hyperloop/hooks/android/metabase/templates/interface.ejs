@@ -102,6 +102,19 @@ global.<%= parts.slice(0, i + 1).join('.') %> = global.<%= parts.slice(0, i + 1)
 <%= sanitizedName %>.className = "<%= classDefinition.name %>";
 <%= sanitizedName %>.prototype.className = "<%= classDefinition.name %>";
 
+// class property
+Object.defineProperty(<%= sanitizedName %>, 'class', {
+	get: function() {
+		return Hyperloop.createProxy({
+			class: '<%= classDefinition.name %>',
+			alloc: false,
+			args: []
+		});
+	},
+	enumerable: true,
+	configurable: false
+});
+
 // Constants
 <%
 for (var propertyName in classDefinition.properties) {
