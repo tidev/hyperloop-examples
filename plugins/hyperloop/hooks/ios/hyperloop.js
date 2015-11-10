@@ -326,7 +326,7 @@
 							src.forEach(function (fn) {
 								headers.push(path.resolve(cli.argv['project-dir'], fn));
 							});
-							map.HEADER_SEARCH_PATHS = map.HEADER_SEARCH_PATHS + ' ' + headers.join(' ');
+							map.HEADER_SEARCH_PATHS = '$(inherited) ' + (map.HEADER_SEARCH_PATHS || '') + headers.join(' ');
 						}
 					});
 				}
@@ -865,9 +865,10 @@
 				if (cached && swift_sources.length === 0 && !forceMetabase) {
 					// if cached, skip generation
 					logger.info('Skipping ' + HL + ' compile, already generated ...');
+					metabase = result;
 					callback();
 				} else {
-					var mb = result;
+					var mb = metabase = result;
 					async.each(swift_sources, function (entry, cb) {
 						logger.info('Generating metabase for swift ' + chalk.cyan(entry.framework + ' ' + entry.source));
 						hm.metabase.generateSwiftMetabase(hyperloopBuildDir, json.$metadata.sdkType, json.$metadata.sdkPath, json.$metadata.minVersion, mb, entry.framework, entry.source, function (err, r, m) {
