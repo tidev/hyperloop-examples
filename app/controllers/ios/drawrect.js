@@ -12,7 +12,7 @@
 	var CustomDrawRectClass = Hyperloop.defineClass('CustomDrawRectClass', 'UIView');
 
 	// convenience function for converting an angle in degress to radians
-	function DEGREES_TO_RADIANS (angle) { return (Number(angle) / 180.0 * Math.PI) };
+	function DEGREES_TO_RADIANS (angle) { return (Number(angle) / 180.0 * Math.PI); };
 
 	// http://stackoverflow.com/a/14991292/795295
 	CustomDrawRectClass.addMethod({
