@@ -611,6 +611,28 @@
 					});
 			},
 			function (cb) {
+				var fn = path.join(hyperloopBuildDir, 'symbol_references.json');
+				var buf = fs.existsSync(fn) && fs.readFileSync(fn);
+				var json = JSON.stringify(parserState.getReferences(), null, 2);
+				if (!fs.existsSync(fn) || buf.toString() != json) {
+					forceRegeneration = true;
+					logger.trace('forcing regeneration of wrappers');
+				}
+				fs.writeFile(fn, json, cb);
+			},
+			function (cb) {
+				var sdk = builder.xcodeTargetOS + builder.iosSdkVersion;
+				hm.metabase.compileResources(generatedResourcesDir, sdk, builder.xcodeAppDir, false, cb);
+			},
+			function (cb) {
+				if (forceRegeneration) {
+					// now generate the stubs
+					hm.generate.generateFromJSON(cli.tiapp.name, filesDir, metabase, parserState, cb, frameworks);
+				} else {
+					cb();
+				}
+			},
+			function (cb) {
 				// copy any native generated file references so that we can compile them
 				// as part of xcodebuild
 				var keys = Object.keys(references);
@@ -643,28 +665,6 @@
 						}
 					});
 					cb();
-				} else {
-					cb();
-				}
-			},
-			function (cb) {
-				var fn = path.join(hyperloopBuildDir, 'symbol_references.json');
-				var buf = fs.existsSync(fn) && fs.readFileSync(fn);
-				var json = JSON.stringify(parserState.getReferences(), null, 2);
-				if (!fs.existsSync(fn) || buf.toString() != json) {
-					forceRegeneration = true;
-					logger.trace('forcing regeneration of wrappers');
-				}
-				fs.writeFile(fn, json, cb);
-			},
-			function (cb) {
-				var sdk = builder.xcodeTargetOS + builder.iosSdkVersion;
-				hm.metabase.compileResources(generatedResourcesDir, sdk, builder.xcodeAppDir, false, cb);
-			},
-			function (cb) {
-				if (forceRegeneration) {
-					// now generate the stubs
-					hm.generate.generateFromJSON(cli.tiapp.name, filesDir, metabase, parserState, cb, frameworks);
 				} else {
 					cb();
 				}
