@@ -69,7 +69,7 @@
 							plugin = require(plugin);
 							return plugin.init.apply(this, args.concat([config, finished]));
 						} else {
-							_logger.error('Hyperloop is currently configured by the module has not be installed.');
+							_logger.error('Hyperloop is currently configured but the module has not be installed.');
 							_logger.error('Add the following to your tiapp.xml:');
 							_logger.error('');
 							_logger.error('	<modules>');
