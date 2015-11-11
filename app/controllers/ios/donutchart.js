@@ -29,7 +29,9 @@
 	DonutChartView.addMethod({
 		selector: 'drawRect:',
 		instance: true,
-		encoding: 'v@:{CGRect={CGPoint=dd}{CGSize=dd}}',
+		arguments: [
+			'CGRect'
+		],
 		callback: function(rect) {
 
 			//// Oval Drawing

@@ -14,10 +14,9 @@
 	// we are going to implement a callback which will do the changes as the user moves the view
 	NativePanGestureRecognizer.addMethod({
 		signature: 'onAction:',
-		arguments: '@',
+		arguments: ['NativePanGestureRecognizer'],
 		callback: function(recognizer) {
 			// since the doc describes this as an ID, we need to cast it to the appropriate type
-			recognizer = NativePanGestureRecognizer.cast(recognizer);
 			if (recognizer.state === UIKit.UIGestureRecognizerStateBegan ||
 				recognizer.state === UIKit.UIGestureRecognizerStateChanged) {
 				var view = recognizer.view,

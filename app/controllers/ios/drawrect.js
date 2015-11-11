@@ -18,7 +18,7 @@
 	CustomDrawRectClass.addMethod({
 		selector: 'drawRect:',
 		instance: true,
-		encoding: 'v@:{CGRect={CGPoint=dd}{CGSize=dd}}',
+		arguments: ['CGRect'],
 		callback: function(rect) {
 
 			// this function is called when the drawRect: is invoked to render the view

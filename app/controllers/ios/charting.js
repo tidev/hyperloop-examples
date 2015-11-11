@@ -12,7 +12,10 @@
 	CustomChartDelegate.addMethod({
 		selector: 'numberOfBarsInBarChartView:',
 		instance: true,
-		encoding: 'I@:@',
+		returnType: 'int',
+		arguments: [
+			'UIView'
+		],
 		callback: function(view) {
 			return 3;
 		}
@@ -21,7 +24,11 @@
 	CustomChartDelegate.addMethod({
 		selector: 'barChartView:heightForBarViewAtIndex:',
 		instance: true,
-		encoding: 'd@:@I',
+		returnType: 'double',
+		arguments: [
+			'UIView',
+			'int'
+		],
 		callback: function(view, index) {
 			// randomize the height
 			return Math.max(10, Math.floor(100 * Math.random()));
@@ -31,7 +38,11 @@
 	CustomChartDelegate.addMethod({
 		selector: 'barChartView:colorForBarViewAtIndex:',
 		instance: true,
-		encoding: '@@:@I',
+		returnType: 'UIColor',
+		arguments: [
+			'UIView',
+			'unsigned int'
+		],
 		callback: function(view, index) {
 			// randomize the color for each bar
 			var r = (Math.random() % 255);
