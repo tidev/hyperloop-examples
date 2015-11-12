@@ -21,7 +21,7 @@ var drag = new OnTouchListener({
         var params,
         	action = event.getAction();
         if (action == MotionEvent.ACTION_MOVE || action == MotionEvent.ACTION_UP) {
-        	params = v.getLayoutParams();
+        	params = LayoutParams.cast(v.getLayoutParams());
             params.topMargin = event.getRawY() - v.getHeight();
             params.leftMargin = event.getRawX() - (v.getWidth() / 2);
             v.setLayoutParams(params);
@@ -29,7 +29,7 @@ var drag = new OnTouchListener({
         return true;
 	}
 });
-    
+
 var main = new FrameLayout(activity);
 main.setBackgroundColor(Color.BLACK);
 // FIXME Tried to access LayoutParams.MATCH_PARENT and it was null, because the constant is actually defined on ViewGroupLayoutParams

@@ -93,7 +93,7 @@ exports.cliVersion = '>=3.2';
 		cli.on('build.pre.construct', function (builder, callback) {
 			// check to make sure the hyperloop module is actually configured
 			var moduleFound = builder.modules.map(function (i) {
-				if (i.id === 'hyperloop') { return i };
+				if (i.id === 'hyperloop') { return i; };
 			}).filter(function (a) { return !!a; });
 
 			// check that it was found
