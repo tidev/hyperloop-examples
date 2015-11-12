@@ -17,7 +17,7 @@
 					<ListItem itemId="charting" platform="ios" title="Charting (3rd party integration)"/>
 					<ListItem itemId="alert" title="Alert"/>
 					<ListItem itemId="xib" platform="ios" title="Interface Builder UI"/>
-					<ListItem itemId="donutchart" platform="ios" title="Donut Chart"/>
+					<ListItem itemId="donutchart" title="Donut Chart"/>
 					<ListItem itemId="shapes" platform="ios" title="Shapes &amp; Animation"/>
 					<ListItem itemId="custom" platform="ios" title="Custom Class"/>
 					<ListItem itemId="tinder" platform="ios" title="Tinder UI"/>
