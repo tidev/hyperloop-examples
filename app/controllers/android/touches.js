@@ -20,11 +20,10 @@
 	        var params,
 	        	action = event.getAction();
 	        if (action == MotionEvent.ACTION_MOVE || action == MotionEvent.ACTION_UP) {
-	        	params = v.getLayoutParams();
+	        	params = LayoutParams.cast(v.getLayoutParams());
 	        	// FIXME We're cheating by adjusting for the position of the parent view on screen here
 	        	// Ideally we'd use View.getLocationOnScreen(int[])
 	        	// http://stackoverflow.com/questions/2224844/how-to-get-the-absolute-coordinates-of-a-view
-	        	// TODO We need to explicitly downcast the layout params to FrameLayout.LayoutParams once we support casting!
 	            params.topMargin = event.getRawY() - 150 - v.getHeight();
 	            params.leftMargin = event.getRawX() - 30 - (v.getWidth() / 2);
 	            v.setLayoutParams(params);

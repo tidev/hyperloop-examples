@@ -110,6 +110,11 @@ Object.defineProperty(<%= sanitizedName %>, 'class', {
 	configurable: false
 });
 
+// Cast
+<%= sanitizedName %>.cast = function(object) {
+	return new <%= sanitizedName %>(Hyperloop.cast('<%= classDefinition.name %>', object.$native));
+};
+
 // Constants
 <%
 for (var propertyName in classDefinition.properties) {

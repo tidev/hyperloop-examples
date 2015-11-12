@@ -157,6 +157,11 @@ if (classDefinition.attributes.indexOf('final') == -1 &&
 }
 -%>
 
+// Cast
+<%= sanitizedName %>.cast = function(object) {
+	return new <%= sanitizedName %>(Hyperloop.cast('<%= classDefinition.name %>', object.$native));
+};
+
 // Constants
 <%
 for (var propertyName in classDefinition.properties) {
