@@ -21,6 +21,7 @@
 					<ListItem itemId="shapes" platform="ios" title="Shapes &amp; Animation"/>
 					<ListItem itemId="custom" platform="ios" title="Custom Class"/>
 					<ListItem itemId="tinder" platform="ios" title="Tinder UI"/>
+					<ListItem itemId="gravity" platform="ios" title="Gravity"/>
 				</ListSection>
 			</ListView>
 		</Window>

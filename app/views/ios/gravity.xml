@@ -1,0 +1,9 @@
+<Alloy>
+	<Window id="win" title="Gravity">
+
+		<ScrollView>
+			<View id="gravity_container"></View>
+		</ScrollView>
+
+	</Window>
+</Alloy>

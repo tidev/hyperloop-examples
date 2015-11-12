@@ -169,6 +169,7 @@
 
 			// cast to UIView so we can add gesture recognizer
 			view = UIView.cast(view);
+
 			view.addGestureRecognizer(panGesture);
 		}
 
