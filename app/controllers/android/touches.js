@@ -12,35 +12,30 @@
 		activity = new Activity(Ti.Android.currentActivity),
 		drag,
 		main,
-		colors = [],
-		dX,
-		dY;
+		colors = [];
 
 	drag = new OnTouchListener({
-		onTouch: function(view, event) {
-	        var action = event.getAction();
-	        if (action == MotionEvent.ACTION_DOWN) {
-	        	dX = view.getX() - event.getRawX();
-	            dY = view.getY() - event.getRawY();
-	            return true;
+		onTouch: function(v, event) {
+	        // start timer for iteration
+	        var params,
+	        	action = event.getAction();
+	        if (action == MotionEvent.ACTION_MOVE || action == MotionEvent.ACTION_UP) {
+	        	params = v.getLayoutParams();
+	        	// FIXME We're cheating by adjusting for the position of the parent view on screen here
+	        	// Ideally we'd use View.getLocationOnScreen(int[])
+	        	// http://stackoverflow.com/questions/2224844/how-to-get-the-absolute-coordinates-of-a-view
+	        	// TODO We need to explicitly downcast the layout params to FrameLayout.LayoutParams once we support casting!
+	            params.topMargin = event.getRawY() - 150 - v.getHeight();
+	            params.leftMargin = event.getRawX() - 30 - (v.getWidth() / 2);
+	            v.setLayoutParams(params);
 	        }
-	        else if (action == MotionEvent.ACTION_MOVE) {
-	        	 view.animate()
-	                    .x(event.getRawX() + dX)
-	                    .y(event.getRawY() + dY)
-	                    .setDuration(0)
-	                    .start();
-	            return true;
-	        }
-	        return false;
+	        return true;
 		}
 	});
 
 	// Create a native layout to add our boxes to
 	main = new FrameLayout(activity);
-	// FIXME we want the layout to expand as we drag boxes, but it wasn't with MATCH_PARENT, likley because we're using animation rather than changing layout params on drag
-	// ugh!
-	main.setLayoutParams(new LayoutParams(900, 600, Gravity.TOP));
+	main.setLayoutParams(new LayoutParams(ViewGroupLayoutParams.MATCH_PARENT, ViewGroupLayoutParams.MATCH_PARENT, Gravity.TOP));
 
 	// Let's create a box for each color constant
 	colors = [
