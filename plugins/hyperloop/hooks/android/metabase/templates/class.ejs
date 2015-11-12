@@ -33,18 +33,14 @@ global.<%= parts.slice(0, i + 1).join('.') %> = global.<%= parts.slice(0, i + 1)
 	var result;
 	// Allow the constructor to either invoke the real java constructor, or function as a "wrapping" method that will take
 	// a single argument that is a native hyperloop proxy for this class type and just wraps it in our JS type.
-	if (arguments.length == 1 && arguments[0].apiName && arguments[0].apiName === '<%= classDefinition.name %>') {
+	if (arguments.length == 1 && arguments[0].isNativeProxy && arguments[0].isInstanceProxy && arguments[0].apiName === '<%= classDefinition.name %>') {
 		result = arguments[0];
 	}
 	else {
 <% if (classDefinition.attributes.indexOf('abstract') != -1) { -%>
 		Ti.API.error('Cannot instantiate instance of abstract class: <%= classDefinition.name %>. Create a subclass using <%= sanitizedName %>.extend();' );
 <% } else { -%>
-		result = Hyperloop.createProxy({
-			class: '<%= classDefinition.name %>',
-			alloc: true,
-			args: Array.prototype.slice.call(arguments)
-		});
+		result = <%= sanitizedName %>.class.newInstance(arguments);
 <% } -%>
 	}
 
@@ -93,11 +89,7 @@ var SuperClass = require('<%- classDefinition.superClass %>');
 // class property
 Object.defineProperty(<%= sanitizedName %>, 'class', {
 	get: function() {
-		return Hyperloop.createProxy({
-			class: '<%= classDefinition.name %>',
-			alloc: false,
-			args: []
-		});
+		return Hyperloop.getClass('<%= classDefinition.name %>');
 	},
 	enumerable: true,
 	configurable: false
@@ -111,17 +103,55 @@ if (classDefinition.attributes.indexOf('final') == -1 &&
 -%>
 // Allow subclassing
 <%= sanitizedName %>.extend = function (overrides) {
-	// dynamically extend the class
-	// TODO Do we need to hack the overrides to fix 'this' like we do for interfaces?
-	// May also be more efficient to just jump to invoking js impl in overrides, rather than calling our stub which
-	// does callNativeFunction via reflection, which then just calls the JS impl in overrides
-	// TODO Freeze overrides object?
-	var native = Hyperloop.extend({
-		class: '<%= classDefinition.name %>',
-		overrides: overrides
-	});
-	// wrap in JS proxy
-	return new <%= sanitizedName %>(native);
+	var subclassProxy = Hyperloop.extend('<%= classDefinition.name %>');
+
+	// Generate a JS wrapper for our dynamic subclass
+	var whatever = function() {
+		var result = subclassProxy.newInstance(arguments),
+			instance = this,
+			copy = overrides,
+			modified = {};
+
+		function _wrapArg(arg) {
+			if (arg.apiName && arg.isNativeProxy && arg.isInstanceProxy) { // Assume hyperloop proxy, wrap in JS wrapper
+				var other = require(arg.apiName);
+				return new other(arg);
+			}
+			return arg;
+		}
+
+		function _wrapArgs() {
+			var newArgs = [];
+			for (var i = 0; i < arguments.length; i++) {
+				newArgs[i] = _wrapArg(arguments[i]);
+			}
+			return newArgs;
+		};
+
+		Object.keys(copy).forEach(function (each) {
+			// Hang the original override method on the JS wrapper object
+			instance[each] = function() {
+				return copy[each].apply(instance, arguments);
+			};
+
+			// Hang a delegate on the "overrides" object we pass into Java.
+			// This one wraps hyperloop proxies from Java in their JS wrapper before forwarding on
+			modified[each] = function() {
+				return instance[each].apply(instance, _wrapArgs.apply(this, arguments));
+			}
+		});
+		result.setOverrides(modified);
+
+		this.$native = result;
+		this._hasPointer = result != null;
+		this._private = {};
+
+		// TODO Set up super?!
+	};
+	// it extends the JS wrapper for the parent type
+	whatever.prototype = Object.create(<%= sanitizedName %>.prototype);
+	whatever.prototype.constructor = whatever;
+	return whatever;
 };
 <%
 }
@@ -154,16 +184,10 @@ for (var propertyName in classDefinition.properties) {
 // <%- BASE_URL %>#<%= propertyName %>
 Object.defineProperty(<%= sanitizedName %>, '<%= propertyName %>', {
 	get: function() {
-		var classProxy = Hyperloop.createProxy({
-			class: this.className,
-			alloc: false
-		});
-		if (!classProxy) return null;
+		if (!this.class) return null;
 
-		var result = classProxy.getNativeField({
-			field: '<%= propertyName %>'
-		});
-		if (!result) {
+		var result = this.class.getNativeField('<%= propertyName %>');
+		if (result == null) {
 			return null;
 		}
 		// Wrap result if it's not a primitive type?
@@ -182,16 +206,9 @@ Object.defineProperty(<%= sanitizedName %>, '<%= propertyName %>', {
 		if (propertyDefinition.attributes.indexOf('final') == -1) {
 -%>
 	set: function(newValue) {
-		var classProxy = Hyperloop.createProxy({
-			class: this.className,
-			alloc: false
-		});
-		if (!classProxy) return;
+		if (!this.class) return;
 
-		classProxy.setNativeField({
-			field: '<%= propertyName %>',
-			value: newValue
-		});
+		this.class.setNativeField('<%= propertyName %>', newValue);
 	},
 <%		} -%>
 	enumerable: true
@@ -213,10 +230,8 @@ Object.defineProperty(<%= sanitizedName %>.prototype, '<%= propertyName %>', {
 	get: function() {
 		if (!this._hasPointer) return null;
 
-		var result = this.$native.getNativeField({
-			field: '<%= propertyName %>'
-		});
-		if (!result) {
+		var result = this.$native.getNativeField('<%= propertyName %>');
+		if (result == null) {
 			return null;
 		}
 		// Wrap result if it's not a primitive type?
@@ -237,10 +252,7 @@ Object.defineProperty(<%= sanitizedName %>.prototype, '<%= propertyName %>', {
 	set: function(newValue) {
 		if (!this._hasPointer) return;
 
-		this.$native.setNativeField({
-			field: '<%= propertyName %>',
-			value: newValue
-		});
+		this.$native.setNativeField('<%= propertyName %>', newValue);
 	},
 <%		} -%>
 	enumerable: true
@@ -283,20 +295,14 @@ for (var methodName in classDefinition.methods) {
 -%>
  **/
 <%= sanitizedName %>.<%= methodName %> = function() {
-	var classProxy = Hyperloop.createProxy({
-			class: this.className,
-			alloc: false
-	});
-	if (!classProxy) return null;
+	if (!this.class) return null;
 
-	// FIXME If it's not a "known" type, we need to wrap the result in JS wrapper
-	// TODO If return type is void, return null/undefined?
-	var result = classProxy.callNativeFunction({
+	var result = this.class.callNativeFunction({
 		func: '<%= methodName %>',
 		instanceMethod: false,
 		args: Array.prototype.slice.call(arguments)
 	});
-	if (!result) {
+	if (result == null) {
 		return null;
 	}
 	// Wrap result if it's not a primitive type?
@@ -359,7 +365,7 @@ for (var methodName in classDefinition.methods) {
 		instanceMethod: true,
 		args: Array.prototype.slice.call(arguments)
 	});
-	if (!result) {
+	if (result == null) {
 		return null;
 	}
 	// Wrap result if it's not a primitive type?

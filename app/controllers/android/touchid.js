@@ -61,7 +61,7 @@
 	
 	            // try to do the auth
 				cryptoObject = new CryptoObject(cipher);
-				authCallback = AuthenticationCallback.extend({
+				var Subclass = AuthenticationCallback.extend({
 					onAuthenticationError: function(code, msg) {
 						console.log('onAuthenticationError');
 					},
@@ -78,6 +78,7 @@
 						console.log('onAuthenticationAcquired');
 					}
 				});
+				authCallback = new Subclass();
 	
 	            fingerprintManager
 	                .authenticate(cryptoObject, new CancellationSignal(), 0 /* flags */, authCallback, null);

@@ -12,7 +12,7 @@
 					<ListItem itemId="touchid" platform="ios" title="Apple Touch ID"/>
 					<ListItem itemId="animateview" title="View Animation"/>
 					<ListItem itemId="label" title="Styled Labels"/>
-					<ListItem itemId="drawrect" platform="ios" title="Custom Drawing"/>
+					<ListItem itemId="drawrect" title="Custom Drawing"/>
 					<ListItem itemId="touches" title="Touches"/>
 					<ListItem itemId="charting" platform="ios" title="Charting (3rd party integration)"/>
 					<ListItem itemId="alert" title="Alert"/>
