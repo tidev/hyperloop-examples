@@ -55,12 +55,10 @@ setTimeout(function () {
 
 		// add gravity behavior to ball
 		var g = UIGravityBehavior.alloc().initWithItems([view]);
-		a.addBehavior(g);
 
 		// add elasticity (bounce) behavior to ball
 		var e = UIDynamicItemBehavior.alloc().initWithItems([view]);
 		e.elasticity = 0.7;
-		a.addBehavior(e);
 
 		// add frame as collision boundary
 		var c = UICollisionBehavior.alloc().initWithItems([view]);
@@ -79,7 +77,7 @@ setTimeout(function () {
 				'CGPoint'
 			],
 			callback: function (behavior, dest, identifier, point) {
-				Ti.API.debug('+collision begin ' + point.x + ' ' + point.y);
+				Ti.API.debug('+collision begin ' + point.x + ' ' + point.y + ' ' + String(identifier));
 				// coerse the NSString into a JS String
 				switch (String(identifier)) {
 					case 'barrier1': {
@@ -133,6 +131,8 @@ setTimeout(function () {
 		c.addBoundaryWithIdentifierFromPointToPoint('barrier3', CGPointMake(0, 400), CGPointMake(250, 400));
 
 		a.addBehavior(c);
+		a.addBehavior(g);
+		a.addBehavior(e);
 
 	})($.gravity_container);
 }, 100);
