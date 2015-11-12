@@ -24,7 +24,7 @@
 		$.message.setText('Fingerprints supported');
 
 		if (!fingerprintManager.hasEnrolledFingerprints()) {
-            $.message.setText("Go to 'Settings -> Security -> Fingerprint' and register at least one fingerprint");
+			$.message.setText("Go to 'Settings -> Security -> Fingerprint' and register at least one fingerprint");
 		} else {
 			$.button.addEventListener('click', function () {
 				var cryptoObject,
@@ -32,34 +32,34 @@
 					keyStore,
 					keyGenerator,
 					authCallback;
-		
+
 				// Grab the FingerprintManager, keystore, keyGenerator from system
 				keyStore = KeyStore.getInstance("AndroidKeyStore");
 				keyGenerator = KeyGenerator.getInstance(KeyProperties.KEY_ALGORITHM_AES, "AndroidKeyStore");
-	
+
 				// Create a key
 				keyStore.load(null);
-	            // Set the alias of the entry in Android KeyStore where the key will appear
-	            // and the constrains (purposes) in the constructor of the Builder
-	            keyGenerator.init(new Builder(KEY_NAME,
-	                    KeyProperties.PURPOSE_ENCRYPT |
-	                            KeyProperties.PURPOSE_DECRYPT)
-	                    .setBlockModes(KeyProperties.BLOCK_MODE_CBC)
-	                    // Require the user to authenticate with a fingerprint to authorize every use
-	                    // of the key
-	                    .setUserAuthenticationRequired(true)
-	                    .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_PKCS7)
-	                    .build());
-	            keyGenerator.generateKey();
-	
+				// Set the alias of the entry in Android KeyStore where the key will appear
+				// and the constrains (purposes) in the constructor of the Builder
+				keyGenerator.init(new Builder(KEY_NAME,
+					KeyProperties.PURPOSE_ENCRYPT |
+						KeyProperties.PURPOSE_DECRYPT)
+						.setBlockModes(KeyProperties.BLOCK_MODE_CBC)
+						// Require the user to authenticate with a fingerprint to authorize every use
+						// of the key
+						.setUserAuthenticationRequired(true)
+						.setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_PKCS7)
+						.build());
+				keyGenerator.generateKey();
+
 				// init cipher
 				keyStore.load(null);
 				cipher = Cipher.getInstance(KeyProperties.KEY_ALGORITHM_AES + "/"
-                    + KeyProperties.BLOCK_MODE_CBC + "/"
-                    + KeyProperties.ENCRYPTION_PADDING_PKCS7);
-	            cipher.init(Cipher.ENCRYPT_MODE, keyStore.getKey(KEY_NAME, null));
-	
-	            // try to do the auth
+					+ KeyProperties.BLOCK_MODE_CBC + "/"
+					+ KeyProperties.ENCRYPTION_PADDING_PKCS7);
+				cipher.init(Cipher.ENCRYPT_MODE, keyStore.getKey(KEY_NAME, null));
+
+				// try to do the auth
 				cryptoObject = new CryptoObject(cipher);
 				var Subclass = AuthenticationCallback.extend({
 					onAuthenticationError: function(code, msg) {
@@ -79,9 +79,9 @@
 					}
 				});
 				authCallback = new Subclass();
-	
-	            fingerprintManager
-	                .authenticate(cryptoObject, new CancellationSignal(), 0 /* flags */, authCallback, null);
+
+				fingerprintManager
+					.authenticate(cryptoObject, new CancellationSignal(), 0 /* flags */, authCallback, null);
 			});
 		}
 	} else {

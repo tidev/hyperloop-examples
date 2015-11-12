@@ -31,15 +31,15 @@
 			onDraw: function (canvas) {
 				var paint = new Paint();
 				paint.setAntiAlias(true);
-				
+
 				//// Oval Drawing
 				var ovalPath = new Path();
 				ovalPath.addOval(8, 8, 240, 240, PathDirection.CW);
-				
+
 				paint.setColor(Styles.blackPearl);
 				paint.setStyle(Style.FILL);
 				canvas.drawPath(ovalPath, paint);
-	
+
 				//// lineMarker Drawing
 				var lineMarkerPath = new Path();
 				lineMarkerPath.moveTo(9, 129);
@@ -49,8 +49,8 @@
 				paint.setStyle(Style.STROKE);
 				paint.setStrokeWidth(2);
 				canvas.drawPath(lineMarkerPath, paint);
-	
-	
+
+
 				//// segment0 Drawing
 				var segment0Path = new Path();
 				segment0Path.moveTo(129, 19);
@@ -65,12 +65,12 @@
 				segment0Path.cubicTo(125.98, 19.01, 126.99, 19, 128, 19);
 				segment0Path.cubicTo(128.33, 19, 128.67, 19, 129, 19);
 				segment0Path.close();
-				
+
 				paint.setColor(Styles.lightGray);
 				paint.setStyle(Style.FILL);
 				canvas.drawPath(segment0Path, paint);
-	
-	
+
+
 				//// segment1 Drawing
 				var segment1Path = new Path();
 				segment1Path.moveTo(205.72, 51.57);
@@ -79,12 +79,12 @@
 				segment1Path.cubicTo(130, 34.4, 130, 25.91, 130, 19.02);
 				segment1Path.cubicTo(159.63, 19.55, 186.38, 31.91, 205.72, 51.57);
 				segment1Path.close();
-				
+
 				paint.setColor(Styles.lightGray);
 				paint.setStyle(Style.FILL);
 				canvas.drawPath(segment1Path, paint);
-	
-	
+
+
 				//// segment2 Drawing
 				var segment2Path = new Path();
 				segment2Path.moveTo(51.44, 50.42);
@@ -93,12 +93,12 @@
 				segment2Path.lineTo(19, 127);
 				segment2Path.cubicTo(19.27, 97.04, 31.63, 69.96, 51.44, 50.42);
 				segment2Path.close();
-				
+
 				paint.setColor(Styles.lightGray);
 				paint.setStyle(Style.FILL);
 				canvas.drawPath(segment2Path, paint);
-	
-	
+
+
 				//// segment3 Drawing
 				var segment3Path = new Path();
 				segment3Path.moveTo(237, 128);
@@ -108,12 +108,12 @@
 				segment3Path.lineTo(237, 128);
 				segment3Path.lineTo(237, 128);
 				segment3Path.close();
-				
+
 				paint.setColor(Styles.lightGray);
 				paint.setStyle(Style.FILL);
 				canvas.drawPath(segment3Path, paint);
-	
-	
+
+
 				//// segment4 Drawing
 				var segment4Path = new Path();
 				segment4Path.moveTo(69.25, 188.04);
@@ -126,8 +126,8 @@
 				paint.setColor(Styles.lightGray);
 				paint.setStyle(Style.FILL);
 				canvas.drawPath(segment4Path, paint);
-	
-	
+
+
 				//// segment5 Drawing
 				var segment5Path = new Path();
 				segment5Path.moveTo(205.58, 204.56);
@@ -136,12 +136,12 @@
 				segment5Path.cubicTo(152.66, 211.45, 173.1, 201.94, 187.9, 186.89);
 				segment5Path.cubicTo(194.66, 193.64, 200.65, 199.63, 205.58, 204.56);
 				segment5Path.close();
-				
+
 				paint.setColor(Styles.lightGray);
 				paint.setStyle(Style.FILL);
 				canvas.drawPath(segment5Path, paint);
-	
-	
+
+
 				//// segment9 Drawing
 				var segment9Path = new Path();
 				segment9Path.moveTo(69.97, 188.74);
@@ -152,12 +152,12 @@
 				segment9Path.cubicTo(98.59, 237, 71.9, 225.35, 52.29, 206.42);
 				segment9Path.cubicTo(57.11, 201.6, 63.12, 195.59, 69.97, 188.74);
 				segment9Path.close();
-				
+
 				paint.setColor(Styles.lightGray);
 				paint.setStyle(Style.FILL);
 				canvas.drawPath(segment9Path, paint);
-	
-	
+
+
 				//// segmentWithPointer Drawing
 				var segmentWithPointerPath = new Path();
 				segmentWithPointerPath.moveTo(225.26, 78.74);
@@ -170,7 +170,7 @@
 				segmentWithPointerPath.cubicTo(195.5, 63.21, 201.49, 57.21, 206.42, 52.29);
 				segmentWithPointerPath.cubicTo(213.94, 60.08, 220.31, 68.99, 225.26, 78.74);
 				segmentWithPointerPath.close();
-				
+
 				paint.setColor(Styles.deepRed);
 				paint.setStyle(Style.FILL);
 				canvas.drawPath(segmentWithPointerPath, paint);
@@ -193,7 +193,7 @@
 	/** Add the native UIView based object to the Titanium View **/
 	wrapper.add(view);
 
-  /**
+	/**
 		We can mix and match Titanium and Native super easy - here
 	  lets add a Titanium Label
 	**/

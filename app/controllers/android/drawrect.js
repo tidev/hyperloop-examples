@@ -31,7 +31,7 @@
 				sliceDegrees = 360 / beams / 2;
 
 			// fill with white
-            canvas.drawColor(Color.WHITE);
+			canvas.drawColor(Color.WHITE);
 
 			// Create our path
 			var path = new Path();
@@ -56,7 +56,7 @@
 				thisAngle += sliceDegrees;
 			}
 			path.close();
-			
+
 			// Now paint the path to the canvas
 
 			// fill with red

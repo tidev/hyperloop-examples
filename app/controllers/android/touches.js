@@ -16,19 +16,18 @@
 
 	drag = new OnTouchListener({
 		onTouch: function(v, event) {
-	        // start timer for iteration
-	        var params,
-	        	action = event.getAction();
-	        if (action == MotionEvent.ACTION_MOVE || action == MotionEvent.ACTION_UP) {
-	        	params = LayoutParams.cast(v.getLayoutParams());
-	        	// FIXME We're cheating by adjusting for the position of the parent view on screen here
-	        	// Ideally we'd use View.getLocationOnScreen(int[])
-	        	// http://stackoverflow.com/questions/2224844/how-to-get-the-absolute-coordinates-of-a-view
-	            params.topMargin = event.getRawY() - 150 - v.getHeight();
-	            params.leftMargin = event.getRawX() - 30 - (v.getWidth() / 2);
-	            v.setLayoutParams(params);
-	        }
-	        return true;
+			var params,
+				action = event.getAction();
+			if (action == MotionEvent.ACTION_MOVE || action == MotionEvent.ACTION_UP) {
+				params = LayoutParams.cast(v.getLayoutParams());
+				// FIXME We're cheating by adjusting for the position of the parent view on screen here
+				// Ideally we'd use View.getLocationOnScreen(int[])
+				// http://stackoverflow.com/questions/2224844/how-to-get-the-absolute-coordinates-of-a-view
+				params.topMargin = event.getRawY() - 150 - v.getHeight();
+				params.leftMargin = event.getRawX() - 30 - (v.getWidth() / 2);
+				v.setLayoutParams(params);
+			}
+			return true;
 		}
 	});
 
