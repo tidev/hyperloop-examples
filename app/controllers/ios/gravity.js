@@ -8,7 +8,15 @@ setTimeout(function () {
 			UICollisionBehavior = require('UIKit/UICollisionBehavior'),
 			UIColor = require('UIKit/UIColor'),
 			CGRectMake = require('CoreGraphics').CGRectMake,
-			CGPointMake = require('CoreGraphics').CGPointMake;
+			CGPointMake = require('CoreGraphics').CGPointMake,
+			NSBundle = require('Foundation/NSBundle'),
+			NSURL = require('Foundation/NSURL'),
+			AVAudioPlayer = require('AVFoundation/AVAudioPlayer');
+
+		var soundPath = NSBundle.mainBundle().pathForResourceOfType('sounds/hit', 'mp3');
+		var soundURL = NSURL.fileURLWithPath(soundPath);
+		var sound = AVAudioPlayer.alloc().initWithContentsOfURLError(soundURL);
+		sound.prepareToPlay();
 
 		// create Titanium view (ball)
 		var view = Ti.UI.createView({
@@ -78,6 +86,11 @@ setTimeout(function () {
 			],
 			callback: function (behavior, dest, identifier, point) {
 				Ti.API.debug('+collision begin ' + point.x + ' ' + point.y + ' ' + String(identifier));
+				if (sound.isPlaying()) {
+					sound.stop();
+					sound.currentTime = 0;
+				}
+				sound.play();
 				// coerse the NSString into a JS String
 				switch (String(identifier)) {
 					case 'barrier1': {
