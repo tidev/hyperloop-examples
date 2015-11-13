@@ -326,7 +326,7 @@
 							src.forEach(function (fn) {
 								headers.push(path.resolve(cli.argv['project-dir'], fn));
 							});
-							map.HEADER_SEARCH_PATHS = '$(inherited) ' + (map.HEADER_SEARCH_PATHS || '') + headers.join(' ');
+							map.HEADER_SEARCH_PATHS = '$(inherited) ' + (map.HEADER_SEARCH_PATHS || '') + ' ' + headers.join(' ');
 						}
 					});
 				}
