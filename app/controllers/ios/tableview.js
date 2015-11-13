@@ -60,7 +60,7 @@
 			var cell = UITableViewCell.cast(tableView.dequeueReusableCellWithIdentifierForIndexPath("Cell", indexPath));
 
 			if (!cell) {
-				cell = UITableViewCell.cast(UITableViewCell.alloc().initWithStyleReuseIdentifier(UITableViewCellStyleDefault, "Cell"));
+				cell = UITableViewCell.alloc().initWithStyleReuseIdentifier(UITableViewCellStyleDefault, "Cell");
 			}
 
 			cell.textLabel.setText("Cell " + (indexPath.row + 1));
