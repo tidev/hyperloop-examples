@@ -13,6 +13,9 @@ setTimeout(function () {
 			NSURL = require('Foundation/NSURL'),
 			AVAudioPlayer = require('AVFoundation/AVAudioPlayer');
 
+		// create class to detect collisions
+		var CollisionBehaviorDelegate = require('subclasses/collisionbehaviordelegate');
+
 		var soundPath = NSBundle.mainBundle().pathForResourceOfType('sounds/hit', 'mp3');
 		var soundURL = NSURL.fileURLWithPath(soundPath);
 		var sound = AVAudioPlayer.alloc().initWithContentsOfURLError(soundURL);
@@ -72,70 +75,47 @@ setTimeout(function () {
 		var c = UICollisionBehavior.alloc().initWithItems([view]);
 		c.translatesReferenceBoundsIntoBoundary = true;
 
-		// create class to detect collisions
-		var CollisionBehaviorDelegate = Hyperloop.defineClass('CollisionBehaviorDelegate', 'NSObject', 'UICollisionBehaviorDelegate');
-
-		CollisionBehaviorDelegate.addMethod({
-			selector: 'collisionBehavior:beganContactForItem:withBoundaryIdentifier:atPoint:',
-			instance: true,
-			arguments: [
-				'UICollisionBehavior',
-				'UIView',
-				'NSString',
-				'CGPoint'
-			],
-			callback: function (behavior, dest, identifier, point) {
-				Ti.API.debug('+collision begin ' + point.x + ' ' + point.y + ' ' + String(identifier));
-				if (sound.isPlaying()) {
-					sound.stop();
-					sound.currentTime = 0;
-				}
-				sound.play();
-				// coerse the NSString into a JS String
-				switch (String(identifier)) {
-					case 'barrier1': {
-						barrier1.backgroundColor = '#f00';
-						break;
-					}
-					case 'barrier2': {
-						barrier2.backgroundColor = '#0f0';
-						break;
-					}
-					case 'barrier3': {
-						barrier3.backgroundColor = '#00f';
-						break;
-					}
-				}
-			}
-		});
-
-		CollisionBehaviorDelegate.addMethod({
-			selector: 'collisionBehavior:endedContactForItem:withBoundaryIdentifier:',
-			instance: true,
-			arguments: [
-				'UICollisionBehavior',
-				'UIView',
-				'NSString'
-			],
-			callback: function (behavior, item, identifier) {
-				switch (String(identifier)) {
-					case 'barrier1': {
-						barrier1.backgroundColor = '#ccc';
-						break;
-					}
-					case 'barrier2': {
-						barrier2.backgroundColor = '#ccc';
-						break;
-					}
-					case 'barrier3': {
-						barrier3.backgroundColor = '#ccc';
-						break;
-					}
-				}
-			}
-		});
 
 		var delegate = new CollisionBehaviorDelegate();
+		delegate.beganContact = function (behavior, dest, identifier, point) {
+			Ti.API.debug('+collision begin ' + point.x + ' ' + point.y + ' ' + String(identifier));
+			if (sound.isPlaying()) {
+				sound.stop();
+				sound.currentTime = 0;
+			}
+			sound.play();
+			// coerse the NSString into a JS String
+			switch (String(identifier)) {
+				case 'barrier1': {
+					barrier1.backgroundColor = '#f00';
+					break;
+				}
+				case 'barrier2': {
+					barrier2.backgroundColor = '#0f0';
+					break;
+				}
+				case 'barrier3': {
+					barrier3.backgroundColor = '#00f';
+					break;
+				}
+			}
+		};
+		delegate.endedContact = function (behavior, item, identifier) {
+			switch (String(identifier)) {
+				case 'barrier1': {
+					barrier1.backgroundColor = '#ccc';
+					break;
+				}
+				case 'barrier2': {
+					barrier2.backgroundColor = '#ccc';
+					break;
+				}
+				case 'barrier3': {
+					barrier3.backgroundColor = '#ccc';
+					break;
+				}
+			}
+		};
 		c.collisionDelegate = delegate;
 
 		// add collision boundaries in locations where we have views (views don't move, but ball reacts)

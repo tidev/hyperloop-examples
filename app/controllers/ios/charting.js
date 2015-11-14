@@ -1,56 +1,11 @@
 (function (container) {
-
 	var CGRectMake = require('CoreGraphics').CGRectMake,
 		UIColor = require('UIKit/UIColor'),
 		UIScreen = require('UIKit/UIScreen'),
 		JBBarChartView = require('JBChartView/JBBarChartView');
 
-	// create a custom delegate class that can receive dataSource and delegate
-	// callbacks from the JBBarChartView
-	var CustomChartDelegate = Hyperloop.defineClass('CustomChartDelegate');
-
-	CustomChartDelegate.addMethod({
-		selector: 'numberOfBarsInBarChartView:',
-		instance: true,
-		returnType: 'int',
-		arguments: [
-			'UIView'
-		],
-		callback: function(view) {
-			return 3;
-		}
-	});
-
-	CustomChartDelegate.addMethod({
-		selector: 'barChartView:heightForBarViewAtIndex:',
-		instance: true,
-		returnType: 'double',
-		arguments: [
-			'UIView',
-			'int'
-		],
-		callback: function(view, index) {
-			// randomize the height
-			return Math.max(10, Math.floor(100 * Math.random()));
-		}
-	});
-
-	CustomChartDelegate.addMethod({
-		selector: 'barChartView:colorForBarViewAtIndex:',
-		instance: true,
-		returnType: 'UIColor',
-		arguments: [
-			'UIView',
-			'unsigned int'
-		],
-		callback: function(view, index) {
-			// randomize the color for each bar
-			var r = (Math.random() % 255);
-			var g = (Math.random() % 255);
-			var b = (Math.random() % 255);
-			return UIColor.colorWithRedGreenBlueAlpha(r, g, b, 1);
-		}
-	});
+	// This is a custom class that implements some delegate methods
+	var ChartDelegate = require('subclasses/chartdelegate');
 
 	// create a new bar view
 	var chart = new JBBarChartView();
@@ -58,7 +13,21 @@
 	chart.maximumValue = 100;
 
 	// create a delegate and datasource
-	var delegate = new CustomChartDelegate();
+	var delegate = new ChartDelegate();
+	delegate.numberOfBars = function (view) {
+		return 3;
+	};
+	delegate.heightForBar = function (view, index) {
+		return Math.max(10, Math.floor(100 * Math.random()));
+	};
+	delegate.colorForBar = function (view, index) {
+		// randomize the color for each bar
+		var r = (Math.random() % 255);
+		var g = (Math.random() % 255);
+		var b = (Math.random() % 255);
+		return UIColor.colorWithRedGreenBlueAlpha(r, g, b, 1);
+	};
+
 	chart.delegate = delegate;
 	chart.dataSource = delegate;
 
