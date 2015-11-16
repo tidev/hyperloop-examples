@@ -184,9 +184,10 @@ exports.cliVersion = '>=3.2';
 					extraArgs.push('-S');
 					extraArgs.push(path.join(hyperloopBuildDir, key, 'res'));
 				});
-
-				data.args[1][index + 1] = extraPackages.concat(packageNames.join(':'));
-				data.args[1] = data.args[1].concat(extraArgs);
+				if (packageNames.length > 0) {
+					data.args[1][index + 1] = extraPackages.concat(':' + packageNames.join(':'));
+					data.args[1] = data.args[1].concat(extraArgs);
+				}
 			}
 		});
 
