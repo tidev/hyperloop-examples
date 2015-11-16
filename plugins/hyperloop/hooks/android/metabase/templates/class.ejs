@@ -166,7 +166,7 @@ if (classDefinition.attributes.indexOf('final') == -1 &&
 
 // Cast
 <%= sanitizedName %>.cast = function(object) {
-	if (!object.isNativeProxy || !object.isInstanceProxy) return object;
+	if (!object.$native || !object.$native.isInstanceProxy) return object;
 	return new <%= sanitizedName %>(Hyperloop.cast('<%= classDefinition.name %>', object.$native));
 };
 
