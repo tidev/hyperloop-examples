@@ -62,18 +62,20 @@ setTimeout(function () {
 		container.add(barrier3);
 
 		// create Dynamic Animator for our main window
-		var a = UIDynamicAnimator.alloc().initWithReferenceView(container);
+		var dynamicAnimator = UIDynamicAnimator.alloc().initWithReferenceView(container);
+		// protect from GC, remember to unprotect in the window's close event
+		dynamicAnimator.protect();
 
 		// add gravity behavior to ball
-		var g = UIGravityBehavior.alloc().initWithItems([view]);
+		var gravityBehavior = UIGravityBehavior.alloc().initWithItems([view]);
 
 		// add elasticity (bounce) behavior to ball
-		var e = UIDynamicItemBehavior.alloc().initWithItems([view]);
-		e.elasticity = 0.7;
+		var dynamicItemBehavior = UIDynamicItemBehavior.alloc().initWithItems([view]);
+		dynamicItemBehavior.elasticity = 0.7;
 
 		// add frame as collision boundary
-		var c = UICollisionBehavior.alloc().initWithItems([view]);
-		c.translatesReferenceBoundsIntoBoundary = true;
+		var collisionBehavior = UICollisionBehavior.alloc().initWithItems([view]);
+		collisionBehavior.translatesReferenceBoundsIntoBoundary = true;
 
 
 		var delegate = new CollisionBehaviorDelegate();
@@ -116,16 +118,20 @@ setTimeout(function () {
 				}
 			}
 		};
-		c.collisionDelegate = delegate;
+		collisionBehavior.collisionDelegate = delegate;
 
 		// add collision boundaries in locations where we have views (views don't move, but ball reacts)
-		c.addBoundaryWithIdentifierFromPointToPoint('barrier1', CGPointMake(0, 200), CGPointMake(200, 200));
-		c.addBoundaryWithIdentifierFromPointToPoint('barrier2', CGPointMake((Ti.Platform.displayCaps.platformWidth - 100), 300), CGPointMake(Ti.Platform.displayCaps.platformWidth, 300));
-		c.addBoundaryWithIdentifierFromPointToPoint('barrier3', CGPointMake(0, 400), CGPointMake(250, 400));
+		collisionBehavior.addBoundaryWithIdentifierFromPointToPoint('barrier1', CGPointMake(0, 200), CGPointMake(200, 200));
+		collisionBehavior.addBoundaryWithIdentifierFromPointToPoint('barrier2', CGPointMake((Ti.Platform.displayCaps.platformWidth - 100), 300), CGPointMake(Ti.Platform.displayCaps.platformWidth, 300));
+		collisionBehavior.addBoundaryWithIdentifierFromPointToPoint('barrier3', CGPointMake(0, 400), CGPointMake(250, 400));
 
-		a.addBehavior(c);
-		a.addBehavior(g);
-		a.addBehavior(e);
+		dynamicAnimator.addBehavior(collisionBehavior);
+		dynamicAnimator.addBehavior(gravityBehavior);
+		dynamicAnimator.addBehavior(dynamicItemBehavior);
 
+		$.win.addEventListener('close', function(){
+			dynamicAnimator.unprotect();
+			dynamicAnimator = null;
+		});
 	})($.gravity_container);
 }, 100);
