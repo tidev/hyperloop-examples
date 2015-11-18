@@ -1,0 +1,5 @@
+<Alloy>
+	<Window id="win" title="SIZE vs. FILL">
+		<View id="sizefill_container"></View>
+	</Window>
+</Alloy>
