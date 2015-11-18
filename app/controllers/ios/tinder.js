@@ -9,7 +9,7 @@
 		CGAffineTransformScale = require('CoreGraphics').CGAffineTransformScale,
 		CGAffineTransformIdentity = require('CoreGraphics').CGAffineTransformIdentity,
 		UIColor = require('UIKit/UIColor'),
-		UIKit = require('UIKit')
+		UIKit = require('UIKit');
 
 	// create a custom implementation of UIPanGestureRecognizer
 	var PanGestureRecognizer = require('subclasses/gesturerecognizer');
@@ -137,7 +137,6 @@
 			view.animate(animation);
 
 			// add view to window
-			// $.card_animation.add(view);
 			container.add(view);
 
 			// add "check" icon overlay to view
