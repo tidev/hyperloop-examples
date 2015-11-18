@@ -16,10 +16,17 @@ var Hyperloop = require('hyperloop');
 
 <%
 // build up the namespace to hang the class off of
-for (var i = 0; i < parts.length - 1; i++) { // don't include last segment: class base name
+if (classDefinition.name.indexOf('$') != -1) {
+	// it's a nested class. Load up the parent, then just hang our class off of that.
+-%>
+var EnclosingClass = require('<%= classDefinition.name.slice(0, classDefinition.name.indexOf('$')) %>');
+<%
+} else {
+	for (var i = 0; i < parts.length - 1; i++) { // don't include last segment: class base name
 -%>
 global.<%= parts.slice(0, i + 1).join('.') %> = global.<%= parts.slice(0, i + 1).join('.') %> || {};
 <%
+	}
 }
 -%>
 
@@ -159,6 +166,7 @@ if (classDefinition.attributes.indexOf('final') == -1 &&
 
 // Cast
 <%= sanitizedName %>.cast = function(object) {
+	if (!object.$native || !object.$native.isInstanceProxy) return object;
 	return new <%= sanitizedName %>(Hyperloop.cast('<%= classDefinition.name %>', object.$native));
 };
 

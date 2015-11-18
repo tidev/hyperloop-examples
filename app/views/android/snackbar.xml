@@ -1,0 +1,11 @@
+<Alloy>
+	<Window id="win" title="Snackbar Controller">
+
+		<ScrollView>
+			<View class="vbox" id="alert_container"></View>
+			<Button id="button">Show Snackbar</Button>
+			<Label id="notice"></Label>
+		</ScrollView>
+
+	</Window>
+</Alloy>

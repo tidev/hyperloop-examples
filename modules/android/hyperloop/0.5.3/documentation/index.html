@@ -44,19 +44,22 @@ var result = Example.staticMethod();</code></p>
 <h4>Method resolution</h4>
 <p>If a class has overloads for a method (multiple forms of the method with different signatures, but the same name), we will attempt to match the correct method to invoke on the Java side by matching the passed in arguments to the closest match. Typically, this involves matching the name, number of arguments and the ability to convert the passed in arguments (in-order) to the method's parameter types. We are slightly more liberal in accepting numeric primitives than typical method resolution due to the conversion of JS Numbers.</p>
 <h3>Casting</h3>
-<p>Sometimes interfaces define generic return types such as <code>Object</code> and you will need to cast them to a different type to then reference methods and properties of the class.  You can pass along the object you want to wrap to the constructor of the type you want to wrap it in.</p>
-<p>For example, suppose the result of the function returned an <code>Object</code> but you know the implementation is actually a <code>View</code>. You could use the following:</p>
+<p>Sometimes interfaces and classes define generic return types such as <code>Object</code>, or declare they return or accept a super type but you know the actual received/passed type will be a subclass of it - and you will need to cast them to a different type to then reference methods and properties of the more specific subclass.</p>
+<p>For example, suppose the result of the function returned an <code>android.view.ViewGroup.LayoutParams</code> but you know the implementation is actually a <code>android.widget.FrameLayout.LayoutParams</code>. You could use the following:</p>
 <p><code>javascript
-var view = new View(object);
-// call View instance methods on view variable</code></p>
+var params = view.getLayoutParams();
+params = FrameLayoutParams.cast(params);
+params.leftMargin = 100;
+params.topMargin = 50;</code></p>
 <p><strong>Be careful with casting:</strong>  If you cast an object which is actually something different, you will experience an error and likely a crash.</p>
-<p>You can also cast a Titanium UI Component into its equivalent.  For example, this would work:</p>
+<h4>Converting Titanium proxies</h4>
+<p>You can also convert a Titanium UI Component into its equivalent by passing the titanium proxy into the equivalent UI class' constructor.  For example, this would work:</p>
 <p><code>javascript
 var tiView = Ti.UI.createView( { backgroundColor : "red" } );
 var nativeView = new View(tiView);
 console.log('X (relative to parent): ', nativeView.getLeft());</code></p>
 <h3>Interfaces</h3>
-<p>Interfaces may be implemented using a Javascript syntax similar to an anonymous Java class. Call the constructor of the interface type with a JS object that contains properties that match the interface method names, and corresponding values as function that implement them.</p>
+<p>Interfaces may be implemented using a Javascript syntax similar to an anonymous Java class. Call the constructor of the interface type with a JS object that contains the overriding method implementations with properties that match the interface method names, and corresponding values as the function that implements that method.</p>
 <p>For example, to create an instance that implements <code>android.view.View.OnTouchListener</code>:</p>
 <p><code>javascript
 var OnTouchListener = require('android.view.View.OnTouchListener'),
@@ -67,7 +70,28 @@ var OnTouchListener = require('android.view.View.OnTouchListener'),
         }
     });</code></p>
 <h3>Creating your own classes</h3>
-<p>Currently, extending Java classes from Javascript is not supported in the latest version.</p>
+<p>Hyperloop provides you the ability to dynamically create your own Java classes at runtime.  Once created, these classes can be used as normal in either Hyperloop or passed to native calls. We generate the custom subclass using the "extend" function of the type we want to extend, which takes a single JS Object as an argument containing the overriding method implementations (same as we did for interface implementations). The returned value is a new class type that subclasses the extended type. We can then use the constructor to generate instances of that subclass.</p>
+<p>It's easiest to understand with an example - let's create a simple custom subclass of <code>android.view.View</code>, and instantiate an instance of it:</p>
+<p><code>javascript
+var Activity = require('android.app.Activity'),
+    activity = new Activity(Ti.Android.currentActivity),
+    View = require('android.view.View'),
+    MyView = android.view.View.extend({
+        onDraw: function(canvas) {
+            // implementation here
+        }
+    }),
+    view = new MyView(activity);
+// Add your custom view to the content...</code></p>
+<p>This will create a new class in the Java runtime which will extend <code>android.view.View</code> which is equivalent to the following code (though please note that we do <em>not</em> generate Java source, but instead generate Dalvik bytecode that gets loaded into the runtime as a class):</p>
+<p>```java
+class View_proxy extend android.view.View {</p>
+<pre><code>protected void onDraw(Canvas canvas) {
+    // implementation here
+}
+</code></pre>
+<p>}
+```</p>
 <h2>Using Third-party libraries</h2>
 <p>You can use Third-party libraries in Hyperloop.</p>
 <h3>JARs</h3>
