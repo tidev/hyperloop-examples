@@ -1,0 +1,10 @@
+<Alloy>
+	<Window id="win" title="Calendar">
+
+		<View>
+			<Label>3rd Party 3D Globe Library</Label>
+			<View class="vbox" id="calendar_container"></View>
+		</View>
+
+	</Window>
+</Alloy>

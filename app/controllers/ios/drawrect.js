@@ -9,63 +9,58 @@
 		CGContextFillRect = require('CoreGraphics').CGContextFillRect;
 
 	// create a unique UIView subclass for doing our custom drawing
-	var CustomDrawRectClass = Hyperloop.defineClass('CustomDrawRectClass', 'UIView');
+	var DrawRectView = require('subclasses/drawrectview')
 
 	// convenience function for converting an angle in degress to radians
-	function DEGREES_TO_RADIANS (angle) { return (Number(angle) / 180.0 * Math.PI) };
+	function DEGREES_TO_RADIANS (angle) { return (Number(angle) / 180.0 * Math.PI); };
 
 	// http://stackoverflow.com/a/14991292/795295
-	CustomDrawRectClass.addMethod({
-		selector: 'drawRect:',
-		instance: true,
-		arguments: ['CGRect'],
-		callback: function(rect) {
+	var view = new DrawRectView();
+	view.onDrawRect = function(rect) {
+		// this function is called when the drawRect: is invoked to render the view
 
-			// this function is called when the drawRect: is invoked to render the view
+		var beams = 9;
+		var radius = rect.size.width / 2;
 
-			var beams = 9;
-			var radius = rect.size.width / 2;
+		UIColor.whiteColor().setFill();
+		CGContextFillRect(UIGraphicsGetCurrentContext(), rect);
 
-			UIColor.whiteColor().setFill();
-			CGContextFillRect(UIGraphicsGetCurrentContext(), rect);
+		UIColor.redColor().setFill();
+		UIColor.greenColor().setStroke();
 
-			UIColor.redColor().setFill();
-			UIColor.greenColor().setStroke();
+		var bezierPath = UIBezierPath.bezierPath();
+		var centerPoint = CGPointMake(rect.size.width / 2, rect.size.height / 2);
+		var thisPoint = CGPointMake(centerPoint.x + radius, centerPoint.y);
+		bezierPath.moveToPoint(centerPoint);
 
-			var bezierPath = UIBezierPath.bezierPath();
-			var centerPoint = CGPointMake(rect.size.width / 2, rect.size.height / 2);
-			var thisPoint = CGPointMake(centerPoint.x + radius, centerPoint.y);
-			bezierPath.moveToPoint(centerPoint);
+		var thisAngle = 0;
+		var sliceDegrees = 360 / beams / 2;
 
-			var thisAngle = 0;
-			var sliceDegrees = 360 / beams / 2;
+		for (var i = 0; i < beams; i++) {
 
-			for (var i = 0; i < beams; i++) {
+			var x = radius * Math.cos(DEGREES_TO_RADIANS(thisAngle + sliceDegrees)) + centerPoint.x;
+			var y = radius * Math.sin(DEGREES_TO_RADIANS(thisAngle + sliceDegrees)) + centerPoint.y;
 
-				var x = radius * Math.cos(DEGREES_TO_RADIANS(thisAngle + sliceDegrees)) + centerPoint.x;
-				var y = radius * Math.sin(DEGREES_TO_RADIANS(thisAngle + sliceDegrees)) + centerPoint.y;
+			thisPoint = CGPointMake(x, y);
+			bezierPath.addLineToPoint(thisPoint);
+			thisAngle += sliceDegrees;
 
-				thisPoint = CGPointMake(x, y);
-				bezierPath.addLineToPoint(thisPoint);
-				thisAngle += sliceDegrees;
+			var x2 = radius * Math.cos(DEGREES_TO_RADIANS(thisAngle + sliceDegrees)) + centerPoint.x;
+			var y2 = radius * Math.sin(DEGREES_TO_RADIANS(thisAngle + sliceDegrees)) + centerPoint.y;
 
-				var x2 = radius * Math.cos(DEGREES_TO_RADIANS(thisAngle + sliceDegrees)) + centerPoint.x;
-				var y2 = radius * Math.sin(DEGREES_TO_RADIANS(thisAngle + sliceDegrees)) + centerPoint.y;
-
-				thisPoint = CGPointMake(x2, y2);
-				bezierPath.addLineToPoint(thisPoint);
-				bezierPath.addLineToPoint(centerPoint);
-				thisAngle += sliceDegrees;
-			}
-
-			bezierPath.closePath();
-			bezierPath.lineWidth = 2;
-			bezierPath.fill();
-			bezierPath.stroke();
+			thisPoint = CGPointMake(x2, y2);
+			bezierPath.addLineToPoint(thisPoint);
+			bezierPath.addLineToPoint(centerPoint);
+			thisAngle += sliceDegrees;
 		}
-	});
 
-	var view = new CustomDrawRectClass();
+		bezierPath.closePath();
+		bezierPath.lineWidth = 2;
+		bezierPath.fill();
+		bezierPath.stroke();
+	}
+
+
 	view.backgroundColor = UIColor.yellowColor();
 	view.frame = CGRectMake(0, 0, 300, 300);
 	container.add(view);

@@ -28,16 +28,17 @@ global.<%= parts.slice(0, i + 1).join('.') %> = global.<%= parts.slice(0, i + 1)
 	var result;
 	// Allow the constructor to either invoke the real java constructor, or function as a "wrapping" method that will take
 	// a single argument that is a native hyperloop proxy for this class type and just wraps it in our JS type.
-	if (arguments.length == 1 && arguments[0].apiName && arguments[0].apiName === '<%= classDefinition.name %>') {
+	if (arguments.length == 1 && arguments[0].isNativeProxy && arguments[0].apiName && arguments[0].apiName === '<%= classDefinition.name %>') {
 		result = arguments[0];
 	}
 	else {
 		var instance = this,
 			copy = Array.prototype.slice.call(arguments)[0],
-			modified = {};
+			modified = {},
+			subclass;
 
 		function _wrapArg(arg) {
-			if (arg.apiName && arg.callNativeFunction) { // Assume hyperloop proxy, wrap in JS wrapper
+			if (arg.apiName && arg.isNativeProxy && arg.isInstanceProxy) { // Assume hyperloop proxy, wrap in JS wrapper
 				var other = require(arg.apiName);
 				return new other(arg);
 			}
@@ -54,22 +55,20 @@ global.<%= parts.slice(0, i + 1).join('.') %> = global.<%= parts.slice(0, i + 1)
 		Object.keys(copy).forEach(function (each) {
 			// Hang the original override method on the JS wrapper object
 			instance[each] = function() {
-				return copy[each].apply(this, arguments);
+				return copy[each].apply(instance, arguments);
 			};
 
 			// Hang a delegate on the "overrides" object we pass into Java.
 			// This one wraps hyperloop proxies from Java in their JS wrapper before forwarding on
 			modified[each] = function() {
-				return instance[each].apply(this, _wrapArgs.apply(this, arguments));
+				return instance[each].apply(instance, _wrapArgs.apply(this, arguments));
 			}
 		});
-		// Create interface proxy and pass along the modified overrides that auto wrap native objects in JS wrappers
+		// Create dynamic subclass of the interface
+		// Then generate a new instance of the subclass with the modified overrides that auto wrap native objects in JS wrappers
 		// and delegate to the original impls.
-		result = Hyperloop.createProxy({
-			class: '<%= classDefinition.name %>',
-			alloc: true,
-			args: [modified]
-		});
+		subclass = Hyperloop.implement('<%= classDefinition.name %>');
+		result = subclass.newInstance(modified);
 	}
 
 	this.$native = result;
@@ -101,6 +100,21 @@ global.<%= parts.slice(0, i + 1).join('.') %> = global.<%= parts.slice(0, i + 1)
 
 <%= sanitizedName %>.className = "<%= classDefinition.name %>";
 <%= sanitizedName %>.prototype.className = "<%= classDefinition.name %>";
+
+// class property
+Object.defineProperty(<%= sanitizedName %>, 'class', {
+	get: function() {
+		return Hyperloop.getClass('<%= classDefinition.name %>');
+	},
+	enumerable: true,
+	configurable: false
+});
+
+// Cast
+<%= sanitizedName %>.cast = function(object) {
+	if (!object.$native || !object.$native.isInstanceProxy) return object;
+	return new <%= sanitizedName %>(Hyperloop.cast('<%= classDefinition.name %>', object.$native));
+};
 
 // Constants
 <%

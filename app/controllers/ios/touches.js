@@ -8,33 +8,15 @@
 		UIKit = require('UIKit'),
 		UIColor = require('UIKit/UIColor');
 
-	// create a custom implementation of UIPanGestureRecognizer
-	var NativePanGestureRecognizer = Hyperloop.defineClass('NativePanGestureRecognizer', 'UIPanGestureRecognizer');
-
-	// we are going to implement a callback which will do the changes as the user moves the view
-	NativePanGestureRecognizer.addMethod({
-		signature: 'onAction:',
-		arguments: ['NativePanGestureRecognizer'],
-		callback: function(recognizer) {
-			// since the doc describes this as an ID, we need to cast it to the appropriate type
-			if (recognizer.state === UIKit.UIGestureRecognizerStateBegan ||
-				recognizer.state === UIKit.UIGestureRecognizerStateChanged) {
-				var view = recognizer.view,
-					superview = view.superview,
-					center = view.center;
-				var translation = recognizer.translationInView(superview);
-				view.center = CGPointMake(center.x + translation.x, center.y + translation.y);
-				recognizer.setTranslationInView(CGPointZero, superview);
-			}
-		}
-	});
-
+	var PanGestureRecognizer = require('subclasses/gesturerecognizer');
 	// create an instance of the class - one for each instance of the view
- 	var panGesture1 = new NativePanGestureRecognizer();
+ 	var panGesture1 = new PanGestureRecognizer();
 	panGesture1.addTargetAction(panGesture1, 'onAction:');
+	panGesture1.onAction = onPanGesture;
 
-	var panGesture2 = new NativePanGestureRecognizer();
+	var panGesture2 = new PanGestureRecognizer();
 	panGesture2.addTargetAction(panGesture2, 'onAction:');
+	panGesture2.onAction = onPanGesture;
 
 	var view1 = UIView.alloc().initWithFrame(CGRectMake(40,40,100,100));
 	view1.addGestureRecognizer(panGesture1);
@@ -46,5 +28,18 @@
 
 	container.add(view1);
 	container.add(view2);
+
+
+	function onPanGesture(recognizer) {
+		if (recognizer.state === UIKit.UIGestureRecognizerStateBegan ||
+			recognizer.state === UIKit.UIGestureRecognizerStateChanged) {
+			var view = recognizer.view,
+				superview = view.superview,
+				center = view.center;
+			var translation = recognizer.translationInView(superview);
+			view.center = CGPointMake(center.x + translation.x, center.y + translation.y);
+			recognizer.setTranslationInView(CGPointZero, superview);
+		}
+	}
 
 })($.touch_container);

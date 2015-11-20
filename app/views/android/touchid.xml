@@ -1,0 +1,11 @@
+<Alloy>
+	<Window id="win" title="Apple Touch ID">
+
+		<ScrollView>
+			<Label id="message" />
+			<ImageView id="image" />
+			<Button id="button">Auth me!</Button>
+		</ScrollView>
+
+	</Window>
+</Alloy>

@@ -93,7 +93,7 @@ exports.cliVersion = '>=3.2';
 		cli.on('build.pre.construct', function (builder, callback) {
 			// check to make sure the hyperloop module is actually configured
 			var moduleFound = builder.modules.map(function (i) {
-				if (i.id === 'hyperloop') { return i };
+				if (i.id === 'hyperloop') { return i; };
 			}).filter(function (a) { return !!a; });
 
 			// check that it was found
@@ -184,9 +184,10 @@ exports.cliVersion = '>=3.2';
 					extraArgs.push('-S');
 					extraArgs.push(path.join(hyperloopBuildDir, key, 'res'));
 				});
-
-				data.args[1][index + 1] = extraPackages.concat(packageNames.join(':'));
-				data.args[1] = data.args[1].concat(extraArgs);
+				if (packageNames.length > 0) {
+					data.args[1][index + 1] = extraPackages.concat(':' + packageNames.join(':'));
+					data.args[1] = data.args[1].concat(extraArgs);
+				}
 			}
 		});
 
