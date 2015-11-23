@@ -623,7 +623,7 @@ HyperloopiOSBuilder.prototype.copyHyperloopJSFiles = function copyHyperloopJSFil
 				hash = null,
 				changed = !destExists || !prev || prev.size !== srcStat.size || prev.mtime !== srcMtime || prev.hash !== (hash = builder.hash(contents = fs.readFileSync(srcFile).toString()));
 
-			builder.unmarkBuildDirFile(destFile);
+			builder.unmarkBuildDirFiles(destFile);
 
 			builder.currentBuildManifest.files[rel] = {
 				hash:  contents === null && prev ? prev.hash  : hash || builder.hash(contents || ''),
