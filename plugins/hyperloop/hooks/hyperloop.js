@@ -10,7 +10,7 @@
 var fs = require('fs'),
 	path = require('path');
 
-exports.id = 'com.example.hook';
+exports.id = 'com.appcelerator.hyperloop';
 exports.cliVersion = '>=3.2';
 exports.init = init;
 
