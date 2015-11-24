@@ -186,7 +186,7 @@
 	var view = new DonutChartView(activity);
 	view.setBackgroundColor(Color.TRANSPARENT);
 	layoutParams = new LayoutParams(256, 256, Gravity.TOP);
-	layoutParams.setMargins(60, 170, 0, 0);
+	layoutParams.setMargins(60, 170, 0, 0); // FIXME center this in the screen!
 	view.setLayoutParams(layoutParams);
 	//view.layer.cornerRadius = 10; // TODO What's the Android equivalent?
 
