@@ -22,4 +22,4 @@ You can download the [Android Programming Guide](https://s3-us-west-2.amazonaws.
 
 # License
 
-This content here is provided on an "as is" basis without any official support or warranty. Only use this software in a development or test environment, and be sure to safeguard important data. Source and object code is Copyright (c) 2015 by Appcelerator, Inc. All Rights Reserved.  Hyperloop is a registered trademark of Appcelerator, Inc.
+This content here is provided on an "as is" basis without any official support or warranty. Source and object code is Copyright (c) 2015 by Appcelerator, Inc. All Rights Reserved. Permission to use the example source code (such as Alloy views, controllers, etc) in your own application is expressly granted. Hyperloop is a registered trademark of Appcelerator, Inc. 
