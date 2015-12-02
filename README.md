@@ -1,4 +1,4 @@
-# Hyperloop Example App
+# Hyperloop Examples App
 
 The following application demonstrates using Hyperloop for direct native API access.
 
