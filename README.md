@@ -4,6 +4,8 @@ The following application demonstrates using Hyperloop for direct native API acc
 
 Learn more about Hyperloop by visiting [Appcelerator Labs](https://labs.appcelerator.com/project/55f74a9f421c44837717716b/Hyperloop-Module).
 
+> This example application is work-in-progress and is being actively updated during the developing of Titanium 6.0 and Hyperloop. Check back often for more examples and submit a PR if you have your own cool examples!
+
 
 ## iOS
 
