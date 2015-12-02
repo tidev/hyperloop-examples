@@ -8,7 +8,7 @@ Learn more about Hyperloop by visiting [Appcelerator Labs](https://labs.appceler
 
 # Running this app
 
-*BEFORE* attempting to run this application, ensure that you have downloaded and followed the instructions from the appropriate guide below. There are specific pre-requisites that must be first met before this application will run properly.
+*BEFORE* attempting to run this application, ensure that you have downloaded and followed the instructions from the appropriate guide below. There are specific prerequisites that must be first met before this application will run properly.
 
 This sample application only runs on the simulator because it uses a demo application GUID. if you would like to run this application on device, you need to import the application into your own platform account using `appc new --import`.
 
