@@ -1,12 +1,12 @@
 (function (container) {
 
-	var UIScreen = require("UIKit/UIScreen"),
-		UIColor = require("UIKit/UIColor"),
-		UITableView = require("UIKit/UITableView"),
-		UITableViewCell = require("UIKit/UITableViewCell"),
-		NSIndexPath = require("Foundation").NSIndexPath,
-		UITableViewCellStyleDefault = require("UIKit").UITableViewCellStyleDefault,
-		UITableViewCellAccessoryDisclosureIndicator = require("UIKit").UITableViewCellAccessoryDisclosureIndicator
+	var UIScreen = require('UIKit/UIScreen'),
+		UIColor = require('UIKit/UIColor'),
+		UITableView = require('UIKit/UITableView'),
+		UITableViewCell = require('UIKit/UITableViewCell'),
+		NSIndexPath = require('Foundation').NSIndexPath,
+		UITableViewCellStyleDefault = require('UIKit').UITableViewCellStyleDefault,
+		UITableViewCellAccessoryDisclosureIndicator = require('UIKit').UITableViewCellAccessoryDisclosureIndicator;
 
 	// Subclass delegate + data source
 	var TableViewDataSourceAndDelegate = require('subclasses/tableviewdatasourcedelegate')
@@ -46,7 +46,7 @@
 	// Assign delegate + data source
 	tableView.setDelegate(dataSourceDelegate);
 	tableView.setDataSource(dataSourceDelegate);
-	
+
 	container.add(tableView);
 
 })($.tableview_container);

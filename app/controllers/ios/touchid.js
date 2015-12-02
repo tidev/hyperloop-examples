@@ -1,8 +1,8 @@
 
 (function (container) {
-	var LAContext = require('LocalAuthentication/LAContext');
-	var LocalAuthentication = require('LocalAuthentication/LocalAuthentication');
-	var context = new LAContext();
+	var LAContext = require('LocalAuthentication/LAContext'),
+		LocalAuthentication = require('LocalAuthentication/LocalAuthentication'),
+		context = new LAContext();
 
 	// check to see if it's enabled
 	if (context.canEvaluatePolicyError(LocalAuthentication.LAPolicyDeviceOwnerAuthenticationWithBiometrics)) {
