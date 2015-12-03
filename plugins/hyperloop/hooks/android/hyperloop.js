@@ -50,6 +50,8 @@ exports.cliVersion = '>=3.2';
 	 */
 
 	exports.init = function (_logger, _config, _cli, appc, hyperloopConfig, next) {
+		var builder = this;
+
 		config = _config;
 		cli = _cli;
 		logger = _logger;
@@ -89,41 +91,31 @@ exports.cliVersion = '>=3.2';
 			wrench.mkdirSyncRecursive(hyperloopBuildDir);
 		}
 
-		// verify configuration
-		cli.on('build.pre.construct', function (builder, callback) {
-			// check to make sure the hyperloop module is actually configured
-			var moduleFound = builder.modules.map(function (i) {
-				if (i.id === 'hyperloop') { return i; };
-			}).filter(function (a) { return !!a; });
+		// check to make sure the hyperloop module is actually configured
+		var moduleFound = builder.modules.map(function (i) {
+			if (i.id === 'hyperloop') { return i; };
+		}).filter(function (a) { return !!a; });
 
-			// check that it was found
-			if (!moduleFound.length) {
-				logger.error('You cannot use the Hyperloop compiler without configuring the module.');
-				logger.error('Add the following to your tiapp.xml <modules> section:');
-				var pkg = JSON.parse(path.join(__dirname, '../../package.json'));
-				logger.error('');
-				logger.error('	<module version="' + pkg.version + '">hyperloop</module>');
-				logger.warn('');
-				process.exit(1);
-			}
+		// check that it was found
+		if (!moduleFound.length) {
+			logger.error('You cannot use the Hyperloop compiler without configuring the module.');
+			logger.error('Add the following to your tiapp.xml <modules> section:');
+			var pkg = JSON.parse(path.join(__dirname, '../../package.json'));
+			logger.error('');
+			logger.error('	<module version="' + pkg.version + '">hyperloop</module>');
+			logger.warn('');
+			process.exit(1);
+		}
 
-			// check for the run-on-main-thread configuration
-			if (!builder.tiapp.properties['run-on-main-thread']) {
-				logger.error('You cannot use the Hyperloop compiler without configuring Android to use main thread execution.');
-				logger.error('Add the following to your tiapp.xml <ti:app> section:');
-				logger.error('');
-				logger.error('	<property name="run-on-main-thread" type="boolean">true</property>');
-				logger.warn('');
-				process.exit(1);
-			}
-
-			callback();
-		});
-
-		cli.on('build.pre.compile', {
-			priority: 99999,
-			post: prepareBuild
-		});
+		// check for the run-on-main-thread configuration
+		if (!builder.tiapp.properties['run-on-main-thread']) {
+			logger.error('You cannot use the Hyperloop compiler without configuring Android to use main thread execution.');
+			logger.error('Add the following to your tiapp.xml <ti:app> section:');
+			logger.error('');
+			logger.error('	<property name="run-on-main-thread" type="boolean">true</property>');
+			logger.warn('');
+			process.exit(1);
+		}
 
 		cli.on('build.android.copyResource', {
 			priority: 99999,
@@ -197,7 +189,7 @@ exports.cliVersion = '>=3.2';
 			}
 		});
 
-		next();
+		prepareBuild(this, next);
 	};
 
 	/*
