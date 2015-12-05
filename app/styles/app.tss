@@ -12,43 +12,36 @@ and text fields (depending on platform) in your app unless you
 overrode the settings with other TSS, XML, or JS settings:
 
 */
-
-'Window[platform=ios]': {
-
-	// Navigation bar
-	barColor: Alloy.CFG.brandPrimary,
-	navTintColor: '#FFF',
-	translucent: false,
-	titleAttributes: {
-		color: '#FFF'
-	},
-
-	backgroundColor: '#FFF'
+'Window[platform=ios]' : {
+    // Navigation bar
+    barColor: Alloy.CFG.brandPrimary,
+    navTintColor: '#FFF',
+    translucent: false,
+    titleAttributes: {
+        color: '#FFF'
+    },
+    backgroundColor: '#FFF'
 }
-
-'TextField[platform=ios]': {
-	width: Ti.UI.FILL,
-
-	borderStyle: Ti.UI.INPUT_BORDERSTYLE_ROUNDED
+'TextField[platform=ios]' : {
+    width: Ti.UI.FILL,
+    borderStyle: Ti.UI.INPUT_BORDERSTYLE_ROUNDED
 }
-
-'ScrollView': {
-	contentWidth: Ti.UI.FILE,
-	contentHeight: Ti.UI.SIZE,
-
-	scrollType: 'vertical'
+'ScrollView' : {
+    contentWidth: Ti.UI.FILE,
+    contentHeight: Ti.UI.SIZE,
+    scrollType: 'vertical'
 }
-
-'.vbox': {
-	layout: 'vertical',
-	top: 20,
-	right: 20,
-	bottom: 20,
-	left: 20,
-
-	height: Ti.UI.FILL
+'.vbox' : {
+    layout: 'vertical',
+    top: 20,
+    right: 20,
+    bottom: 20,
+    left: 20,
+    height: Ti.UI.FILL
 }
-
-'.tpad': {
-	top: 20
+'.tpad' : {
+    top: 20
+}
+"ListItem" : {
+    color: "#DDD"
 }
