@@ -25,7 +25,8 @@ if (!global.dump) {
 	};
 }
 
-[	'analytics',
+[
+	'analytics',
 	'android',
 	'ast',
 	'async',
@@ -57,5 +58,9 @@ if (!global.dump) {
 	'xml',
 	'zip'
 ].forEach(function (m) {
-	exports[m.split('/').shift()] = require('./' + m);
+	Object.defineProperty(exports, m, {
+		get: function () {
+			return require('./' + m);
+		}
+	});
 });
