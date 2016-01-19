@@ -25,7 +25,7 @@
 					<ListItem itemId="gravity" platform="ios" title="Gravity"/>
 					<ListItem itemId="tableview" platform="ios" title="Table View"/>
 					<ListItem itemId="snackbar" platform="android" title="Snackbar"/>
-					<ListItem itemId="blur" platform="android" title="Blur"/>
+					<ListItem itemId="blur" title="Blur"/>
 					<ListItem itemId="sizefill" title="FILL vs SIZE"/>
 				</ListSection>
 			</ListView>

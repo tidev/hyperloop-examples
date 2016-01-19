@@ -1,0 +1,9 @@
+<Alloy>
+	<Window id="win" title="Blur">
+
+		<ScrollView>
+			<View id="blur_container"></View>
+		</ScrollView>
+
+	</Window>
+</Alloy>
