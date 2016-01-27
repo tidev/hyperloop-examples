@@ -6,7 +6,7 @@
 
 ## Install
 
-```
+```sh
 $ npm install --save decamelize
 ```
 
@@ -14,13 +14,13 @@ $ npm install --save decamelize
 ## Usage
 
 ```js
-const decamelize = require('decamelize');
+var decamelize = require('decamelize');
 
 decamelize('unicornRainbow');
-//=> 'unicorn_rainbow'
+//=> unicorn_rainbow
 
 decamelize('unicornRainbow', '-');
-//=> 'unicorn-rainbow'
+//=> unicorn-rainbow
 ```
 
 
@@ -30,6 +30,7 @@ decamelize('unicornRainbow', '-');
 
 #### input
 
+*Required*  
 Type: `string`
 
 #### separator
