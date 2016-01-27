@@ -163,7 +163,7 @@ exports.generateFromJSON = generateFromJSON;
 if (!module.parent) {
 	var outputDir = path.join(__dirname, 'hyperloop'),
 		ANDROID_API_LEVEL = 'android-10',
-		classpathToAdd = process.argv[2] || '/Users/cwilliams/Library/android-sdk-macosx/platforms/' + ANDROID_API_LEVEL + '/android.jar';
+		classpathToAdd = process.argv[2] || '~/Library/android-sdk-macosx/platforms/' + ANDROID_API_LEVEL + '/android.jar';
 	metabase.loadMetabase(classpathToAdd, {platform: ANDROID_API_LEVEL}, [], function(e, data) {
 		if (e) {
 			util.logger.error(e);

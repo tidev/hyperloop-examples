@@ -1,0 +1,255 @@
+<h1>Hyperloop for iOS Programming Guide</h1>
+<blockquote>
+<p>This documentation is made available before final release and is subject to change without notice and comes with no warranty express or implied.</p>
+</blockquote>
+<h2>Requirements</h2>
+<p>You'll need to have the following minimum requirements to use Hyperloop for iOS:</p>
+<ul>
+<li>Titanium 5.2.0</li>
+<li>iOS 9.0 SDK</li>
+</ul>
+<p>Hyperloop only works with Titanium applications that are registered with the platform.  If you are using a Titanium project that hasn't yet been registered, you can register it with the following command: <code>appc new --import</code>.</p>
+<p>If you'd like to experience Hyperloop on your application before registering your application, you can use the following demo GUID in your tiapp.xml: <code>11111111-1111-1111-1111-111111111111</code>.  However, when using a demo GUID, your application will only operate on the simulator.</p>
+<h2>Pre-release Installation</h2>
+<p>For pre-release, you'll need to update to the latest unreleased version of Titanium 5.2.0 by running <code>ti sdk install -b master -d</code>.  Make sure you set the version of your application to use this version in your <code>tiapp.xml</code> <code>&lt;sdk-version&gt;</code>.</p>
+<p>To run the examples application, you'll need to also install CocoaPods by running <code>sudo gem install cocoapods</code>.  <em>NOTE: some users have reported problems with the built-in OSX Ruby version (1.9). CocoaPods seems to require a 2.0 or later version to install and work properly.</em></p>
+<h3>Using the Hyperloop Examples project</h3>
+<p>If you're going to run the <a href="https://s3-us-west-2.amazonaws.com/appc-labs-server/downloads/hyperloop-examples.zip">Hyperloop Example project</a>, you do not need to do any additional installation to use Hyperloop. The project will allow you to run on the simulator using <code>appc ti build -p ios</code>.</p>
+<h3>Using Hyperloop in your own project</h3>
+<p>If you'd like to use Hyperloop in a new or existing Titanium project, you will need to install the Hyperloop module and plugin.  You can download the distribution (the distribution includes support for both Android and iOS) from <a href="https://s3-us-west-2.amazonaws.com/appc-labs-server/downloads/hyperloop-1.0.1b.zip">https://s3-us-west-2.amazonaws.com/appc-labs-server/downloads/hyperloop-1.0.1b.zip</a>.</p>
+<p>You should extract the zip file at the root level of your Titanium (or Alloy) project. Once extracted, you will need to add the following to your <code>tiapp.xml</code>:</p>
+<h4>Configure the plugin</h4>
+<p><code>xml
+&lt;plugins&gt;
+    &lt;plugin&gt;hyperloop&lt;/plugin&gt;
+&lt;/plugins&gt;</code></p>
+<h4>Configure the module</h4>
+<p><code>xml
+&lt;modules&gt;
+    &lt;module&gt;hyperloop&lt;/module&gt;
+&lt;/modules&gt;</code></p>
+<h4>Configure for iOS</h4>
+<p>For iOS, you'll need to add the following two elements as children to the <code>ios</code> element:</p>
+<p><code>xml
+&lt;ios&gt;
+    &lt;run-on-main-thread&gt;true&lt;/run-on-main-thread&gt;
+    &lt;use-jscore-framework&gt;true&lt;/use-jscore-framework&gt;
+&lt;/ios&gt;</code></p>
+<h2>Classes</h2>
+<h3>Overview</h3>
+<p>Classes in Hyperloop map to the underlying classes defined in Objective-C.  For example, if you have a class such as <code>UIView</code> defined in the <code>UIKit</code> framework, you would reference it using a standard require such as:</p>
+<p><code>javascript
+var UIView = require('UIKit/UIView');</code></p>
+<p>This will return the <code>UIView</code> class object.  Meaning, it's not an instance of a <code>UIView</code>, but the <code>UIView</code> class itself (or in Objective-C parlance, the interface defined with <code>@interface</code>).</p>
+<p>Once you have a the Class reference returned from <code>require</code>, you can call normal JavaScript property and functions against it. Remember, at this point calling functions or properties against the class object above will be accessing Class level Objective-C methods (not instance level).</p>
+<p>For example, you could get the <code>layerClass</code> of the <code>UIView</code> using the example:</p>
+<p><code>javascript
+var layerClass = UIView.layerClass;</code></p>
+<p>This is because <a href="https://developer.apple.com/library/ios/documentation/UIKit/Reference/UIView_Class/#//apple_ref/occ/clm/UIView/layerClass"><code>layerClass</code></a> is defined as a Class method.</p>
+<h3>Instantiation</h3>
+<p>To instantiate a native Class and create an instance, you can use the normal <code>alloc init</code> style pattern from Objective-C:</p>
+<p><code>javascript
+var view = UIView.alloc().init();</code></p>
+<p>Or, to simplify and make it more standard JavaScript convention, use <code>new</code> such as:</p>
+<p><code>javascript
+var view = new UIView();</code></p>
+<p>This is the equivalent of the <code>alloc init</code> example above.  When constructing an instance using <code>new</code>, it will always call the default initializer that is designated as <code>init</code>.</p>
+<p>If you have a special initializer that takes arguments, you can use the following as you would in Objective-C:</p>
+<p><code>javascript
+var view = UIView.alloc().initWithFrame(CGRectMake(0,0,100,100));</code></p>
+<h3>Methods and Properties</h3>
+<p>Methods is Objective-C are mapped to JavaScript functions. Properties in Objective-C are mapped to JavaScript property accessors.</p>
+<p>For example:</p>
+<p><code>objective-c
+@interface UIView : UIControl
+@property UIColor * backgroundColor;
+-(void)addSubview:(id)view;
+@end</code></p>
+<p>Would map to the following in JavaScript:</p>
+<p><code>javascript
+view.backgroundColor = UIColor.redColor();
+view.addSubview(label);</code></p>
+<h4>Named methods</h4>
+<p>If you have a selector with multiple parameters, the name of the function will be slightly different since JavaScript cannot receive multiple parameters as part of a function call.  For example, to send a message with the selector <code>addAttribute:value:range:</code> you would use the function named: <code>addAttributeValueRange</code> instead.  Hyperloop will camel case each receiver name in the selector and remove the <code>:</code> character to formulate the name of the method.  Arguments should then be passed to the function in the same order as you would in Objective-C.</p>
+<h3>Constants, Enumerations and Functions</h3>
+<p>Constants, enumerations and functions defined in the Framework are available in the Framework package.  For example, to reference the enum <a href="https://developer.apple.com/library/ios/documentation/UIKit/Reference/UIView_Class/#//apple_ref/c/tdef/UISemanticContentAttribute">UISemanticContentAttribute</a> you would reference it such as:</p>
+<p><code>javascript
+var UISemanticContentAttributeUnspecified = require('UIKit').UISemanticContentAttributeUnspecified;
+view.semanticContentAttribute = UISemanticContentAttributeUnspecified;</code></p>
+<p>The constants, enumerations and functions will be read-only properties of the <code>UIKit</code> framework.</p>
+<h3>Casting</h3>
+<p>Sometimes interfaces define generic return types such as <code>NSObject</code> or <code>id</code> and you will need to cast them to a different type to then reference methods and properties of the class.  You can use the special class function <code>cast</code> on any Class to return a casted object.</p>
+<p>For example, suppose the result of the function returned an <code>id</code> but you know the implementation is actually a <code>UIView</code>. You could use the following:</p>
+<p><code>javascript
+var view = UIView.cast(object);
+view.backgroundColor = UIColor.redColor();</code></p>
+<p><strong>Be careful with casting:</strong>  If you cast an object which is actually something different, you will experience an error and likely a crash.</p>
+<p>You can also cast a Titanium UI Component into its equivalent.  For example, this would work:</p>
+<p><code>javascript
+var tiView = Ti.UI.createView( { backgroundColor : "red" } );
+var nativeView = UIView.cast(tiView);
+console.log('color should be red', nativeView.backgroundColor);</code></p>
+<h3>Blocks</h3>
+<p>Blocks in Hyperloop are translated into JavaScript functions.</p>
+<p>For example, to animate a view which normally takes a block:</p>
+<p><code>javascript
+UIView.animateWithDurationAnimationsCompletion(1.0, function () {
+   view.layer.opacity = 0.0;
+}, function (done) {
+});</code></p>
+<h3>Function pointers</h3>
+<p>Currently, function pointers are not currently supported in the latest version.</p>
+<h3>Creating your own classes</h3>
+<p>Hyperloop provides you the ability to dynamically create your own Objective-C classes at runtime.  Once created, this classes can be used as normal in either Hyperloop or passed to native calls.</p>
+<p>Let's create a simple custom <code>UIView</code>:</p>
+<p><code>javascript
+var MyView = Hyperloop.defineClass('MyClass', 'UIView');</code></p>
+<p>This will create a new class in the Objective-C runtime named <code>MyClass</code> which will extend <code>UIView</code> which is equivalent to the following code:</p>
+<p><code>objective-c
+@interface MyClass : UIView
+@end</code></p>
+<p>You can also pass an Array or String as the third argument which are the protocols to implement for the new class.</p>
+<p>You can now add methods:</p>
+<p><code>javascript
+MyView.addMethod({
+   selector: 'drawRect:',
+   instance: true,
+   arguments: ['CGRect'],
+   callback: function (rect) {
+     // this code is executed when drawRect: is called
+   }
+});</code></p>
+<p>Hyperloop supports the following set of properties for adding methods:</p>
+<ul>
+<li><code>arguments</code> can be either an Array or String of argument types (which can be either Objective-C encoding types or general type names such as <code>float</code> or <code>int</code>).</li>
+<li><code>returnType</code> can be a String return type (which can be either Objective-C encoding types or general type names such as <code>float</code> or <code>int</code>). If no return is required (a <code>void</code> return type), you can omit the <code>returnType</code> property altogether and <code>void</code> will be implied.</li>
+</ul>
+<p>Another example with multiple arguments using simplified types:</p>
+<p><code>javascript
+MyView.addMethod({
+   selector: 'foo:bar:hello:',
+   instance: true,
+   returnType: 'void',
+   arguments: ['int', 'float', 'id'],
+   callback: function (a, b, c) {
+   }
+});</code></p>
+<p>Once you have defined your class, you would just instantiate it as normal.</p>
+<p><code>javascript
+var myview = new MyView();</code></p>
+<h2>Using Third-party libraries</h2>
+<p>You can use Third-party libraries in Hyperloop as if they were APIs defined in Cocoa.</p>
+<h3>CocoaPods</h3>
+<p>Hyperloop supports <a href="https://cocoapods.org">CocoaPods</a> as a way to manage Third-party dependencies in your Hyperloop enabled project.</p>
+<p>You must first install CocoaPods if you do not already have it installed.  You can install using:</p>
+<p><code>sudo gem install cocoapods</code></p>
+<p>Once you have CocoaPods installed you can create a Podfile in your Titanium project directory such as:</p>
+<p><code>platform :ios, '7.0'
+target 'MyProject' do
+end</code></p>
+<p>Note that <code>MyProject</code> should be the name of your Titanium project.</p>
+<p>Once you have a <code>Podfile</code>, you can add dependencies.  For example:</p>
+<p><code>platform :ios, '7.0'
+target 'Hyperloop_Sample' do
+    pod 'JBChartView'
+end</code></p>
+<p>Which will import the <a href="https://github.com/Jawbone/JBChartView">JBChartView</a> framework as a dependency.</p>
+<p>That's it! The Hyperloop compiler will do the rest -- managing pulling down the required dependencies, compiling them and integrating them into the Xcode build.</p>
+<p>Let's now use the imported project:</p>
+<p><code>javascript
+var JBBarChartView = require('JBChartView/JBBarChartView');
+var chart = new JBBarChartView();
+chart.minimumValue = 1;
+chart.maximumValue = 100;</code></p>
+<h3>Custom</h3>
+<p>In addition to CocoaPods, you can include third-party or first-party custom code by including a reference in <code>appc.js</code> under the <code>thirdparty</code> property.</p>
+<p>For example, to include custom objective-c from the project's <code>src</code> directory you could provide:</p>
+<p><code>javascript
+module.exports = {
+    hyperloop: {
+        ios: {
+            thirdparty: {
+                'MyFramework': {
+                    source: ['src'],
+                    header: 'src',
+                    resource: 'src'
+                }
+            }
+        }
+    }
+};</code></p>
+<ul>
+<li>The <code>source</code> property can be either an Array or String of source directories to include in the compile. This is optional.</li>
+<li>The <code>header</code> property can be either an Array or String of header directories to include in the compile. This is required.</li>
+<li>The <code>resource</code> property can be either an Array or String of resource directories to search for resources or files to compile (images, story boards, xibs, etc). These files will be flattened and copied directly into the root of the application and can be loaded with <code>NSBundle</code>.</li>
+</ul>
+<p>To provide additional compiler flags, you can add them in the <code>xcodebuild</code> property of <code>ios</code> such as:</p>
+<p><code>javascript
+module.exports = {
+    hyperloop: {
+        ios: {
+            xcodebuild: {
+                flags: {
+                    LIBRARY_SEARCH_PATHS: 'src',
+                    OTHER_LDFLAGS: '-lMyLibrary'
+                }
+            },
+            thirdparty: {
+                'MyFramework': {
+                    source: ['src'],
+                    header: 'src',
+                    resource: 'src'
+                }
+            }
+        }
+    }
+};</code></p>
+<h2>Using Swift</h2>
+<p>In addition to Objective-C, you can import third-party libraries written in Swift.  Any <code>*.swift</code> files found in your <code>source</code> directories will automatically be compiled and available to use in your JavaScript just like Objective-C APIs.</p>
+<h2>Customizing your Xcode build</h2>
+<p>You can further customize the Xcode build by defining an <code>appc.js</code> file in the root of your project.  This project will provide some additional configuration which the Hyperloop compiler will read when invoking Xcode.</p>
+<p>For example:</p>
+<p><code>javascript
+module.exports = {
+    hyperloop: {
+        ios: {
+            xcodebuild: {
+                flags: {
+                    GCC_PREPROCESSOR_DEFINITIONS: 'foo=bar'
+                },
+                frameworks: [
+                    'StoreKit'
+                ]
+            }
+        }
+    }
+};</code></p>
+<p>Any <code>flags</code> added to the <code>xcodebuild</code> property will be passed to <code>xcodebuild</code>. Any <code>frameworks</code> in the array provided will be automatically added to the xcode project.  <em>Note: any referenced frameworks in your Hyperloop code are automatically added for you. However, this gives you even more control to custom your compile environment.</em></p>
+<h3>Adding a third-party framework</h3>
+<p>If you'd like to add a third-party framework which isn't distributed with source code or available in CocoaPods, you can use this example configuration:</p>
+<p><code>javascript
+module.exports = {
+    hyperloop: {
+        ios: {
+            xcodebuild: {
+                flags: {
+                    FRAMEWORK_SEARCH_PATHS: '/path/to/framework'
+                },
+                frameworks: [
+                    'FrameworkName'
+                ]
+            }
+        }
+    }
+};</code></p>
+<p>In the above example, <code>/path/to/framework</code> should point the the location of the <code>.framework</code> file and <code>FrameworkName</code> should be the name of the Framework.</p>
+<h2>Resources</h2>
+<p>Any Xcode resources that are found in your <code>Resources</code> or <code>app</code> (for Alloy projects) will be automatically be compiled and/or copied to your application root directory.  Any intermediate folders will be flattened automatically.</p>
+<p>The following resources will be compiled automatically:</p>
+<ul>
+<li>Storyboard (*.storyboard)</li>
+<li>XC Data Model (<em>.xcdatamodel, </em>.xcdatamodeld, *.xcmappingmodel)</li>
+<li>Interface Builder (*.xib)</li>
+</ul>
+<p>The other resources will be copied such as PNG files.</p>
+<p>It is recommended a Best Practice that you place any platform specific files under <code>Resources/iphone</code> (Titanium classic) or <code>app/assets/iphone</code> (Alloy).  <em>You can also use <code>ios</code> instead.</em></p>
