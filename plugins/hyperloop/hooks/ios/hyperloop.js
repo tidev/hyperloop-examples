@@ -12,7 +12,7 @@ exports.init = init;
 // set this to enforce a ios-min-version
 var IOS_MIN = '7.0';
 // set this to enforce a minimum Titanium SDK
-var TI_MIN = '5.2.0';
+var TI_MIN = '5.4.0';
 // set the iOS SDK minium
 var IOS_SDK_MIN = '9.0';
 
@@ -136,12 +136,11 @@ HyperloopiOSBuilder.prototype.validate = function validate() {
 		process.exit(1);
 	}
 
-	// check for the run-on-main-thread configuration
-	if (!this.builder.tiapp.ios['run-on-main-thread']) {
+	if (!(this.builder.tiapp.properties && this.builder.tiapp.properties.hasOwnProperty('run-on-main-thread') && this.builder.tiapp.properties['run-on-main-thread'].value)) {
 		this.logger.error('You cannot use the Hyperloop compiler without configuring iOS to use main thread execution.');
-		this.logger.error('Add the following to your tiapp.xml <ios> section:');
+		this.logger.error('Add the following to your tiapp.xml <ti:app> section:');
 		this.logger.error('');
-		this.logger.error('	<run-on-main-thread>true</run-on-main-thread>\n');
+		this.logger.error('	<property name="run-on-main-thread" type="bool">true</property>');
 		process.exit(1);
 	}
 
@@ -578,7 +577,7 @@ HyperloopiOSBuilder.prototype.copyHyperloopJSFiles = function copyHyperloopJSFil
 
 	// only if we found references, otherwise, skip
 	if (!keys.length) {
-		return callback();
+		return;
 	}
 
 	// check to see if we have any specific file native modules and copy them in
@@ -666,7 +665,7 @@ HyperloopiOSBuilder.prototype.wireupBuildHooks = function wireupBuildHooks() {
 HyperloopiOSBuilder.prototype.hookUpdateXcodeProject = function hookUpdateXcodeProject(data) {
 	var nativeModules = Object.keys(this.nativeModules);
 	if (!nativeModules.length) {
-		return callback();
+		return;
 	}
 
 	var projectDir = this.builder.projectDir;
@@ -987,7 +986,7 @@ HyperloopiOSBuilder.prototype.hookXcodebuild = function hookXcodebuild(data) {
 		});
 	}
 
-	addParam('GCC_PREPROCESSOR_DEFINITIONS', 'HYPERLOOP=1');
+	addParam('GCC_PREPROCESSOR_DEFINITIONS', '$(inherited) HYPERLOOP=1');
 
 	// inject the params into the xcodebuild args
 	var args = data.args[1];

@@ -24,7 +24,7 @@ exports.cliVersion = '>=3.2';
 		metabase = require(path.join(__dirname, 'metabase'));
 
 	// set this to enforce a minimum Titanium SDK
-	var TI_MIN = '5.2.0';
+	var TI_MIN = '5.4.0';
 
 	/*
 	 State.
@@ -112,7 +112,7 @@ exports.cliVersion = '>=3.2';
 			logger.error('You cannot use the Hyperloop compiler without configuring Android to use main thread execution.');
 			logger.error('Add the following to your tiapp.xml <ti:app> section:');
 			logger.error('');
-			logger.error('	<property name="run-on-main-thread" type="boolean">true</property>');
+			logger.error('	<property name="run-on-main-thread" type="bool">true</property>');
 			logger.warn('');
 			process.exit(1);
 		}

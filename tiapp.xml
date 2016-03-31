@@ -18,9 +18,8 @@
 	<analytics>false</analytics>
 	<guid>11111111-1111-1111-1111-111111111111</guid>
 	<property name="ti.ui.defaultunit" type="string">dp</property>
-	<property name="run-on-main-thread" type="boolean">true</property>
+	<property name="run-on-main-thread" type="bool">true</property>
 	<ios>
-		<run-on-main-thread>true</run-on-main-thread>
 		<use-jscore-framework>true</use-jscore-framework>
 		<plist>
 			<dict>
@@ -72,7 +71,7 @@
 		<target device="mobileweb">false</target>
 		<target device="windows">true</target>
 	</deployment-targets>
-	<sdk-version>5.2.0</sdk-version>
+	<sdk-version>5.4.0</sdk-version>
 	<plugins>
 		<plugin version="1.0">ti.alloy</plugin>
 		<plugin>hyperloop</plugin>
