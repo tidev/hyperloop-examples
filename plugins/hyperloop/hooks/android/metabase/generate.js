@@ -52,6 +52,8 @@ function expandClassDependencies(metabaseJSON, className, done) {
 	// Mark that we visited this type so we don't multiple times
 	done.push(className);
 
+	//util.logger.trace('Expanding: ' + className);
+
 	// Include this class in our dependency list
 	expanded.push(className);
 
@@ -77,6 +79,21 @@ function expandClassDependencies(metabaseJSON, className, done) {
 	for (var propertyName in classDef.properties) {
 		var propertyDefinition = classDef.properties[propertyName];
 		expanded = expanded.concat(expandClassDependencies(metabaseJSON, propertyDefinition.type, done));
+	}
+
+	// if this is an innerclass, add it's enclosing class as dependency
+	if (className.indexOf('$') != -1) {
+		// inner class, add it's enclosing class as dependency
+		expanded.push(className.slice(0, className.indexOf('$')));
+	} else {
+		// if this is not an inner class, add any inner classes underneath it as dependencies
+		for (var otherClass in metabaseJSON.classes) {
+			if (otherClass.indexOf(className + '$') == 0) {
+				classDef.innerClasses = classDef.innerClasses || [];
+				classDef.innerClasses.push(otherClass);
+				expanded.push(otherClass);
+			}
+		}
 	}
 
 	return expanded;
