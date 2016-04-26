@@ -97,13 +97,12 @@ function generateBlockWrapper (state, json, block) {
 		}
 	}).filter(function(n) { return !!n; });
 	if (args.length) {
-		code.push('\treturn [[^(' + args.join(', ') + ') {');
+		code.push('\treturn [^(' + args.join(', ') + ') {');
 	} else {
-		code.push('\treturn [[^{');
+		code.push('\treturn [^{');
 	}
-	code.push('\t\t[callback retain];');
 	code.push('\t\tvoid(^Callback)(void) = ^{');
-	var release;
+	code.push('\t\t\tNSArray *args = nil;');
 	if (argnames.length) {
 		block.arguments.forEach(function (arg, i) {
 			if (util.isObjectType(arg.type, arg.encoding)) {
@@ -112,24 +111,16 @@ function generateBlockWrapper (state, json, block) {
 				code.push('\t\t\t' + util.getObjCReturnResult(arg, 'arg' + i, 'id _arg' + i +' ='));
 			}
 		});
-		code.push('\t\t\tNSArray *args = [@[' + argnames.join(', ') + '] retain];');
-		release = true;
+		code.push('\t\t\targs = @[' + argnames.join(', ') + '];');
 	}
-	if (release) {
-		code.push('\t\t\t[HyperloopUtils invokeCallback:callback args:args thisObject:callback];');
-		code.push('\t\t\t[args autorelease];');
-	} else {
-		code.push('\t\t\t[HyperloopUtils invokeCallback:callback args:nil thisObject:callback];');
-	}
-	code.push('\t\t\t[callback autorelease];');
+	code.push('\t\t\t[HyperloopUtils invokeCallback:callback args:nil thisObject:callback];');
 	code.push('\t\t};');
 	code.push('\t\tif ([NSThread isMainThread]) {');
 	code.push('\t\t\tCallback();');
 	code.push('\t\t} else {');
 	code.push('\t\t\tdispatch_async(dispatch_get_main_queue(), Callback);');
 	code.push('\t\t}');
-	code.push('\t} copy] autorelease];');
-	// code.push('\treturn [[Callback copy] autorelease];');
+	code.push('\t} copy];');
 	code.push('}');
 	return code.join('\n');
 }

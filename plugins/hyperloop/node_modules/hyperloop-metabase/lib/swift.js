@@ -10,8 +10,14 @@ var fs = require('fs'),
 /**
  * generate Swift AST output from a swift file
  */
-function generateSwiftAST (sdkPath, fn, callback) {
-	var child = spawn('xcrun', ['swiftc', '-sdk', sdkPath, '-dump-ast', fn]),
+function generateSwiftAST (sdkPath, iosMinVersion, xcodeTargetOS, fn, callback) {
+	var args = ['swiftc', '-sdk', sdkPath, '-dump-ast', fn];
+	if (xcodeTargetOS == 'iphoneos') {
+		args.push('-target');
+		//armv7 should be ok across all devices. But to note that we can do armv7s and arm64 here
+		args.push('armv7-apple-ios' + iosMinVersion);
+	}
+ 	var child = spawn('xcrun', args),	
 		buf = '';
 	// swiftc -sdk /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator9.0.sdk -dump-ast MySwift.swift
 	child.on('error', callback);
@@ -172,8 +178,8 @@ function generateSwiftMangledClassName (appName, className) {
 /**
  * parse a swift file into a metabase type JSON result
  */
-function generateSwiftMetabase (buildDir, sdk, sdkPath, iosMinVersion, metabase, framework, fn, callback) {
-	generateSwiftAST(sdkPath, fn, function (err, buf) {
+function generateSwiftMetabase (buildDir, sdk, sdkPath, iosMinVersion, xcodeTargetOS, metabase, framework, fn, callback) {
+	generateSwiftAST(sdkPath, iosMinVersion, xcodeTargetOS, fn, function (err, buf) {
 		if (err) { return callback(err); }
 		var classes = {},
 			classdef,
