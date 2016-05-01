@@ -27,6 +27,7 @@
 					<ListItem itemId="snackbar" platform="android" title="Snackbar"/>
 					<ListItem itemId="blur" title="Blur"/>
 					<ListItem itemId="sizefill" title="FILL vs SIZE"/>
+					<ListItem itemId="progress" platform="android" title="Circular Progress"/>
 				</ListSection>
 			</ListView>
 		</Window>

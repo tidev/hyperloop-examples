@@ -27,7 +27,7 @@ overrode the settings with other TSS, XML, or JS settings:
 	borderStyle: Ti.UI.INPUT_BORDERSTYLE_ROUNDED
 }
 'ScrollView' : {
-	contentWidth: Ti.UI.FILE,
+	contentWidth: Ti.UI.FILL,
 	contentHeight: Ti.UI.SIZE,
 	scrollType: 'vertical'
 }
