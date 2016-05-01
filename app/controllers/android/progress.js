@@ -33,6 +33,7 @@
     animation.setInterpolator(new LinearInterpolator());
     var listener = new AnimatorUpdateListener({
         onAnimationUpdate: function(animation) {
+            $.lbl_progress.text = animation.getAnimatedValue() + " %";
             mSweepAngle = endValue / 100 * animation.getAnimatedValue();
             view.invalidate();
         }
@@ -57,7 +58,7 @@
             mPaintProgress.setColor(colorSet);
 
             var rect = new RectF();
-            rect.set(0 + borderWidth, 0 + borderWidth, circleRadius + borderWidth, circleRadius + borderWidth);
+            rect.set(borderWidth*0.5, borderWidth*0.5, circleRadius - borderWidth*0.5, circleRadius - borderWidth*0.5);
 
             canvas.drawArc(rect, startValue, endValue, false, paint);
             canvas.drawArc(rect, mStartAngle, mSweepAngle, false, mPaintProgress);
@@ -65,7 +66,7 @@
     });
 
     view = new CustomView(activity);
-    layoutParams = new LayoutParams(ViewGroupLayoutParams.WRAP_CONTENT, ViewGroupLayoutParams.WRAP_CONTENT, Gravity.NO_GRAVITY);
+    layoutParams = new LayoutParams(circleRadius, circleRadius, Gravity.CENTER);
     layoutParams.setMargins(0, 0, 0, 0);
     view.setLayoutParams(layoutParams);
     container.add(view);
@@ -83,7 +84,7 @@
         }
         mSweepAngle = 0;
         mStartAngle = startValue + ((mSweepAngle + $.container.startPosition) % 360);
-        
+        $.lbl_progress.text = "0 %";
         isHalf = !isHalf;
         view.invalidate();
     });

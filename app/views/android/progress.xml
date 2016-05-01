@@ -3,6 +3,7 @@
 
 		<ScrollView>
 			<View id="container" start="0" end="360" startPosition="0" colorDefault="#ff0000" colorSet="#ffff00" radius="300"/>
+			<Label id="lbl_progress" text="0 %"/>
 			<Button id="btn_switch" title="Switch"/>
 			<Button id="btn_start" title="Animate"/>
 		</ScrollView>
