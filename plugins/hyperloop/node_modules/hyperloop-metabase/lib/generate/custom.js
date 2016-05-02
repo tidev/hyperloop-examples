@@ -285,7 +285,7 @@ function generateMethod (state, metabase, imports, cls, classDef, selector, enco
 			isVoid = details.returns.type === 'void';
 
 		code.push('\t@autoreleasepool {');
-		code.push('\t\tid refSelf = [self retain];');
+		code.push('\t\tid refSelf = self;');
 		if (!isVoid) {
 			code.push('\t\t__block id result_ = nil;');
 		}
@@ -295,15 +295,14 @@ function generateMethod (state, metabase, imports, cls, classDef, selector, enco
 			} else {
 				code.push('\t\t' + utillib.getObjCReturnResult(arg, 'arg' + i, 'id _arg' + i +' ='));
 			}
-			code.push('\t\t[_arg' + i +' retain];');
 			args.push('_arg' + i);
 		});
 		code.push('\t\tvoid(^Callback)(void) = ^{');
 		code.push('\t\t\t' + (isVoid ? '' : 'result_ = ') + '[HyperloopUtils invokeCustomCallback:@[' + args.join(', ') + '] identifier:@"' + identifier + '" thisObject: refSelf];');
 		args.forEach(function (n) {
-			code.push('\t\t\t[' + n + ' release];');
+			code.push('\t\t\t' + n + ';');
 		});
-		code.push('\t\t\t[refSelf release];');
+		code.push('\t\t\trefSelf;');
 		code.push('\t\t};');
 
 		code.push('\t\tif ([NSThread isMainThread]) {');

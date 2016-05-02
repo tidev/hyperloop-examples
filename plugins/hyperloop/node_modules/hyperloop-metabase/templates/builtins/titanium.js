@@ -193,6 +193,15 @@ module.exports = function (json, callback) {
 					value: 'NSString *'
 				}
 			},
+			window: {
+				name: 'window',
+				attributes: ['readonly'],
+				type: {
+					type: 'obj_interface',
+					encoding: '@',
+					value: 'UIWindow *'
+				}
+			},
 			userAgent: {
 				name: 'sessionId',
 				attributes: ['readonly'],
