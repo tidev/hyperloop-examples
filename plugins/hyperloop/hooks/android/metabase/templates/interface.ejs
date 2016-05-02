@@ -129,5 +129,27 @@ for (var propertyName in classDefinition.properties) {
 }
 -%>
 
+<%= sanitizedName %>.prototype.equals = function (other) {
+	if (!this._hasPointer) return null;
+
+	var result = this.$native.callNativeFunction({
+		func: 'equals',
+		instanceMethod: true,
+		args: [other]
+	});
+	return result;
+};
+
+<%= sanitizedName %>.prototype.hashCode = function () {
+	if (!this._hasPointer) return null;
+
+	var result = this.$native.callNativeFunction({
+		func: 'hashCode',
+		instanceMethod: true,
+		args: Array.prototype.slice.call(arguments)
+	});
+	return result;
+};
+
 // export the interface
 module.exports = <%= sanitizedName %>;

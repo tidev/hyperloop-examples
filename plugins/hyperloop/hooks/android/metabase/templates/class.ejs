@@ -1,6 +1,10 @@
 <%
 var sanitizedName = classDefinition.name.replace('$', '.'),
+	fullName = sanitizedName,
 	parts = sanitizedName.split('.'),
+	baseName = parts[parts.length - 1],
+	isInnerClass = (classDefinition.name.indexOf('$') != -1),
+	enclosingClassName,
 	BASE_URL = 'http://developer.android.com/reference/' + classDefinition.name.replace(/\./g, '/').replace('$', '.') + '.html'; // Used to build up API URLs
 -%>
 /**
@@ -16,10 +20,12 @@ var Hyperloop = require('hyperloop');
 
 <%
 // build up the namespace to hang the class off of
-if (classDefinition.name.indexOf('$') != -1) {
+if (isInnerClass) {
 	// it's a nested class. Load up the parent, then just hang our class off of that.
+	enclosingClassName = classDefinition.name.slice(0, classDefinition.name.indexOf('$'));
+	sanitizedName = 'EnclosingClass.' + baseName;
 -%>
-var EnclosingClass = require('<%= classDefinition.name.slice(0, classDefinition.name.indexOf('$')) %>');
+var EnclosingClass = require('<%= enclosingClassName %>');
 <%
 } else {
 	for (var i = 0; i < parts.length - 1; i++) { // don't include last segment: class base name
@@ -31,7 +37,7 @@ global.<%= parts.slice(0, i + 1).join('.') %> = global.<%= parts.slice(0, i + 1)
 -%>
 
 /**
- * @class <%= sanitizedName %>
+ * @class <%= fullName %>
 <% if (classDefinition.superClass) {-%> * @extends <%= classDefinition.superClass.replace('$', '.') %> <%} %>
  * @constructor
  * @see {@link <%- BASE_URL %>}
@@ -66,18 +72,18 @@ var SuperClass = require('<%- classDefinition.superClass %>');
 } else {
 -%>
 <%= sanitizedName %>.toString = function() {
-	return "[object " + this.className + "]";
+	return '[object ' + this.className + ']';
 };
 
 <%= sanitizedName %>.prototype.toString = function() {
 	if (this._hasPointer) {
-		return "[object " + this.className + "]";
+		return '[object ' + this.className + ']';
 	}
 	return null;
 };
 
 <%= sanitizedName %>.isInstanceOf = function (self, cls) {
-	if (typeof cls !== "function" || typeof self !== "function") { return false; }
+	if (typeof cls !== 'function' || typeof self !== 'function') { return false; }
 	while (self) {
 		if (cls === self || self instanceof cls || self.className === cls.className) {
 			return true;
@@ -90,8 +96,8 @@ var SuperClass = require('<%- classDefinition.superClass %>');
 }
 -%>
 
-<%= sanitizedName %>.className = "<%= classDefinition.name %>";
-<%= sanitizedName %>.prototype.className = "<%= classDefinition.name %>";
+<%= sanitizedName %>.className = '<%= classDefinition.name %>';
+<%= sanitizedName %>.prototype.className = '<%= classDefinition.name %>';
 
 // class property
 Object.defineProperty(<%= sanitizedName %>, 'class', {
@@ -182,6 +188,24 @@ for (var propertyName in classDefinition.properties) {
  * @see {@link <%- BASE_URL %>#<%= propertyName %>}
  */
 <%= sanitizedName %>.<%= propertyName %> = <%- propertyDefinition.value %>;
+<%
+	}
+}
+-%>
+
+// Inner classes
+<%
+if (classDefinition.innerClasses) {
+	for (var ic = 0; ic < classDefinition.innerClasses.length; ic++) {
+		var innerClassName = classDefinition.innerClasses[ic];
+		var baseInnerClassName = innerClassName.slice(innerClassName.indexOf('$') + 1);
+-%>
+Object.defineProperty(<%= sanitizedName %>, '<%= baseInnerClassName %>', {
+	get: function() {
+		return require('<%= innerClassName %>');
+	},
+	enumerable: true
+});
 <%
 	}
 }
