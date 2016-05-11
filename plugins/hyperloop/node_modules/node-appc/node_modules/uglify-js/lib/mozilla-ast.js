@@ -146,14 +146,7 @@
               case "boolean":
                 return new (val ? AST_True : AST_False)(args);
               default:
-                var rx = M.regex;
-                if (rx && rx.pattern) {
-                    // RegExpLiteral as per ESTree AST spec
-                    args.value = new RegExp(rx.pattern, rx.flags).toString();
-                } else {
-                    // support legacy RegExp
-                    args.value = M.regex && M.raw ? M.raw : val;
-                }
+                args.value = val;
                 return new AST_RegExp(args);
             }
         },
@@ -341,19 +334,6 @@
         };
     });
 
-    def_to_moz(AST_RegExp, function To_Moz_RegExpLiteral(M) {
-        var value = M.value;
-        return {
-            type: "Literal",
-            value: value,
-            raw: value.toString(),
-            regex: {
-                pattern: value.source,
-                flags: value.toString().match(/[gimuy]*$/)[0]
-            }
-        };
-    });
-
     def_to_moz(AST_Constant, function To_Moz_Literal(M) {
         var value = M.value;
         if (typeof value === 'number' && (value < 0 || (value === 0 && 1 / value < 0))) {
@@ -363,15 +343,13 @@
                 prefix: true,
                 argument: {
                     type: "Literal",
-                    value: -value,
-                    raw: M.start.raw
+                    value: -value
                 }
             };
         }
         return {
             type: "Literal",
-            value: value,
-            raw: M.start.raw
+            value: value
         };
     });
 
@@ -391,12 +369,6 @@
 
     /* -----[ tools ]----- */
 
-    function raw_token(moznode) {
-        if (moznode.type == "Literal") {
-            return moznode.raw != null ? moznode.raw : moznode.value + "";
-        }
-    }
-
     function my_start_token(moznode) {
         var loc = moznode.loc, start = loc && loc.start;
         var range = moznode.range;
@@ -407,8 +379,7 @@
             pos     : range ? range[0] : moznode.start,
             endline : start && start.line,
             endcol  : start && start.column,
-            endpos  : range ? range[0] : moznode.start,
-            raw     : raw_token(moznode),
+            endpos  : range ? range[0] : moznode.start
         });
     };
 
@@ -422,14 +393,13 @@
             pos     : range ? range[1] : moznode.end,
             endline : end && end.line,
             endcol  : end && end.column,
-            endpos  : range ? range[1] : moznode.end,
-            raw     : raw_token(moznode),
+            endpos  : range ? range[1] : moznode.end
         });
     };
 
     function map(moztype, mytype, propmap) {
         var moz_to_me = "function From_Moz_" + moztype + "(M){\n";
-        moz_to_me += "return new U2." + mytype.name + "({\n" +
+        moz_to_me += "return new " + mytype.name + "({\n" +
             "start: my_start_token(M),\n" +
             "end: my_end_token(M)";
 
@@ -472,8 +442,8 @@
         //me_to_moz = parse(me_to_moz).print_to_string({ beautify: true });
         //console.log(moz_to_me);
 
-        moz_to_me = new Function("U2", "my_start_token", "my_end_token", "from_moz", "return(" + moz_to_me + ")")(
-            exports, my_start_token, my_end_token, from_moz
+        moz_to_me = new Function("my_start_token", "my_end_token", "from_moz", "return(" + moz_to_me + ")")(
+            my_start_token, my_end_token, from_moz
         );
         me_to_moz = new Function("to_moz", "to_moz_block", "return(" + me_to_moz + ")")(
             to_moz, to_moz_block

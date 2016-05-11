@@ -123,7 +123,9 @@ function generateFromJSON (name, dir, json, state, callback, includes) {
 
 		// remove these functions for now until we can fix them
 		['NSLogv', 'NSLog', 'UIApplicationMain'].forEach(function (fn) {
-			delete json.functions[fn];
+			if (json.functions) {
+				delete json.functions[fn];
+			}
 		});
 
 		// we must have a root object even those this is a protocol and

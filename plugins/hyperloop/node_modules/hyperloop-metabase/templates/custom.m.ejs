@@ -34,8 +34,8 @@
 +(NSString *)mappingForClass: (NSString *)classname {
 	static NSDictionary *mappings = nil;
 	if (mappings == nil) {
-		mappings = [[NSDictionary dictionaryWithObjects:@[<%-Object.keys(data.mappings).map(function (k) { return '@"' + data.mappings[k] + '"'; }).join(', ')%>]
-								 forKeys:@[<%-Object.keys(data.mappings).map(function (k) { return '@"' + k + '"'; }).join(', ')%>]] retain];
+		mappings = [NSDictionary dictionaryWithObjects:@[<%-Object.keys(data.mappings).map(function (k) { return '@"' + data.mappings[k] + '"'; }).join(', ')%>]
+								 forKeys:@[<%-Object.keys(data.mappings).map(function (k) { return '@"' + k + '"'; }).join(', ')%>]];
 	}
 	return [mappings objectForKey:classname];
 }

@@ -1,3 +1,9 @@
 'NavigationWindow': {
 	swipeBack: false
 }
+
+'ListItem': {
+	accessoryType: Ti.UI.LIST_ACCESSORY_TYPE_DISCLOSURE,
+	height: 43,
+	left: 15
+}

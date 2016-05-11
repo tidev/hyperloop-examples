@@ -4,7 +4,12 @@ The following application demonstrates using Hyperloop for direct native API acc
 
 Learn more about Hyperloop by visiting [Appcelerator Labs](https://labs.appcelerator.com/project/55f74a9f421c44837717716b/Hyperloop-Module).
 
-> This example application is work-in-progress and is being actively updated during the developing of Titanium 6.0 and Hyperloop. Check back often for more examples and submit a PR if you have your own cool examples!
+> This example application is work-in-progress and is being actively updated during the developing of Titanium 5.4.0 and Hyperloop. Check back often for more examples and submit a PR if you have your own cool examples!
+
+# Requirements
+
+- [x] Titanium Mobile 5.4.0+
+- [x] Alloy 1.8.0+
 
 # Running this app
 
@@ -22,4 +27,4 @@ You can download the [Android Programming Guide](https://s3-us-west-2.amazonaws.
 
 # License
 
-This content here is provided on an "as is" basis without any official support or warranty. Source and object code is Copyright (c) 2015 by Appcelerator, Inc. All Rights Reserved. Permission to use the example source code (such as Alloy views, controllers, etc) in your own application is expressly granted. Hyperloop is a registered trademark of Appcelerator, Inc. 
+This content here is provided on an "as is" basis without any official support or warranty. Source and object code is Copyright &copy; 2015-2016 by Appcelerator, Inc. All Rights Reserved. Permission to use the example source code (such as Alloy views, controllers, etc) in your own application is expressly granted. Hyperloop is a registered trademark of Appcelerator, Inc. 

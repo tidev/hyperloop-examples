@@ -1,6 +1,11 @@
 <%
-var sanitizedName = classDefinition.name.replace('$', '.'),
-	parts = sanitizedName.split('.'),
+var sanitizedName = classDefinition.safeName,
+	fullName = classDefinition.name,
+	parts = fullName.replace('$', '.').split('.'),
+	baseName = parts[parts.length - 1],
+	isInnerClass = (fullName.indexOf('$') != -1),
+	isGlobal = parts.length == 1,
+	parent,
 	BASE_URL = 'http://developer.android.com/reference/' + classDefinition.name.replace(/\./g, '/').replace('$', '.') + '.html'; // Used to build up API URLs
 -%>
 /**
@@ -10,42 +15,40 @@ var sanitizedName = classDefinition.name.replace('$', '.'),
  *
  * WARNING: This is generated code. Modify at your own risk and without support
  *
- * @module <%= sanitizedName %>
+ * @module <%= fullName %>
  */
 var Hyperloop = require('hyperloop');
 
 <%
-// build up the namespace to hang the class off of
-if (classDefinition.name.indexOf('$') != -1) {
+if (isInnerClass) {
 	// it's a nested class. Load up the parent, then just hang our class off of that.
+	parent = classDefinition.name.slice(0, classDefinition.name.indexOf('$'));
 -%>
-var EnclosingClass = require('<%= classDefinition.name.slice(0, classDefinition.name.indexOf('$')) %>');
+var EnclosingClass = require('<%= parent %>');
 <%
-} else {
-	for (var i = 0; i < parts.length - 1; i++) { // don't include last segment: class base name
+} else if (parts.length > 1) {
+	// hang off the package
+	parent = parts.slice(0, parts.length - 1).join('.');
 -%>
-global.<%= parts.slice(0, i + 1).join('.') %> = global.<%= parts.slice(0, i + 1).join('.') %> || {};
-<%
-	}
-}
--%>
+var parentPackage = require('<%= parent %>');
+<% } -%>
 
 /**
- * @class <%= sanitizedName %>
+ * @class <%= fullName %>
 <% if (classDefinition.superClass) {-%> * @extends <%= classDefinition.superClass.replace('$', '.') %> <%} %>
  * @constructor
  * @see {@link <%- BASE_URL %>}
  **/
-<%= sanitizedName %> = function() {
+var <%= sanitizedName %> = function() {
 	var result;
 	// Allow the constructor to either invoke the real java constructor, or function as a "wrapping" method that will take
 	// a single argument that is a native hyperloop proxy for this class type and just wraps it in our JS type.
-	if (arguments.length == 1 && arguments[0].isNativeProxy && arguments[0].isInstanceProxy && arguments[0].apiName === '<%= classDefinition.name %>') {
+	if (arguments.length == 1 && arguments[0].isNativeProxy && arguments[0].isInstanceProxy && arguments[0].isInstanceOf('<%= classDefinition.name %>')) {
 		result = arguments[0];
 	}
 	else {
 <% if (classDefinition.attributes.indexOf('abstract') != -1) { -%>
-		Ti.API.error('Cannot instantiate instance of abstract class: <%= classDefinition.name %>. Create a subclass using <%= sanitizedName %>.extend();' );
+		Ti.API.error('Cannot instantiate instance of abstract class: <%= classDefinition.name %>. Create a subclass using <%= fullName %>.extend();' );
 <% } else { -%>
 		result = <%= sanitizedName %>.class.newInstance(arguments);
 <% } -%>
@@ -55,6 +58,9 @@ global.<%= parts.slice(0, i + 1).join('.') %> = global.<%= parts.slice(0, i + 1)
 	this._hasPointer = result != null;
 	this._private = {};
 };
+<% if (isGlobal) { -%>
+global.<%= baseName %> = <%= sanitizedName %>;
+<% } -%>
 
 <% if (classDefinition.superClass) {
 	// This is a subclass, let's extend the superclass!
@@ -62,36 +68,33 @@ global.<%= parts.slice(0, i + 1).join('.') %> = global.<%= parts.slice(0, i + 1)
 var SuperClass = require('<%- classDefinition.superClass %>');
 <%= sanitizedName %>.prototype = Object.create(SuperClass.prototype);
 <%= sanitizedName %>.prototype.constructor = <%= sanitizedName %>;
+
+Object.defineProperty(<%= sanitizedName %>.prototype, 'super', {
+	get: function() {
+		if (!this._hasPointer) return null;
+		return new <%= sanitizedName %>(this.$native.super);
+	},
+	enumerable: true
+});
 <%
 } else {
 -%>
 <%= sanitizedName %>.toString = function() {
-	return "[object " + this.className + "]";
+	return '[object ' + this.className + ']';
 };
 
 <%= sanitizedName %>.prototype.toString = function() {
 	if (this._hasPointer) {
-		return "[object " + this.className + "]";
+		return '[object ' + this.className + ']';
 	}
 	return null;
-};
-
-<%= sanitizedName %>.isInstanceOf = function (self, cls) {
-	if (typeof cls !== "function" || typeof self !== "function") { return false; }
-	while (self) {
-		if (cls === self || self instanceof cls || self.className === cls.className) {
-			return true;
-		}
-		self = self.__superclass__;
-	}
-	return false;
 };
 <%
 }
 -%>
 
-<%= sanitizedName %>.className = "<%= classDefinition.name %>";
-<%= sanitizedName %>.prototype.className = "<%= classDefinition.name %>";
+<%= sanitizedName %>.className = '<%= classDefinition.name %>';
+<%= sanitizedName %>.prototype.className = '<%= classDefinition.name %>';
 
 // class property
 Object.defineProperty(<%= sanitizedName %>, 'class', {
@@ -113,7 +116,7 @@ if (classDefinition.attributes.indexOf('final') == -1 &&
 	var subclassProxy = Hyperloop.extend('<%= classDefinition.name %>');
 
 	// Generate a JS wrapper for our dynamic subclass
-	var whatever = function() {
+	var SubClass = function() {
 		var result = subclassProxy.newInstance(arguments),
 			instance = this,
 			copy = overrides,
@@ -152,13 +155,11 @@ if (classDefinition.attributes.indexOf('final') == -1 &&
 		this.$native = result;
 		this._hasPointer = result != null;
 		this._private = {};
-
-		// TODO Set up super?!
 	};
 	// it extends the JS wrapper for the parent type
-	whatever.prototype = Object.create(<%= sanitizedName %>.prototype);
-	whatever.prototype.constructor = whatever;
-	return whatever;
+	SubClass.prototype = Object.create(<%= sanitizedName %>.prototype);
+	SubClass.prototype.constructor = SubClass;
+	return SubClass;
 };
 <%
 }
@@ -182,6 +183,24 @@ for (var propertyName in classDefinition.properties) {
  * @see {@link <%- BASE_URL %>#<%= propertyName %>}
  */
 <%= sanitizedName %>.<%= propertyName %> = <%- propertyDefinition.value %>;
+<%
+	}
+}
+-%>
+
+// Inner classes
+<%
+if (classDefinition.innerClasses) {
+	for (var ic = 0; ic < classDefinition.innerClasses.length; ic++) {
+		var innerClassName = classDefinition.innerClasses[ic];
+		var baseInnerClassName = innerClassName.slice(innerClassName.indexOf('$') + 1);
+-%>
+Object.defineProperty(<%= sanitizedName %>, '<%= baseInnerClassName %>', {
+	get: function() {
+		return require('<%= innerClassName %>');
+	},
+	enumerable: true
+});
 <%
 	}
 }

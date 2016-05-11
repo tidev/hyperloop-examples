@@ -1,0 +1,52 @@
+<%
+var sanitizedName = packageDefinition.safeName,
+	parts = packageDefinition.name.split('.'),
+	parent = parts.slice(0, parts.length - 1).join('.'),
+	baseName = parts[parts.length - 1],
+	BASE_URL = 'http://developer.android.com/reference/' + packageDefinition.name.replace(/\./g, '/') + '/package-summary.html';
+-%>
+/**
+ * Hyperloop
+ * Generated code is Copyright (c) <%= new Date().getFullYear() %> Appcelerator, Inc. and subject to the
+ * Appcelerator Platform Subscription agreement.
+ *
+ * WARNING: This is generated code. Modify at your own risk and without support
+ *
+ * @module <%= packageDefinition.name %>
+ */
+<% if (parts.length > 1) { -%>
+var parent = require('<%= parent %>') || {};
+<% } else { -%>
+var parent = global;
+<% } -%>
+
+/**
+ * Java Package exposed in JS.
+ * <%- BASE_URL %>
+ **/
+var <%= sanitizedName %> = {};
+parent.<%= baseName %> = <%= sanitizedName %>;
+
+// Types in package
+<%
+if (packageDefinition.classes) {
+	for (var ic = 0; ic < packageDefinition.classes.length; ic++) {
+		var className = packageDefinition.classes[ic],
+			baseClassName = className.slice(className.lastIndexOf('.') + 1);
+		if (className.indexOf('$') != -1) { // skip nested classes
+			continue;
+		}
+-%>
+Object.defineProperty(<%= sanitizedName %>, '<%= baseClassName %>', {
+	get: function() {
+		return require('<%= className %>');
+	},
+	enumerable: true
+});
+<%
+	}
+}
+-%>
+
+// export the interface
+module.exports = <%= sanitizedName %>;

@@ -1,30 +1,43 @@
+<%
+var sanitizedName = classDefinition.safeName,
+	fullName = classDefinition.name,
+	parts = fullName.replace('$', '.').split('.'),
+	baseName = parts[parts.length - 1],
+	isInnerClass = (fullName.indexOf('$') != -1),
+	isGlobal = parts.length == 1,
+	parent,
+	BASE_URL = 'http://developer.android.com/reference/' + classDefinition.name.replace(/\./g, '/').replace('$', '.') + '.html'; // Used to build up API URLs
+-%>
 /**
  * Hyperloop
  * Generated code is Copyright (c) <%= new Date().getFullYear() %> Appcelerator, Inc. and subject to the
  * Appcelerator Platform Subscription agreement.
  *
  * WARNING: This is generated code. Modify at your own risk and without support
+ *
+ * @module <%= sanitizedName %>
  */
 var Hyperloop = require('hyperloop');
 
 <%
-var sanitizedName = classDefinition.name.replace('$', '.'),
-	parts = sanitizedName.split('.'),
-	BASE_URL = 'http://developer.android.com/reference/' + classDefinition.name.replace(/\./g, '/').replace('$', '.') + '.html'; // Used to build up API URLs
-
-// build up the namespace to hang the class off of
-for (var i = 0; i < parts.length - 1; i++) { // don't include last segment: class base name
+if (isInnerClass) {
+	// it's a nested class. Load up the parent, then just hang our class off of that.
+	parent = classDefinition.name.slice(0, classDefinition.name.indexOf('$'));
 -%>
-global.<%= parts.slice(0, i + 1).join('.') %> = global.<%= parts.slice(0, i + 1).join('.') %> || {};
+var EnclosingClass = require('<%= parent %>');
 <%
-}
+} else if (parts.length > 1) {
+	// hang off the package
+	parent = parts.slice(0, parts.length - 1).join('.');
 -%>
+var parentPackage = require('<%= parent %>');
+<% } -%>
 
 /**
  * constructor
  * <%- BASE_URL %>
  **/
-<%= sanitizedName %> = function() {
+var <%= sanitizedName %> = function() {
 	var result;
 	// Allow the constructor to either invoke the real java constructor, or function as a "wrapping" method that will take
 	// a single argument that is a native hyperloop proxy for this class type and just wraps it in our JS type.
@@ -75,6 +88,10 @@ global.<%= parts.slice(0, i + 1).join('.') %> = global.<%= parts.slice(0, i + 1)
 	this._hasPointer = result != null;
 	this._private = {};
 };
+
+<% if (isGlobal) { -%>
+global.<%= baseName %> = <%= sanitizedName %>;
+<% } -%>
 
 <%= sanitizedName %>.toString = function() {
 	return "[object " + this.className + "]";
@@ -128,6 +145,28 @@ for (var propertyName in classDefinition.properties) {
 	}
 }
 -%>
+
+<%= sanitizedName %>.prototype.equals = function (other) {
+	if (!this._hasPointer) return null;
+
+	var result = this.$native.callNativeFunction({
+		func: 'equals',
+		instanceMethod: true,
+		args: [other]
+	});
+	return result;
+};
+
+<%= sanitizedName %>.prototype.hashCode = function () {
+	if (!this._hasPointer) return null;
+
+	var result = this.$native.callNativeFunction({
+		func: 'hashCode',
+		instanceMethod: true,
+		args: Array.prototype.slice.call(arguments)
+	});
+	return result;
+};
 
 // export the interface
 module.exports = <%= sanitizedName %>;
