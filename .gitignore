@@ -10,5 +10,5 @@ tmp
 .settings
 Thumbs.db
 Pods
-i18n
-platform
+/i18n
+/platform
