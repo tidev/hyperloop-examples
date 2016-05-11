@@ -1,6 +1,6 @@
 /**
  * Hyperloop ®
- * Copyright (c) 2015 by Appcelerator, Inc.
+ * Copyright (c) 2015-2016 by Appcelerator, Inc.
  * All Rights Reserved. This library contains intellectual
  * property protected by patents and/or patents pending.
  */
@@ -43,22 +43,33 @@ exports.cliVersion = '>=3.2';
 		jars = [],
 		aars = {},
 		cleanup = [],
-		requireRegex = /require\s*\([\\"']+([\w_\/-\\.]+)[\\"']+\)/ig;
+		requireRegex = /require\s*\([\\"']+([\w_\/-\\.\\*]+)[\\"']+\)/ig;
 
 	/*
 	 Config.
 	 */
+	function HyperloopAndroidBuilder (_logger, _config, _cli, appc, hyperloopConfig, builder) {
+		this.logger = _logger;
+		this.config = _config;
+		this.cli = _cli;
+		this.appc = appc;
+		this.cfg = hyperloopConfig;
+		this.builder = builder;
+	}
 
-	exports.init = function (_logger, _config, _cli, appc, hyperloopConfig, next) {
-		var builder = this;
+	module.exports = HyperloopAndroidBuilder;
 
-		config = _config;
-		cli = _cli;
-		logger = _logger;
+	HyperloopAndroidBuilder.prototype.init = function (next) {
+		var builder = this.builder;
+
+		config = this.config;
+		cli = this.cli;
+		logger = this.logger;
+
 		afs = appc.fs;
 
 		// Verify minimum SDK version
-		if (!appc.version.satisfies(_cli.sdk.manifest.version, '>=' + TI_MIN)) {
+		if (!appc.version.satisfies(cli.sdk.manifest.version, '>=' + TI_MIN)) {
 			logger.error('You cannot use the Hyperloop compiler with a version of Titanium older than ' + TI_MIN);
 			logger.error('Set the value of <sdk-version> to a newer version in tiapp.xml.');
 			logger.error('For example:');
@@ -66,10 +77,10 @@ exports.cliVersion = '>=3.2';
 			process.exit(1);
 		}
 
-		resourcesDir = path.join(cli.argv['project-dir'], 'Resources');
+		resourcesDir = path.join(builder.projectDir, 'Resources');
 		hyperloopResources = path.join(resourcesDir, 'android', 'hyperloop');
 
-		var buildDir = path.join(cli.argv['project-dir'], 'build');
+		var buildDir = path.join(builder.projectDir, 'build');
 		var buildPlatform = path.join(buildDir, 'platform');
 		if (!afs.exists(buildDir)) {
 			fs.mkdirSync(buildDir);
@@ -189,7 +200,7 @@ exports.cliVersion = '>=3.2';
 			}
 		});
 
-		prepareBuild(this, next);
+		prepareBuild(builder, next);
 	};
 
 	/*
@@ -221,9 +232,9 @@ exports.cliVersion = '>=3.2';
 				}
 				findit(platformAndroid)
 					.on('file', function (file, stat) {
-						if (path.extname(file) == '.jar') {
+						if (path.extname(file) === '.jar') {
 							jars.push(file);
-						} else if (path.extname(file) == '.aar') {
+						} else if (path.extname(file) === '.aar') {
 							aarFiles.push(file);
 						}
 					})
@@ -436,28 +447,51 @@ exports.cliVersion = '>=3.2';
 					found = [];
 				logger.trace('Searching for hyperloop requires in: ' + file);
 				(contents.match(requireRegex) || []).forEach(function (m) {
-					var re = /require\s*\([\\"']+([\w_\/-\\.]+)[\\"']+\)/i.exec(m),
+					var re = /require\s*\([\\"']+([\w_\/-\\.\\*]+)[\\"']+\)/i.exec(m),
 						className = re[1],
-						lastIndex;
+						lastIndex,
+						validPackage = false,
+						type,
+						ref,
+						str,
+						packageRegexp = new RegExp('^' + className.replace('.', '\\.').replace('*', '[A-Z]+[a-zA-Z0-9]+') + '$');
 
 					// Is this a Java type we found in the JARs/APIs?
 					logger.trace('Checking require for: ' + className);
-					var type = metabaseJSON.classes[className];
-					if (!type) {
-						// fallback for using dot notation to refer to nested class
-						lastIndex = className.lastIndexOf('.');
-						className = className.slice(0, lastIndex) + '$' + className.slice(lastIndex + 1);
+
+					// Look for requires using wildcard package names and assume all types under that namespace!
+					if (className.indexOf('.*') == className.length - 2) {
+						// Check that it's a valid package name and search for all the classes directly under that package!
+						for (var mClass in metabaseJSON.classes) {
+							if (mClass.match(packageRegexp)) {
+								found.push('hyperloop/' + mClass);
+								validPackage = true;
+							}
+						}
+						if (validPackage) {
+							ref = 'hyperloop/' + className.slice(0, className.length - 2); // drop the .* ending
+							str = "require('" + ref + "')";
+							contents = replaceAll(contents, m, str);
+						}
+					} else {
+						// single type
 						type = metabaseJSON.classes[className];
 						if (!type) {
-							return;
+							// fallback for using dot notation to refer to nested class
+							lastIndex = className.lastIndexOf('.');
+							className = className.slice(0, lastIndex) + '$' + className.slice(lastIndex + 1);
+							type = metabaseJSON.classes[className];
+							if (!type) {
+								return;
+							}
 						}
+						// Looks like it's a Java type, so let's hack it and add it to our list!
+						// replace the require to point to our generated file path
+						ref = 'hyperloop/' + className;
+						str = "require('" + ref + "')";
+						contents = replaceAll(contents, m, str);
+						found.push(ref);
 					}
-					// Looks like it's a Java type, so let's hack it and add it to our list!
-					// replace the require to point to our generated file path
-					var ref = 'hyperloop/' + className;
-					var str = "require('" + ref + "')";
-					contents = replaceAll(contents, m, str);
-					found.push(ref);
 				});
 				return [found, contents];
 			}

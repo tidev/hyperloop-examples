@@ -1,13 +1,13 @@
 /**
  * Hyperloop ®
- * Copyright (c) 2015 by Appcelerator, Inc.
+ * Copyright (c) 2015-2016 by Appcelerator, Inc.
  * All Rights Reserved. This library contains intellectual
  * property protected by patents and/or patents pending.
  */
 
 'use strict';
 
-exports.init = init;
+module.exports = HyperloopiOSBuilder;
 
 // set this to enforce a ios-min-version
 var IOS_MIN = '7.0';
@@ -24,13 +24,6 @@ var path = require('path'),
 	async = hm.async,
 	wrench = hm.wrench,
 	HL = chalk.magenta.inverse('Hyperloop');
-
-/**
- * Create the Hyperloop builder and run it.
- */
-function init(logger, config, cli, appc, hyperloopConfig, callback) {
-	new HyperloopiOSBuilder(logger, config, cli, appc, hyperloopConfig, this).run(callback);
-}
 
 /**
  * The Hyperloop builder object. Contains the build logic and state.
@@ -55,7 +48,7 @@ function HyperloopiOSBuilder(logger, config, cli, appc, hyperloopConfig, builder
 	this.resourcesDir = path.join(builder.projectDir, 'Resources');
 	this.hyperloopBuildDir = path.join(builder.projectDir, 'build', 'hyperloop', 'ios');
 	this.hyperloopJSDir = path.join(this.hyperloopBuildDir, 'js');
-	this.hyperloopResourcesDir = path.join(this.resourcesDir, 'hyperloop');
+	this.hyperloopResourcesDir = path.join(this.builder.xcodeAppDir, 'hyperloop');
 
 	this.forceMetabase = false;
 	this.forceStubGeneration = false;
@@ -77,26 +70,37 @@ function HyperloopiOSBuilder(logger, config, cli, appc, hyperloopConfig, builder
 }
 
 /**
+ * called for each JS resource to process them
+ */
+HyperloopiOSBuilder.prototype.copyResource = function (builder, callback) {
+	this.patchJSFile(builder.args[1], callback);
+};
+
+/**
  * The main build logic.
  * @param {Function} callback - A function to call after the logic finishes.
  */
-HyperloopiOSBuilder.prototype.run = function run(callback) {
-	var start = Date.now();
-	this.logger.info('Starting ' + HL + ' assembly');
-
+HyperloopiOSBuilder.prototype.init = function init(callback) {
 	this.appc.async.series(this, [
 		'validate',
 		'setup',
+		'wireupBuildHooks',
 		'getSystemFrameworks',
 		'generateCocoaPods',
-		'processThirdPartyFrameworks',
-		'patchJSFiles',
+		'processThirdPartyFrameworks'
+	], callback);
+};
+
+HyperloopiOSBuilder.prototype.run = function run(builder, callback) {
+	var start = Date.now();
+	this.logger.info('Starting ' + HL + ' assembly');
+	this.appc.async.series(this, [
 		'generateSourceFiles',
 		'generateSymbolReference',
 		'compileResources',
 		'generateStubs',
 		'copyHyperloopJSFiles',
-		'wireupBuildHooks'
+		'updateXcodeProject'
 	], function (err) {
 		this.logger.info('Finished ' + HL + ' assembly in ' + (Math.round((Date.now() - start) / 10) / 100) + ' seconds');
 		callback(err);
@@ -322,137 +326,104 @@ HyperloopiOSBuilder.prototype.processThirdPartyFrameworks = function processThir
 };
 
 /**
- * Finds all JavaScript files in the Resources directory, updates them if they contain
- * any frameworks, and flags the metabase to be rebuilt.
+ * Re-write generated JS source
  */
-HyperloopiOSBuilder.prototype.patchJSFiles = function patchJSFiles(callback) {
-	var jsRegExp = /\.js$/;
-	var jsFiles = [];
+HyperloopiOSBuilder.prototype.patchJSFile = function patchJSFile(file, cb) {
+	// look for any require which matches our hyperloop system frameworks
+	var contents = fs.readFileSync(file).toString();
 
-	// find all js files
-	(function walk(dir) {
-		fs.readdirSync(dir).forEach(function (name) {
-			var file = path.join(dir, name);
-			if (fs.existsSync(file)) {
-				if (fs.statSync(file).isDirectory()) {
-					walk(file);
-				} else if (jsRegExp.test(name)) {
-					jsFiles.push(file);
-				}
+	// skip empty content
+	if (!contents.length) {
+		return cb();
+	}
+
+	// parse the contents
+	// TODO: move all the regex require stuff into the parser
+	this.parserState = hm.generate.parseFromBuffer(contents, file, this.parserState || undefined);
+
+	// empty AST
+	if (!this.parserState) {
+		return cb();
+	}
+
+	var relPath = path.relative(this.resourcesDir, file);
+
+	// get the result source code in case it was transformed and replace all system framework
+	// require() calls with the Hyperloop layer
+	var newContents = (this.parserState.getSourceCode() || contents).replace(
+		/require\s*\([\\"']+([\w_/-\\.]+)[\\"']+\)/ig,
+		function (orig, match) {
+			// hyperloop includes will always have a slash
+			var tok = match.split('/');
+			var pkg = tok[0];
+
+			if (pkg === 'alloy' || pkg.charAt(0) === '.' || pkg.charAt(0) === '/') {
+				return orig;
 			}
-		});
-	}(this.resourcesDir));
 
-	// analyizes a js file and looks for all `require()` calls requesting a system framework.
-	async.eachLimit(jsFiles, 5, function (file, cb) {
-		// look for any require which matches our hyperloop system frameworks
-		var contents = fs.readFileSync(file).toString();
+			// if we use something like require("UIKit")
+			// that should require the helper such as require("UIKit/UIKit");
+			var className = tok[1] || pkg;
+			var framework = this.frameworks[pkg];
+			var include = framework && framework[className];
+			var isBuiltin = pkg === 'Titanium';
 
-		// skip empty content
-		if (!contents.length) {
-			return cb();
-		}
+			// if the framework is not found, then check if it was possibly mispelled
+			if (!framework && !isBuiltin) {
+				var pkgSoundEx = soundEx(pkg);
+				var maybes = Object.keys(this.frameworks).filter(function (frameworkName) {
+					return soundEx(frameworkName) === pkgSoundEx;
+				});
 
-		// parse the contents
-		// TODO: move all the regex require stuff into the parser
-		this.parserState = hm.generate.parseFromBuffer(contents, file, this.parserState || undefined);
-
-		// empty AST
-		if (!this.parserState) {
-			return cb();
-		}
-
-		var relPath = path.relative(this.resourcesDir, file);
-
-		// get the result source code in case it was transformed and replace all system framework
-		// require() calls with the Hyperloop layer
-		var newContents = (this.parserState.getSourceCode() || contents).replace(
-			/require\s*\([\\"']+([\w_/-\\.]+)[\\"']+\)/ig,
-			function (orig, match) {
-				// hyperloop includes will always have a slash
-				var tok = match.split('/');
-				var pkg = tok[0];
-
-				if (pkg === 'alloy' || pkg.charAt(0) === '.' || pkg.charAt(0) === '/') {
-					return orig;
+				if (maybes.length) {
+					this.logger.warn('The iOS framework "' + pkg + '" could not be found. Are you trying to use ' +
+						maybes.map(function (s) { return '"' + s + '"' }).join(' or ') + ' instead? (' + relPath + ')');
 				}
 
-				// if we use something like require("UIKit")
-				// that should require the helper such as require("UIKit/UIKit");
-				var className = tok[1] || pkg;
-				var framework = this.frameworks[pkg];
-				var include = framework && framework[className];
-				var isBuiltin = pkg === 'Titanium';
+				return orig;
+			}
 
-				// if the framework is not found, then check if it was possibly mispelled
-				if (!framework && !isBuiltin) {
-					var pkgSoundEx = soundEx(pkg);
-					var maybes = Object.keys(this.frameworks).filter(function (frameworkName) {
-						return soundEx(frameworkName) === pkgSoundEx;
-					});
+			// remember our packages
+			if (!isBuiltin) {
+				this.packages[pkg] = 1;
+			}
 
-					if (maybes.length) {
-						this.logger.warn('The iOS framework "' + pkg + '" could not be found. Are you trying to use ' +
-							maybes.map(function (s) { return '"' + s + '"' }).join(' or ') + ' instead? (' + relPath + ')');
+			// if we haven't found it by now, then we try to help before failing
+			if (!include && className !== pkg && !isBuiltin) {
+				var classNameSoundEx = soundEx(className);
+
+				Object.keys(this.frameworks).forEach(function (frameworkName) {
+					if (this.frameworks[frameworkName][className]) {
+						throw new Error('Are you trying to use the iOS class "' + className + '" located in the framework "' + frameworkName + '", not in "' + pkg + '"? (' + relPath + ')');
 					}
 
-					return orig;
-				}
+					if (soundEx(frameworkName) === classNameSoundEx) {
+						throw new Error('The iOS class "' + className + '" could not be found in the framework "' + pkg + '". Are you trying to use "' + frameworkName + '" instead? (' + relPath+ ')');
+					}
+				}, this);
 
-				// remember our packages
-				if (!isBuiltin) {
-					this.packages[pkg] = 1;
-				}
-
-				// if we haven't found it by now, then we try to help before failing
-				if (!include && className !== pkg && !isBuiltin) {
-					var classNameSoundEx = soundEx(className);
-
-					Object.keys(this.frameworks).forEach(function (frameworkName) {
-						if (this.frameworks[frameworkName][className]) {
-							throw new Error('Are you trying to use the iOS class "' + className + '" located in the framework "' + frameworkName + '", not in "' + pkg + '"? (' + relPath + ')');
-						}
-
-						if (soundEx(frameworkName) === classNameSoundEx) {
-							throw new Error('The iOS class "' + className + '" could not be found in the framework "' + pkg + '". Are you trying to use "' + frameworkName + '" instead? (' + relPath+ ')');
-						}
-					}, this);
-
-					throw new Error('The iOS class "' + className + '" could not be found in the framework "' + pkg + '". (' + relPath + ')');
-				}
-
-				var ref = 'hyperloop/' + pkg.toLowerCase() + '/' + className.toLowerCase();
-				this.references[ref] = 1;
-
-				if (include) {
-					// record our includes in which case we found a match
-					this.includes[include] = 1;
-				}
-
-				// replace the require to point to our generated file path
-				return "require('" + ref + "')";
-			}.bind(this));
-
-			if (contents === newContents) {
-				this.logger.debug('No change, skipping ' + chalk.cyan(file));
-				cb();
-			} else {
-				this.logger.debug('Writing ' + chalk.cyan(file));
-				fs.writeFile(file, newContents, cb);
-			}
-		}.bind(this),
-		function (err) {
-			var cacheToken = crypto.createHash('md5').update(JSON.stringify(this.references)).digest('hex');
-			var cachedFile = path.join(this.hyperloopBuildDir, 'files.md5');
-
-			if (!fs.existsSync(cachedFile) || fs.readFileSync(cachedFile).toString() !== cacheToken) {
-				this.forceMetabase = true;
+				throw new Error('The iOS class "' + className + '" could not be found in the framework "' + pkg + '". (' + relPath + ')');
 			}
 
-			fs.writeFileSync(cachedFile, cacheToken);
-			callback();
-		}.bind(this)
-	);
+			var ref = 'hyperloop/' + pkg.toLowerCase() + '/' + className.toLowerCase();
+			this.references[ref] = 1;
+
+			if (include) {
+				// record our includes in which case we found a match
+				this.includes[include] = 1;
+			}
+
+			// replace the require to point to our generated file path
+			return "require('" + ref + "')";
+		}.bind(this));
+
+		if (contents === newContents) {
+			this.logger.debug('No change, skipping ' + chalk.cyan(file));
+			cb();
+		} else {
+			this.logger.debug('Writing ' + chalk.cyan(file));
+			fs.writeFile(file, newContents, cb);
+		}
 };
 
 /**
@@ -496,12 +467,15 @@ HyperloopiOSBuilder.prototype.generateSourceFiles = function generateSourceFiles
 				this.frameworks.$metadata.sdkType,
 				this.frameworks.$metadata.sdkPath,
 				this.frameworks.$metadata.minVersion,
+				this.builder.xcodeTargetOS,
 				this.metabase,
 				entry.framework,
 				entry.source,
 				function (err, result, newMetabase) {
 					if (!err) {
 						this.metabase = newMetabase;
+					} else if (result) {
+						this.logger.error(result);
 					}
 					cb(err);
 				}.bind(this)
@@ -526,9 +500,13 @@ HyperloopiOSBuilder.prototype.generateSourceFiles = function generateSourceFiles
  * Generates the symbol reference based on the references from the metabase's parser state.
  */
 HyperloopiOSBuilder.prototype.generateSymbolReference = function generateSymbolReference() {
-	var symbolRefFile = path.join(this.hyperloopBuildDir, 'symbol_references.json');
-	var json = JSON.stringify(this.parserState.getReferences(), null, 2);
 
+	if (!this.parserState) {
+		this.logger.info('Skipping ' + HL + ' generating of symbol references. Empty AST. ');
+		return;
+	}
+	var symbolRefFile = path.join(this.hyperloopBuildDir, 'symbol_references.json'),
+		json = JSON.stringify(this.parserState.getReferences(), null, 2);
 	if (!fs.existsSync(symbolRefFile) || fs.readFileSync(symbolRefFile).toString() !== json) {
 		this.forceStubGeneration = true;
 		this.logger.trace('Forcing regeneration of wrappers');
@@ -550,6 +528,11 @@ HyperloopiOSBuilder.prototype.compileResources = function compileResources(callb
  * Generates stubs from the metabase.
  */
 HyperloopiOSBuilder.prototype.generateStubs = function generateStubs(callback) {
+
+	if (!this.parserState) {
+		this.logger.info('Skipping ' + HL + ' stub generation. Empty AST.');
+		return callback();
+	}
 	if (!this.forceStubGeneration) {
 		this.logger.debug('Skipping stub generation');
 		return callback();
@@ -639,6 +622,7 @@ HyperloopiOSBuilder.prototype.copyHyperloopJSFiles = function copyHyperloopJSFil
 			}
 		});
 	}(this.hyperloopJSDir, this.hyperloopResourcesDir));
+
 };
 
 /**
@@ -647,6 +631,14 @@ HyperloopiOSBuilder.prototype.copyHyperloopJSFiles = function copyHyperloopJSFil
 HyperloopiOSBuilder.prototype.wireupBuildHooks = function wireupBuildHooks() {
 	this.cli.on('build.ios.xcodeproject', {
 		pre: this.hookUpdateXcodeProject.bind(this)
+	});
+
+	this.cli.on('build.ios.copyResource', {
+		post: this.copyResource.bind(this)
+	});
+
+	this.cli.on('build.pre.build', {
+		pre: this.run.bind(this)
 	});
 
 	this.cli.on('build.ios.removeFiles', {
@@ -663,7 +655,16 @@ HyperloopiOSBuilder.prototype.wireupBuildHooks = function wireupBuildHooks() {
  * @param {Object} data - The hook payload.
  */
 HyperloopiOSBuilder.prototype.hookUpdateXcodeProject = function hookUpdateXcodeProject(data) {
+	this.xcodeprojectdata = data;
+};
+
+/**
+ * Injects frameworks and source files into the Xcode project and regenerates it
+ */
+HyperloopiOSBuilder.prototype.updateXcodeProject = function updateXcodeProject() {
+	var data = this.xcodeprojectdata;
 	var nativeModules = Object.keys(this.nativeModules);
+
 	if (!nativeModules.length) {
 		return;
 	}
@@ -921,7 +922,8 @@ HyperloopiOSBuilder.prototype.hookUpdateXcodeProject = function hookUpdateXcodeP
 			xobjs.PBXBuildFile[buildFileUuid] = {
 				isa: 'PBXBuildFile',
 				fileRef: fileRefUuid,
-				fileRef_comment: name
+				fileRef_comment: name,
+				settings: {COMPILER_FLAGS : '"-fobjc-arc"' }
 			};
 			xobjs.PBXBuildFile[buildFileUuid + '_comment'] = name + ' in Sources';
 
@@ -931,6 +933,25 @@ HyperloopiOSBuilder.prototype.hookUpdateXcodeProject = function hookUpdateXcodeP
 			});
 		});
 	});
+
+	var contents = xcodeProject.writeSync(),
+		dest = xcodeProject.filepath,
+		parent = path.dirname(dest),
+		i18n = this.appc.i18n(__dirname),
+		__ = i18n.__;
+
+	if (!fs.existsSync(dest) || contents !== fs.readFileSync(dest).toString()) {
+		if (!this.forceRebuild) {
+			this.logger.info(__('Forcing rebuild: Xcode project has changed since last build'));
+			this.forceRebuild = true;
+		}
+		this.logger.debug(__('Writing %s', dest.cyan));
+		fs.existsSync(parent) || wrench.mkdirSyncRecursive(parent);
+		fs.writeFileSync(dest, contents);
+	} else {
+		this.logger.trace(__('No change, skipping %s', dest.cyan));
+	}
+
 };
 
 /**

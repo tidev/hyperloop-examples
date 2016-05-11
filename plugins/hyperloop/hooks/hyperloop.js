@@ -38,7 +38,9 @@ function init(logger, config, cli, appc) {
 					if (fs.existsSync(platformHookFile)) {
 						logger.warn('Hyperloop is currently available in Beta and should not be used for production applications.');
 						var cfg = loadConfig(builder.projectDir).hyperloop || {};
-						return require(platformHookFile).init.call(builder, logger, config, cli, appc, cfg, finished);
+						var Builder = require(platformHookFile);
+						var instance = new Builder(logger, config, cli, appc, cfg, builder);
+						return instance.init(finished);
 					}
 
 					logger.error('Hyperloop is currently configured but the module has not be installed.');
