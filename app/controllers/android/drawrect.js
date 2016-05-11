@@ -17,8 +17,8 @@
 	// create a unique View subclass for doing our custom drawing
 	var CustomView = View.extend({
 		onDraw: function(canvas) {
-			// this function is called when the onDraw is invoked to render the view
-			//this.super.onDraw(canvas); // FIXME Set up super calls to work!
+			this.super.onDraw(canvas);
+
 			var beams = 9,
 				width = this.getWidth(),
 				height = this.getHeight(),
