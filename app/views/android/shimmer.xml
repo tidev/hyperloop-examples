@@ -1,0 +1,5 @@
+<Alloy>
+	<Window id="win" title="Shimmer" backgroundColor="#232E3F">
+		<View class="vbox" id="shimmer_container"></View>
+	</Window>
+</Alloy>

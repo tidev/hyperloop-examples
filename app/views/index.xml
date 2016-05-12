@@ -28,7 +28,7 @@
 					<ListItem itemId="blur" title="Blur"/>
 					<ListItem itemId="sizefill" title="FILL vs SIZE"/>
 					<ListItem itemId="progress" platform="android" title="Circular Progress"/>
-					<ListItem itemId="shimmer" platform="ios" title="Shimmer"/>
+					<ListItem itemId="shimmer" title="Shimmer"/>
 				</ListSection>
 			</ListView>
 		</Window>
