@@ -14,6 +14,8 @@
 					<ListItem itemId="label" title="Styled Labels"/>
 					<ListItem itemId="drawrect" title="Custom Drawing"/>
 					<ListItem itemId="touches" title="Touches"/>
+					<ListItem itemId="tableview" platform="ios" title="Table View"/>
+					<ListItem itemId="collectionview" platform="ios" title="Collection View"/>
 					<ListItem itemId="calendar" platform="ios" title="Calendar (3rd Party Integration)"/>
 					<ListItem itemId="charting" platform="ios" title="Charting (3rd party integration)"/>
 					<ListItem itemId="alert" title="Alert"/>
@@ -23,7 +25,6 @@
 					<ListItem itemId="custom" platform="ios" title="Custom Class"/>
 					<ListItem itemId="tinder" platform="ios" title="Tinder UI"/>
 					<ListItem itemId="gravity" platform="ios" title="Gravity"/>
-					<ListItem itemId="tableview" platform="ios" title="Table View"/>
 					<ListItem itemId="snackbar" platform="android" title="Snackbar"/>
 					<ListItem itemId="blur" title="Blur"/>
 					<ListItem itemId="sizefill" title="FILL vs SIZE"/>

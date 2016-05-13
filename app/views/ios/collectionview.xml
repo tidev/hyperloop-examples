@@ -1,0 +1,5 @@
+<Alloy>
+	<Window id="win" title="Collection View">
+		<View id="container" />
+	</Window>
+</Alloy>
