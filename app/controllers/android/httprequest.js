@@ -1,31 +1,32 @@
-var VolleyPackage = require("com.android.volley.*");
-var JSONPackage = require("org.json.*");
-var activity = new Activity(Ti.Android.currentActivity);
+var VolleyPackage = require('com.android.volley.*'),
+    VolleyToolbox = require('com.android.volley.toolbox.*'),
+    Activity = require('android.app.Activity'),
+    activity = new Activity(Ti.Android.currentActivity);
 
 function startRequest() {
 
-    var queue = VolleyPackage.toolbox.Volley.newRequestQueue(activity);
-    var url ="https://appcelerator.com";
+    var queue = VolleyToolbox.Volley.newRequestQueue(activity);
+    var url = 'https://www.appcelerator.com';
 
-    var request = new VolleyPackage.toolbox.JsonObjectRequest(VolleyPackage.Request.Method.GET, url, 
+    var request = new VolleyToolbox.StringRequest(VolleyPackage.Request.Method.GET, url,
         new VolleyPackage.Response.Listener({
             onResponse: function(response) {
-                Ti.API.error("Response is: "+ response);
+                Ti.API.info('Response is: ' + response);
 
-                alert("Request completed!");
-                $.btn.setTitle("Start request!");
+                alert('Request completed!');
+                $.btn.setTitle('Start request!');
                 $.btn.setEnabled(true);
             }
         }),
         new VolleyPackage.Response.ErrorListener({
             onErrrorResponse: function(error) {
-                Ti.API.error("HTTP error");
+                Ti.API.error('HTTP error');
             }
         })
     );
 
     $.btn.setEnabled(false);
-    $.btn.setTitle("Loading ...");
+    $.btn.setTitle('Loading ...');
 
-    queue.add(stringRequest);
+    queue.add(request);
 }
