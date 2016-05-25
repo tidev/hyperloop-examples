@@ -17,8 +17,7 @@
 					<ListItem itemId="touches" title="Touches"/>
 					<ListItem itemId="tableview" platform="ios" title="Table View"/>
 					<ListItem itemId="collectionview" platform="ios" title="Collection View"/>
-					<ListItem itemId="calendar" platform="ios" title="Calendar (3rd Party Integration)"/>
-					<ListItem itemId="charting" platform="ios" title="Charting (3rd party integration)"/>
+					<ListItem itemId="libraries/index" title="Third-Party Libraries"/>
 					<ListItem itemId="alert" title="Alert"/>
 					<ListItem itemId="xib" platform="ios" title="Interface Builder UI"/>
 					<ListItem itemId="donutchart" title="Donut Chart"/>
@@ -30,7 +29,6 @@
 					<ListItem itemId="blur" title="Blur"/>
 					<ListItem itemId="sizefill" title="FILL vs SIZE"/>
 					<ListItem itemId="progress" platform="android" title="Circular Progress"/>
-					<ListItem itemId="shimmer" title="Shimmer"/>
 				</ListSection>
 			</ListView>
 		</Window>

@@ -1,0 +1,11 @@
+<Alloy>
+    <Window id="window" title="Libraries">
+        <ListView onItemclick="onListViewItemclick">
+            <ListSection>
+                <ListItem itemId="calendar" platform="ios" title="Calendar (GLCalendarView)"/>
+                <ListItem itemId="charting" platform="ios" title="Charting (JBChartView)"/>
+                <ListItem itemId="shimmer" title="Shimmer (Shimmer)"/>    
+            </ListSection>
+        </ListView>
+    </Window>
+</Alloy>

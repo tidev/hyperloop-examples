@@ -32,12 +32,7 @@ overrode the settings with other TSS, XML, or JS settings:
 	scrollType: 'vertical'
 }
 '.vbox' : {
-	layout: 'vertical',
-	top: 20,
-	right: 20,
-	bottom: 20,
-	left: 20,
-	height: Ti.UI.FILL
+	layout: 'vertical'
 }
 '.tpad' : {
 	top: 20
