@@ -4,6 +4,12 @@
 		<ScrollView>
 			<View class="vbox" id="rect_container"></View>
 		</ScrollView>
-
+		
+		<Circle module="controls" id="controls">
+			<Arrow module="controls" class="arrow" id="arrowTop" rotation="-90" />
+			<Arrow module="controls" class="arrow" id="arrowRight" rotation="0" />
+			<Arrow module="controls" class="arrow" id="arrowBottom" rotation="90" />
+			<Arrow module="controls" class="arrow" id="arrowLeft" rotation="180" />			
+		</Circle>
 	</Window>
 </Alloy>

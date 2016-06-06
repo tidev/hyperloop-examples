@@ -1,5 +1,38 @@
 
+/* -- Controls -- */
+
+"Circle": {
+    width: 300,
+    height: 300,
+    top: 20
+}
+
+".arrow": {
+    width: 40,
+    height: 40,
+    bubbleParent: true
+}
+
+"#arrowTop": {
+    top: 20
+}
+
+"#arrowRight": {
+    right: 20
+}
+
+"#arrowBottom": {
+    bottom: 20
+}
+
+"#arrowLeft": {
+    left: 20
+}
+
+/* -- Custom Drawing -- */
+
 "#rect_container": {
     width: 300,
-    height: 300
+    height: 300,
+    bottom: 20
 }
