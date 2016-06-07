@@ -1,4 +1,4 @@
-var AccountKitDelegate = Hyperloop.defineClass('AccountKitDelegate', 'NSObject', ['AKFViewControllerDelegate']);
+var AccountKitDelegate = Hyperloop.defineClass('AccountKitDelegate');
 
 AccountKitDelegate.addMethod({
 	selector: 'viewControllerDidCancel:',
