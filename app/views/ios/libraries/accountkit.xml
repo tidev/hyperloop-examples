@@ -1,0 +1,6 @@
+<Alloy>
+	<Window id="container" title="Alert Controller">
+		<Button onClick="loginWithPhone">Login with phone</Button>
+		<Button onClick="loginWithEmail">Login with e-mail</Button>
+	</Window>
+</Alloy>

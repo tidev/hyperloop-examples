@@ -14,7 +14,7 @@ module.exports = {
 				 * included here to further customize the xcode build
 				 */
 				flags: {
-					GCC_PREPROCESSOR_DEFINITIONS: 'foo=bar'
+					FRAMEWORK_SEARCH_PATHS: '../../src'
 				},
 				/**
 				 * this sample doesn't use StoreKit but this demonstrates
@@ -23,9 +23,7 @@ module.exports = {
 				 * but in case you want to force a specific version, you can
 				 * include it here
 				 */
-				frameworks: [
-					'StoreKit'
-				]
+				frameworks: ['AccountKit']
 			},
 			/**
 			 * optionally, you can bring in third-party or first-party libraries,
@@ -35,8 +33,7 @@ module.exports = {
 			 * where the files are located
 			 */
 			thirdparty: {
-				'MyFramework': {
-					// these can be an array or string
+				'AccountKit': {
 					source: ['src'],
 					header: 'src',
 					resource: 'src'
