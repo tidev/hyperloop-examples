@@ -6,11 +6,6 @@ var NSURLSession = require("Foundation/NSURLSession");
 function startRequest() {
     var URLSessionDelegate = require("subclasses/urlsessiondelegate");
     var delegate = new URLSessionDelegate();
-    
-    delegate.didBecomeInvalidWithError = function(session, error) {
-        Ti.API.warn("Request did become invalid with error: " + error.localizedDescription);
-    };
-    
     var urlPath = NSURL.alloc().initWithString("https://appcelerator.com");
     var sessionConfiguration = NSURLSessionConfiguration.defaultSessionConfiguration();
     
@@ -22,10 +17,16 @@ function startRequest() {
         UIApplication.sharedApplication().networkActivityIndicatorVisible = false
 
         alert("Request completed!");
+        session.finishTasksAndInvalidate();
         $.btn.setTitle("Start request!");
         $.btn.setEnabled(true);
     });
     
+    delegate.didBecomeInvalidWithError = function(session, error) {
+        Ti.API.warn("Request did become invalid with error: " + error.localizedDescription);
+        session.finishTasksAndInvalidate();
+    };
+
     UIApplication.sharedApplication().networkActivityIndicatorVisible = true;
     $.btn.setEnabled(false);
     $.btn.setTitle("Loading ...");
