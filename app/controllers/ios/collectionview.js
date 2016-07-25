@@ -57,7 +57,7 @@
          
 	// Create the UICollectionView, set the delegate, datasource and layout
     collectionView = UICollectionView.alloc().initWithFrameCollectionViewLayout(screenRect, layout);
-    collectionView.registerClassForCellWithReuseIdentifier(UICollectionViewCell.class(), "Cell");
+    collectionView.registerClassForCellWithReuseIdentifier("UICollectionViewCell", "Cell");
     collectionView.backgroundColor = UIColor.clearColor();
     collectionView.setDataSource(dataSourceDelegate);
     collectionView.setDelegate(dataSourceDelegate);
