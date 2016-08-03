@@ -37,12 +37,6 @@
 					<string>UIInterfaceOrientationLandscapeLeft</string>
 					<string>UIInterfaceOrientationLandscapeRight</string>
 				</array>
-				<key>UIRequiresPersistentWiFi</key>
-				<false/>
-				<key>UIPrerenderedIcon</key>
-				<false/>
-				<key>UIStatusBarHidden</key>
-				<false/>
 				<key>UIStatusBarStyle</key>
 				<string>UIStatusBarStyleLightContent</string>
 			</dict>
@@ -53,23 +47,15 @@
 			<application android:theme="@style/appcelerator"/>
 		</manifest>
 	</android>
-	<mobileweb>
-		<precache/>
-		<splash>
-			<enabled>true</enabled>
-			<inline-css-images>true</inline-css-images>
-		</splash>
-		<theme>default</theme>
-	</mobileweb>
 	<modules>
-		<module version="1.2.0">hyperloop</module>
+		<module>hyperloop</module>
 	</modules>
 	<deployment-targets>
 		<target device="android">true</target>
 		<target device="ipad">true</target>
 		<target device="iphone">true</target>
 		<target device="mobileweb">false</target>
-		<target device="windows">true</target>
+		<target device="windows">false</target>
 	</deployment-targets>
 	<sdk-version>5.4.0</sdk-version>
 	<plugins>
