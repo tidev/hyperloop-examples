@@ -12,3 +12,7 @@ Thumbs.db
 Pods
 /i18n
 /platform
+/modules/iphone/hyperloop
+/modules/android/hyperloop
+/plugins/hyperloop
+/Podfile.lock
