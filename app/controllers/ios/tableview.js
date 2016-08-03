@@ -5,42 +5,49 @@
 		UITableView = require('UIKit/UITableView'),
 		UITableViewCell = require('UIKit/UITableViewCell'),
 		NSIndexPath = require('Foundation').NSIndexPath,
-		UITableViewCellStyleDefault = require('UIKit').UITableViewCellStyleDefault,
+		UITableViewStyleGrouped = require('UIKit').UITableViewStyleGrouped,
+		UITableViewCellStyleSubtitle = require('UIKit').UITableViewCellStyleSubtitle,
 		UITableViewCellAccessoryDisclosureIndicator = require('UIKit').UITableViewCellAccessoryDisclosureIndicator;
-
+	
+	// Grabs the JSON-file from app/lib/static/data.json 
+	var file = Ti.Filesystem.getFile(Ti.Filesystem.getResourcesDirectory() + 'static/data.json'); 
+	var users = JSON.parse(file.read().text).users;
+	
 	// Subclass delegate + data source
 	var TableViewDataSourceAndDelegate = require('subclasses/tableviewdatasourcedelegate')
 
 	// Create + configure tableView
-	var tableView = UITableView.alloc().initWithFrame(UIScreen.mainScreen().bounds);
+	var tableView = UITableView.alloc().initWithFrameStyle(UIScreen.mainScreen().bounds, UITableViewStyleGrouped);
 	var dataSourceDelegate = new TableViewDataSourceAndDelegate();
 
 	dataSourceDelegate.numberOfSections = function(tableView) {
-		return 10;
+		return 1;
 	};
 	dataSourceDelegate.numberOfRows = function(tableView, section) {
-		if (Number(section) % 2) {
-			return 5;
-		} else {
-			return 10;
-		}
+		return users.length;
 	};
 	dataSourceDelegate.titleForHeader = function(tableView, section) {
-		return 'Header for section ' + section;
+		return 'Available users: ' + users.length;
 	};
 	dataSourceDelegate.heightForRow = function(tableView, indexPath) {
 		return 44;
 	};
 	dataSourceDelegate.cellForRow = function(tableView, indexPath) {
 		var cell = tableView.dequeueReusableCellWithIdentifier('hyperloop_cell');
+		var user = users[indexPath.row];
+				
 	    if (!cell) {
-	        cell = UITableViewCell.alloc().initWithStyleReuseIdentifier(UITableViewCellStyleDefault, 'hyperloop_cell');
+	        cell = UITableViewCell.alloc().initWithStyleReuseIdentifier(UITableViewCellStyleSubtitle, 'hyperloop_cell');
 	    }
-	    // Set the data for this cell:
-	    cell.textLabel.text = 'Row: ' + indexPath.row + ' Section:' + indexPath.section;
-	    // set the accessory view:
+		cell.textLabel.text = user.firstName + ' ' + user.lastName;
+		cell.detailTextLabel.text = user.email; // NOTE: This are not real email-addresses ;-)
 	    cell.accessoryType =  UITableViewCellAccessoryDisclosureIndicator;
+		
 	    return cell;
+	};
+	dataSourceDelegate.didSelectRowAtIndexPath = function(tableView, indexPath) {		
+		alert('Call me maybe: ' + users[indexPath.row].phone);
+		tableView.deselectRowAtIndexPathAnimated(indexPath, true);
 	};
 
 	// Assign delegate + data source

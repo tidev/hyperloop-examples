@@ -65,4 +65,15 @@ TableViewDataSourceAndDelegate.addMethod({
 	}
 });
 
+TableViewDataSourceAndDelegate.addMethod({
+	selector: 'tableView:didSelectRowAtIndexPath:',
+	instance: true,
+	arguments: ['UITableView', 'NSIndexPath'],
+	callback: function (tableView, indexPath) {
+		if (this.didSelectRowAtIndexPath) {
+			this.didSelectRowAtIndexPath(tableView, indexPath);
+		}
+	}
+});
+
 module.exports = TableViewDataSourceAndDelegate;
