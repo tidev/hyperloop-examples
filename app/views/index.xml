@@ -13,6 +13,7 @@
 					<ListItem itemId="httprequest" title="HTTP Request"/>
 					<ListItem itemId="animateview" title="View Animation"/>
 					<ListItem itemId="label" title="Styled Labels"/>
+					<ListItem itemId="beacons" title="iBeacons"/>
 					<ListItem itemId="drawrect" title="Custom Drawing"/>
 					<ListItem itemId="touches" title="Touches"/>
 					<ListItem itemId="tableview" platform="ios" title="Table View"/>
