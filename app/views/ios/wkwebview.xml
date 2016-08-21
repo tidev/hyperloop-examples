@@ -1,0 +1,5 @@
+<Alloy>
+	<Window id="win" title="WKWebView Example">
+		<WebView module="wkwebview" url="http://www.appcelerator.com" onLoad="onLoad"/>
+	</Window>
+</Alloy>
