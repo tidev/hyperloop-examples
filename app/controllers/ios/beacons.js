@@ -7,12 +7,17 @@ var CLBeaconRegion = require("CoreLocation/CLBeaconRegion"),
 	CLProximityUnknown = require("CoreLocation").CLProximityUnknown,
 	UILocalNotification = require("UIKit/UILocalNotification"),
 	UIApplication = require("UIKit/UIApplication"),
-	locationManager;
+	locationManager,
+	UUID,
+	IDENTIFIER;
 
 (function constructor(args) {
 	
-	var LocationManagerDelegate_ = require("subclasses/locationmanagerdelegate");
-	var delegate = new LocationManagerDelegate_();
+	UUID = "B9407F30-F5F8-466E-AFF9-25556B57FE6D";
+	IDENTIFIER = "com.appcelerator.beacons";
+	
+	var LocationManagerDelegate = require("subclasses/locationmanagerdelegate");
+	var delegate = new LocationManagerDelegate();
 	
 	delegate.didEnterRegion = function(manager, region) {
 		locationManager.startRangingBeaconsInRegion(region);
@@ -44,7 +49,8 @@ var CLBeaconRegion = require("CoreLocation/CLBeaconRegion"),
 	                message = "You are in the immediate proximity of the beacon";
 	                break;
 	            case CLProximityUnknown:
-	                return;
+					message = "You are at an unknown location";
+					break;
 	        }
 	    } else {
 	        message = "No beacons are nearby";
@@ -59,8 +65,8 @@ var CLBeaconRegion = require("CoreLocation/CLBeaconRegion"),
 })(arguments[0] || {});
 
 function startDiscovery() {
-	var uuid = NSUUID.alloc().initWithUUIDString("B9407F30-F5F8-466E-AFF9-25556B57FE6D");
-	var region = CLBeaconRegion.alloc().initWithProximityUUIDMajorMinorIdentifier(uuid, 1, 1, "com.appcelerator.beacons");
+	var uuid = NSUUID.alloc().initWithUUIDString(UUID);
+	var region = CLBeaconRegion.alloc().initWithProximityUUIDMajorMinorIdentifier(uuid, 1, 1, IDENTIFIER);
 	
 	locationManager.startMonitoringForRegion(region);
 }
