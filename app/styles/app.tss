@@ -22,21 +22,32 @@ overrode the settings with other TSS, XML, or JS settings:
 	},
 	backgroundColor: '#FFF'
 }
+
 'TextField[platform=ios]' : {
 	width: Ti.UI.FILL,
 	borderStyle: Ti.UI.INPUT_BORDERSTYLE_ROUNDED
 }
+
 'ScrollView' : {
 	contentWidth: Ti.UI.FILL,
 	contentHeight: Ti.UI.SIZE,
 	scrollType: 'vertical'
 }
+
 '.vbox' : {
 	layout: 'vertical'
 }
+
 '.tpad' : {
 	top: 20
 }
+
+'ListItem': {
+	accessoryType: Ti.UI.LIST_ACCESSORY_TYPE_DISCLOSURE,
+	height: 43,
+	left: 15
+}
+
 'ListItem[platform=android]' : {
 	color: '#DDD'
 }
