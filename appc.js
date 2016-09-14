@@ -14,7 +14,8 @@ module.exports = {
 				 * included here to further customize the xcode build
 				 */
 				flags: {
-					GCC_PREPROCESSOR_DEFINITIONS: 'foo=bar'
+					GCC_PREPROCESSOR_DEFINITIONS: 'foo=bar',
+					SWIFT_VERSION: '2.3'
 				},
 				/**
 				 * this sample doesn't use StoreKit but this demonstrates

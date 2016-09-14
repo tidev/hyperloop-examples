@@ -13,7 +13,7 @@ var CLBeaconRegion = require("CoreLocation/CLBeaconRegion"),
 
 (function constructor(args) {
 	
-	UUID = "B9407F30-F5F8-466E-AFF9-25556B57FE6D";
+	UUID = "B9407F30-F5F8-466E-AFF9-25556B57FE6D"; // Change to the UUID of your beacon
 	IDENTIFIER = "com.appcelerator.beacons";
 	
 	var LocationManagerDelegate = require("subclasses/locationmanagerdelegate");

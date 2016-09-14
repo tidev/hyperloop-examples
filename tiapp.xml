@@ -39,6 +39,8 @@
 				</array>
 				<key>UIStatusBarStyle</key>
 				<string>UIStatusBarStyleLightContent</string>
+                <key>NSLocationWhenInUseUsageDescription</key>
+                <string>Can we use your location to detect iBeacons?</string>
 			</dict>
 		</plist>
 	</ios>
