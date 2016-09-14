@@ -6,7 +6,8 @@ Learn more about Hyperloop [here](http://www.appcelerator.com/mobile-app-develop
 
 # Requirements
 
-- [x] Titanium Mobile 5.4.0+
+- [x] Titanium Mobile 5.5.0+
+- [x] Hyperloop 1.2.7
 - [x] Alloy 1.8.0+
 
 # Running this app
