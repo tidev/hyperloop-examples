@@ -37,4 +37,4 @@
     button.addTargetActionForControlEvents(delegate, "buttonPressed:", UIControlEventTouchUpInside);
 
     container.add(button);
-}($.window);
+})($.window);
