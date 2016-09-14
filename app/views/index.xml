@@ -30,7 +30,8 @@
 					<ListItem itemId="blur" title="Blur"/>
 					<ListItem itemId="sizefill" title="FILL vs SIZE"/>
 					<ListItem itemId="progress" platform="android" title="Circular Progress"/>
-					<ListItem itemId="wkwebview" platform="ios" title="WKWebView Example"/>
+					<ListItem itemId="wkwebview" platform="ios" title="WebView (WKWebView)"/>
+					<ListItem itemId="button" title="Button"/>
 				</ListSection>
 			</ListView>
 		</Window>
