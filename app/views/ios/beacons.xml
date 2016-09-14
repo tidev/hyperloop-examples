@@ -1,0 +1,5 @@
+<Alloy>
+	<Window id="win" title="iBeacons">
+		<Button id="trigger" title="Start discovery" onClick="startDiscovery" />
+	</Window>
+</Alloy>

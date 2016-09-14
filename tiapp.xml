@@ -39,6 +39,8 @@
 				</array>
 				<key>UIStatusBarStyle</key>
 				<string>UIStatusBarStyleLightContent</string>
+                <key>NSLocationWhenInUseUsageDescription</key>
+                <string>Can we use your location to detect iBeacons?</string>
 			</dict>
 		</plist>
 	</ios>
@@ -57,7 +59,7 @@
 		<target device="mobileweb">false</target>
 		<target device="windows">false</target>
 	</deployment-targets>
-	<sdk-version>5.4.0.GA</sdk-version>
+	<sdk-version>5.5.0.GA</sdk-version>
 	<plugins>
 		<plugin version="1.0">ti.alloy</plugin>
 		<plugin>hyperloop</plugin>
