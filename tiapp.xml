@@ -41,6 +41,17 @@
 				<string>UIStatusBarStyleLightContent</string>
                 <key>NSLocationWhenInUseUsageDescription</key>
                 <string>Can we use your location to detect iBeacons?</string>
+				<key>CFBundleURLTypes</key>
+				<array>
+				    <dict>
+				        <key>CFBundleURLName</key>
+				        <string>com.appcelerator.sample.hyperloop</string>
+				        <key>CFBundleURLSchemes</key>
+				        <array>
+				            <string>hyperloop</string>
+				        </array>
+				    </dict>
+				</array>
 			</dict>
 		</plist>
 	</ios>
