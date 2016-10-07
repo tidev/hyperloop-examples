@@ -16,12 +16,12 @@
 
 	var shadowDic = new NSShadow();
 	shadowDic.shadowBlurRadius = 10.0;
-	shadowDic.shadowColor = UIColor.grayColor();
+	shadowDic.shadowColor = UIColor.grayColor;
 	shadowDic.shadowOffset = CGSizeMake(0, 4);
 
 	attString.addAttributeValueRange(UIKit.NSFontAttributeName, font, range);
 	attString.addAttributeValueRange(UIKit.NSShadowAttributeName, shadowDic,range);
-	attString.addAttributeValueRange(UIKit.NSStrokeColorAttributeName, UIColor.redColor(), range);
+	attString.addAttributeValueRange(UIKit.NSStrokeColorAttributeName, UIColor.redColor, range);
 	attString.addAttributeValueRange(UIKit.NSStrokeWidthAttributeName, 5.0, range);
 
 	var label = new UILabel();

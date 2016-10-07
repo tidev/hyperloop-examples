@@ -44,8 +44,8 @@
     }
     
 	// Calculate the cell specs 
-    var screenRect = UIScreen.mainScreen().bounds;
-    screenRect = CGRectMake(0 , 0, UIScreen.mainScreen().bounds.size.width, UIScreen.mainScreen().bounds.size.height - 64);
+    var screenRect = UIScreen.mainScreen.bounds;
+    screenRect = CGRectMake(0 , 0, UIScreen.mainScreen.bounds.size.width, UIScreen.mainScreen.bounds.size.height - 64);
     var cellWidth = screenRect.size.width / 3.0;
     
 	// Create the cell layout and assign the size 
@@ -58,7 +58,7 @@
 	// Create the UICollectionView, set the delegate, datasource and layout
     collectionView = UICollectionView.alloc().initWithFrameCollectionViewLayout(screenRect, layout);
     collectionView.registerClassForCellWithReuseIdentifier("UICollectionViewCell", "Cell");
-    collectionView.backgroundColor = UIColor.clearColor();
+    collectionView.backgroundColor = UIColor.clearColor;
     collectionView.setDataSource(dataSourceDelegate);
     collectionView.setDelegate(dataSourceDelegate);
     

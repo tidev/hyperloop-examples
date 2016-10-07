@@ -5,7 +5,7 @@
 		CGRectMake = require('CoreGraphics').CGRectMake,
 		CGPointMake = require('CoreGraphics').CGPointMake,
 		UIScreen = require('UIKit/UIScreen'),
-		bounds = UIScreen.mainScreen().bounds;
+		bounds = UIScreen.mainScreen.bounds;
 
 	// create the objective-c class
 	var view = new MyClass();

@@ -10,7 +10,7 @@
 
     var button = new UIButton();
 
-    button.backgroundColor = UIColor.redColor();
+    button.backgroundColor = UIColor.redColor;
     button.layer.cornerRadius = 6;
     button.frame = CGRectMake(50, 50, 300, 45);
     button.setTitleForState("CLICK ME", UIControlStateNormal);

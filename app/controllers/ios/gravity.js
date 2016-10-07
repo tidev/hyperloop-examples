@@ -16,7 +16,7 @@ setTimeout(function () {
 		// create class to detect collisions
 		var CollisionBehaviorDelegate = require('subclasses/collisionbehaviordelegate');
 
-		var soundPath = NSBundle.mainBundle().pathForResourceOfType('sounds/hit', 'mp3');
+		var soundPath = NSBundle.mainBundle.pathForResourceOfType('sounds/hit', 'mp3');
 		var soundURL = NSURL.fileURLWithPath(soundPath);
 		var sound = AVAudioPlayer.alloc().initWithContentsOfURLError(soundURL);
 		sound.prepareToPlay();

@@ -54,7 +54,7 @@
 		var UIColor = require('UIKit/UIColor');
 		var label = new UILabel();
 		label.text = "Hello";
-		label.backgroundColor = UIColor.yellowColor();
+		label.backgroundColor = UIColor.yellowColor;
 		bottomViewContainer.add(label);
 
 		button.addEventListener('click', function () {
