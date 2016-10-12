@@ -32,7 +32,7 @@
 	chart.dataSource = delegate;
 
 	// make the chart take up most of the screen bounds
-	var bounds = UIScreen.mainScreen().bounds;
+	var bounds = UIScreen.mainScreen.bounds;
 	chart.frame = CGRectMake(0, 0, bounds.size.width - 40, bounds.size.height - 100);
 
 	// docs say we need to reload the data initially to cause it to paint

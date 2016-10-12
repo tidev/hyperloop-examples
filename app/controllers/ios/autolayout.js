@@ -13,11 +13,11 @@
 	label.translatesAutoresizingMaskIntoConstraints = false;
 	label.setText('Hello World');
 	label.setTextAlignment(UIKit.NSTextAlignmentCenter);
-	label.setTextColor(UIColor.redColor());
-	label.setBackgroundColor(UIColor.blueColor());
+	label.setTextColor(UIColor.redColor);
+	label.setBackgroundColor(UIColor.blueColor);
 
 	var view = new UIView();
-	view.setBackgroundColor(UIColor.yellowColor());
+	view.setBackgroundColor(UIColor.yellowColor);
 	view.addSubview(label);
 
 	var heightConstraint = NSLayoutConstraint.constraintWithItemAttributeRelatedByToItemAttributeMultiplierConstant(

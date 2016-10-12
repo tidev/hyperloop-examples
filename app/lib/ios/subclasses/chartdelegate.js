@@ -49,7 +49,7 @@ ChartDelegate.addMethod({
 		}
 		Ti.API.error('ChartDelegate colorForBar(view, index) callback missing');
 		UIColor = require('UIKit/UIColor');
-		return UIColor.clearColor();
+		return UIColor.clearColor;
 	}
 });
 

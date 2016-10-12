@@ -56,7 +56,7 @@
 		var shapeLayer = CAShapeLayer.layer();
 		shapeLayer.path = path.CGPath;
 		shapeLayer.strokeColor = UIColor.colorWithRedGreenBlueAlpha(color.red, color.green, color.blue, color.alpha).CGColor;
-		shapeLayer.fillColor = UIColor.clearColor().CGColor;
+		shapeLayer.fillColor = UIColor.clearColor.CGColor;
 		shapeLayer.lineWidth = lineWidth;
 		shapeLayer.strokeStart = 0.0;
 		shapeLayer.strokeEnd = 1.0;

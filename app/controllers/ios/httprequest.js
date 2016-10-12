@@ -7,14 +7,14 @@ function startRequest() {
     var URLSessionDelegate = require("subclasses/urlsessiondelegate");
     var delegate = new URLSessionDelegate();
     var urlPath = NSURL.alloc().initWithString("https://appcelerator.com");
-    var sessionConfiguration = NSURLSessionConfiguration.defaultSessionConfiguration();
+    var sessionConfiguration = NSURLSessionConfiguration.defaultSessionConfiguration;
     
     // Set request headers like `User-Agent` and `Authorization`
     sessionConfiguration.HTTPAdditionalHeaders = {"User-Agent" : "Appcelerator Hyperloop"};
 
     var session = NSURLSession.sessionWithConfigurationDelegateDelegateQueue(sessionConfiguration, delegate, null);
     var task = session.dataTaskWithURLCompletionHandler(urlPath, function(data, response, error) {
-        UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+        UIApplication.sharedApplication.networkActivityIndicatorVisible = false
 
         alert("Request completed!");
         session.finishTasksAndInvalidate();
@@ -27,7 +27,7 @@ function startRequest() {
         session.finishTasksAndInvalidate();
     };
 
-    UIApplication.sharedApplication().networkActivityIndicatorVisible = true;
+    UIApplication.sharedApplication.networkActivityIndicatorVisible = true;
     $.btn.setEnabled(false);
     $.btn.setTitle("Loading ...");
     task.resume();

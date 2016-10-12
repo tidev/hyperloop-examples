@@ -8,7 +8,7 @@
 
 	// create a view box we're going to animate when you click the button
 	var view = UIView.alloc().initWithFrame(CGRectMake(10, 10, 50, 50));
-	view.backgroundColor = UIColor.redColor();
+	view.backgroundColor = UIColor.redColor;
 	container.add(view);
 
 	var flag;
@@ -25,13 +25,13 @@
 				view.layer.opacity = 0.8;
 				view.layer.cornerRadius = view.frame.size.width / 2;
 				view.transform = CGAffineTransformScale(CGAffineTransformRotate(view.transform, Math.PI), 1.5, 1.5);
-				view.backgroundColor = UIColor.blueColor();
+				view.backgroundColor = UIColor.blueColor;
 			} else {
 				view.frame = CGRectMake(10, 10, 50, 50);
 				view.layer.opacity = 1;
 				view.layer.cornerRadius = 0;
 				view.transform = CGAffineTransformIdentity;
-				view.backgroundColor = UIColor.redColor();
+				view.backgroundColor = UIColor.redColor;
 			}
 		}, function (_done) {
 			// this function is called after the animation completes
