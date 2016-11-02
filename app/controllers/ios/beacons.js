@@ -76,5 +76,5 @@ function presentNotification(title) {
 	notification.alertBody = title;
 	notification.soundName = "Default";
 	
-	UIApplication.sharedApplication().presentLocalNotificationNow(notification);	
+	UIApplication.sharedApplication.presentLocalNotificationNow(notification);	
 }

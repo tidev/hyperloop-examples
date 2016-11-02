@@ -17,7 +17,7 @@
 	var TableViewDataSourceAndDelegate = require('subclasses/tableviewdatasourcedelegate')
 
 	// Create + configure tableView
-	var tableView = UITableView.alloc().initWithFrameStyle(UIScreen.mainScreen().bounds, UITableViewStyleGrouped);
+	var tableView = UITableView.alloc().initWithFrameStyle(UIScreen.mainScreen.bounds, UITableViewStyleGrouped);
 	var dataSourceDelegate = new TableViewDataSourceAndDelegate();
 
 	dataSourceDelegate.numberOfSections = function(tableView) {

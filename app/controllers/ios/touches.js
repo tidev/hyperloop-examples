@@ -20,11 +20,11 @@
 
 	var view1 = UIView.alloc().initWithFrame(CGRectMake(40,40,100,100));
 	view1.addGestureRecognizer(panGesture1);
-	view1.backgroundColor = UIColor.greenColor();
+	view1.backgroundColor = UIColor.greenColor;
 
 	var view2 = UIView.alloc().initWithFrame(CGRectMake(40,180,100,100));
 	view2.addGestureRecognizer(panGesture2);
-	view2.backgroundColor = UIColor.redColor();
+	view2.backgroundColor = UIColor.redColor;
 
 	container.add(view1);
 	container.add(view2);

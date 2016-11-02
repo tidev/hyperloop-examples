@@ -72,7 +72,7 @@
 
 			var endDate = GLDateUtils.dateByAddingDaysToDate(2, beginDate);
 			var range = GLCalendarDateRange.rangeWithBeginDateEndDate(beginDate, endDate);
-			range.backgroundColor = UIColor.redColor();
+			range.backgroundColor = UIColor.redColor;
 			range.editable = true;
 
 			return range;
@@ -136,7 +136,7 @@
 	});
 
 	// Get the screensize
-	var bounds = UIScreen.mainScreen().bounds
+	var bounds = UIScreen.mainScreen.bounds
 	var frame = CGRectMake(0, 0, bounds.size.width, bounds.size.height);
 	var today = NSDate.date();
 	calendar = new GLCalendarView();
