@@ -6,8 +6,8 @@ Learn more about Hyperloop [here](http://www.appcelerator.com/mobile-app-develop
 
 # Requirements
 
-- [x] Titanium Mobile 5.5.0+
-- [x] Hyperloop 1.2.8+
+- [x] Titanium Mobile 6.0.0+
+- [x] Hyperloop 2.0.0+
 - [x] Alloy 1.8.0+
 
 # Running this app
@@ -26,4 +26,4 @@ You can download the [Android Programming Guide](http://docs.appcelerator.com/pl
 
 # License
 
-This content here is provided on an "as is" basis without any official support or warranty. Source and object code is Copyright &copy; 2015-2016 by Appcelerator, Inc. All Rights Reserved. Permission to use the example source code (such as Alloy views, controllers, etc) in your own application is expressly granted. Hyperloop is a registered trademark of Appcelerator, Inc. 
+This content here is provided on an "as is" basis without any official support or warranty. Source and object code is Copyright &copy; 2015-Present by Appcelerator, Inc. All Rights Reserved. Permission to use the example source code (such as Alloy views, controllers, etc) in your own application is expressly granted. Hyperloop is a registered trademark of Appcelerator, Inc. 
