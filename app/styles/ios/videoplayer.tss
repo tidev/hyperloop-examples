@@ -1,0 +1,14 @@
+".button": {
+	backgroundColor: "#000",
+	tintColor: "#fff",
+	height: 50,
+	width: 200
+}
+
+".buttonStart": {
+	top: 100
+}
+
+".buttonPause": {
+	bottom: 100
+}
