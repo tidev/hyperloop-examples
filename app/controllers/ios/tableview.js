@@ -14,7 +14,7 @@
 	var users = JSON.parse(file.read().text).users;
 	
 	// Subclass delegate + data source
-	var TableViewDataSourceAndDelegate = require('subclasses/tableviewdatasourcedelegate')
+	var TableViewDataSourceAndDelegate = require('/subclasses/tableviewdatasourcedelegate')
 
 	// Create + configure tableView
 	var tableView = UITableView.alloc().initWithFrameStyle(UIScreen.mainScreen.bounds, UITableViewStyleGrouped);

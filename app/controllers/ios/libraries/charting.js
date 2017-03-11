@@ -5,7 +5,7 @@
 		JBBarChartView = require('JBChartView/JBBarChartView');
 
 	// This is a custom class that implements some delegate methods
-	var ChartDelegate = require('subclasses/chartdelegate');
+	var ChartDelegate = require('/subclasses/chartdelegate');
 
 	// create a new bar view
 	var chart = new JBBarChartView();

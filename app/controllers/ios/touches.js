@@ -8,7 +8,7 @@
 		UIKit = require('UIKit'),
 		UIColor = require('UIKit/UIColor');
 
-	var PanGestureRecognizer = require('subclasses/gesturerecognizer');
+	var PanGestureRecognizer = require('/subclasses/gesturerecognizer');
 	// create an instance of the class - one for each instance of the view
  	var panGesture1 = new PanGestureRecognizer();
 	panGesture1.addTargetAction(panGesture1, 'onAction:');

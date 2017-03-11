@@ -12,7 +12,7 @@
 		UIKit = require('UIKit');
 
 	// create a custom implementation of UIPanGestureRecognizer
-	var PanGestureRecognizer = require('subclasses/gesturerecognizer');
+	var PanGestureRecognizer = require('/subclasses/gesturerecognizer');
 
 	// original location of view
 	var orgPt;

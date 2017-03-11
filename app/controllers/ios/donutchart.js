@@ -24,7 +24,7 @@
 		lightGray:  UIColor.colorWithRedGreenBlueAlpha(0.929, 0.933, 0.933, 1.000)
 	};
 
-	var DrawRectView = require('subclasses/drawrectview')
+	var DrawRectView = require('/subclasses/drawrectview')
 
 	/** Create a Titanium Wrapper View **/
 	var wrapper = Ti.UI.createView({

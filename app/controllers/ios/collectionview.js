@@ -13,7 +13,7 @@
 		numberOfColors = 50;
 
 	// Subclass delegate + data source
-	var CollectionViewDataSourceAndDelegate = require('subclasses/collectionviewdatasourcedelegate')
+	var CollectionViewDataSourceAndDelegate = require('/subclasses/collectionviewdatasourcedelegate')
 	var dataSourceDelegate = new CollectionViewDataSourceAndDelegate();
     
 	// Return the number of collection view cells

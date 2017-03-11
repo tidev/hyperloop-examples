@@ -9,7 +9,7 @@
 		CGContextFillRect = require('CoreGraphics').CGContextFillRect;
 
 	// create a unique UIView subclass for doing our custom drawing
-	var DrawRectView = require('subclasses/drawrectview')
+	var DrawRectView = require('/subclasses/drawrectview')
 
 	// convenience function for converting an angle in degress to radians
 	function DEGREES_TO_RADIANS (angle) { return (Number(angle) / 180.0 * Math.PI); };
