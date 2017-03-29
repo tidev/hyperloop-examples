@@ -15,3 +15,19 @@ function onListViewItemclick(e) {
 	// See lib/xp.ui.js to see how we emulate this component for Android
 	$.navWin.openWindow(Alloy.createController(controllerName, {nav: $.navWin}).getView());
 }
+
+function requestReviewDialog() {
+	if (!OS_IOS) {
+		// This is an iOS-only feature
+		return;
+	}
+	
+	var Review = require('ti.reviewdialog');
+
+	// This will request a rating dialog in iOS 10.3+
+	// Check-out the repository: https://github.com/hansemannn/titanium-review-dialog
+	if (Review.isSupported() && !Ti.App.Properties.getBool('reviewDialogRequested', false)) {
+		Ti.App.Properties.setBool('reviewDialogRequested', true);
+		Review.requestReview();
+	}
+}
