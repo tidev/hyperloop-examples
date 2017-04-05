@@ -11,25 +11,25 @@
 					<ListItem itemId="autolayout" platform="ios" title="Auto Layout"/>
 					<ListItem itemId="touchid" platform="ios" title="Apple Touch ID"/>
 					<ListItem itemId="httprequest" title="HTTP Request"/>
-					<ListItem itemId="animateview" title="View Animation"/>
+					<ListItem itemId="animateview" platform="android,ios" title="View Animation"/>
 					<ListItem itemId="label" title="Styled Labels"/>
 					<ListItem itemId="beacons" platform="ios" title="iBeacons"/>
 					<ListItem itemId="videoplayer" platform="ios" title="Video Player"/>
-					<ListItem itemId="drawrect" title="Custom Drawing"/>
+					<ListItem itemId="drawrect" platform="android,ios" title="Custom Drawing"/>
 					<ListItem itemId="touches" title="Touches"/>
 					<ListItem itemId="tableview" platform="ios" title="Table View"/>
 					<ListItem itemId="collectionview" platform="ios" title="Collection View"/>
-					<ListItem itemId="libraries/index" title="Third-Party Libraries"/>
+					<ListItem itemId="libraries/index" platform="android,ios" title="Third-Party Libraries"/>
 					<ListItem itemId="alert" title="Alert"/>
 					<ListItem itemId="xib" platform="ios" title="Interface Builder UI"/>
-					<ListItem itemId="donutchart" title="Donut Chart"/>
+					<ListItem itemId="donutchart" platform="android,ios" title="Donut Chart"/>
 					<ListItem itemId="shapes" platform="ios" title="Shapes &amp; Animation"/>
 					<ListItem itemId="custom" platform="ios" title="Custom Class"/>
 					<ListItem itemId="tinder" platform="ios" title="Tinder UI"/>
 					<ListItem itemId="gravity" platform="ios" title="Gravity"/>
 					<ListItem itemId="snackbar" platform="android" title="Snackbar"/>
-					<ListItem itemId="blur" title="Blur"/>
-					<ListItem itemId="sizefill" title="FILL vs SIZE"/>
+					<ListItem itemId="blur" platform="android,ios" title="Blur"/>
+					<ListItem itemId="sizefill" platform="ios" title="FILL vs SIZE"/>
 					<ListItem itemId="progress" platform="android" title="Circular Progress"/>
 					<ListItem itemId="wkwebview" platform="ios" title="WebView (WKWebView)"/>
 					<ListItem itemId="button" title="Button"/>
