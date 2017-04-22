@@ -17,6 +17,9 @@
  * @end
  */	
 var CalendarDelegate = Hyperloop.defineClass('CalendarDelegate', 'NSObject');
+var GLDateUtils = require('GLCalendarView/GLDateUtils');
+var GLCalendarDateRange = require('GLCalendarView/GLCalendarDateRange');
+var UIColor = require('UIKit/UIColor');
 
 /**
  * Implement the required delegate methods that are defined by the
