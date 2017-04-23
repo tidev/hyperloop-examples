@@ -6,8 +6,8 @@ Learn more about Hyperloop [here](http://www.appcelerator.com/mobile-app-develop
 
 # Requirements
 
-- [x] Titanium Mobile 6.0.0+
-- [x] Hyperloop 2.0.0+
+- [x] Titanium Mobile 6.0.0+ (6.1.0+ for Hyperloop Windows)
+- [x] Hyperloop 2.0.0+ (2.1.0+ for Hyperloop Windows)
 - [x] Alloy 1.8.0+
 
 # Running this app
@@ -23,6 +23,11 @@ You can download the [iOS Programming Guide](http://docs.appcelerator.com/platfo
 ## Android
 
 You can download the [Android Programming Guide](http://docs.appcelerator.com/platform/latest/#!/guide/Android_Hyperloop_Programming_Guide) for information on running this demo application for Android and learning how to use Hyperloop in your own project.
+
+## Windows (Tech-Preview)
+
+Hyperloop 2.1.0 includes the Hyperloop Windows Tech Preview and it requires Titanium SDK 6.1.0 or later.
+You can download the [Windows Programming Guide](http://docs.appcelerator.com/platform/latest/#!/guide/Windows_Hyperloop_Programming_Guide) for information on running this demo application for Windows and learning how to use Hyperloop in your own project.
 
 # License
 
