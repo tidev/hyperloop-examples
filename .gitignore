@@ -14,5 +14,6 @@ Pods
 /platform
 /modules/iphone/hyperloop
 /modules/android/hyperloop
+/modules/windows/hyperloop
 /plugins/hyperloop
 /Podfile.lock
