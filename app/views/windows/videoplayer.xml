@@ -1,0 +1,8 @@
+<Alloy>
+	<Window id="window" title="Video Player">
+		<!-- The player will be added by the controller -->
+		
+		<Button onClick="startPlayer" class="button buttonStart" title="Start" />
+		<Button onClick="pausePlayer" class="button buttonPause" title="Pause" />
+	</Window>
+</Alloy>

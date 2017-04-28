@@ -12,9 +12,11 @@
 					<ListItem itemId="touchid" platform="ios" title="Apple Touch ID"/>
 					<ListItem itemId="httprequest" title="HTTP Request"/>
 					<ListItem itemId="animateview" platform="android,ios" title="View Animation"/>
+					<ListItem itemId="basicinput" platform="windows" title="Basic Input"/>
+					<ListItem itemId="devicecapabilities" platform="windows" title="Device Capabilities"/>
 					<ListItem itemId="label" title="Styled Labels"/>
 					<ListItem itemId="beacons" platform="ios" title="iBeacons"/>
-					<ListItem itemId="videoplayer" platform="ios" title="Video Player"/>
+					<ListItem itemId="videoplayer" platform="ios,windows" title="Video Player"/>
 					<ListItem itemId="drawrect" platform="android,ios" title="Custom Drawing"/>
 					<ListItem itemId="touches" title="Touches"/>
 					<ListItem itemId="tableview" platform="ios" title="Table View"/>
