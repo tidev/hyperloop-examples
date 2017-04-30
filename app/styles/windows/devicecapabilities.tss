@@ -1,0 +1,16 @@
+".label": {
+	height: Ti.UI.SIZE,
+	width: Ti.UI.FILL
+}
+
+".notice1": {
+	top: 0
+}
+
+".notice2": {
+	top: '40%'
+}
+
+".notice3": {
+	top: '80%'
+}
