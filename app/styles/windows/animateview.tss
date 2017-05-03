@@ -1,0 +1,7 @@
+'Button': {
+	bottom:50
+}
+
+'Label': {
+	top: 10
+}
