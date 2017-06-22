@@ -1,0 +1,4 @@
+"#rect_container": {
+    width:  Ti.UI.FILL,
+    height: Ti.UI.FILL
+}

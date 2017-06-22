@@ -1,0 +1,5 @@
+<Alloy>
+	<Window id="win" title="Generic Collections">
+		<Label id="notice"></Label>
+	</Window>
+</Alloy>
