@@ -1,5 +1,8 @@
 <Alloy>
 	<Window id="win" title="WKWebView Example">
+		<RightNavButton>
+			<ActivityIndicator id="loader" />
+		</RightNavButton>
 		<WebView module="wkwebview" url="http://www.appcelerator.com" onLoad="onLoad"/>
 	</Window>
 </Alloy>
