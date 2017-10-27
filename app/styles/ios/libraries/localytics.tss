@@ -1,0 +1,7 @@
+
+'.button': {
+	height: 40,
+	width: 300,
+	tintColor: "white",
+	backgroundColor: Alloy.CFG.brandPrimary
+}

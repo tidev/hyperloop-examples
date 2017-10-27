@@ -1,0 +1,9 @@
+<Alloy>
+	<Window id="win" title="Localytics">
+		<View>
+			<View id="container">
+				<Button class="button" onClick="tagProduct">Tag sample product</Button>
+			</View>
+		</View>
+	</Window>
+</Alloy>
