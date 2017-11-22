@@ -2,7 +2,7 @@
 <ti:app xmlns:ti="http://ti.appcelerator.org">
 	<id>com.appcelerator.sample.hyperloop</id>
 	<name>Hyperloop_Sample</name>
-	<version>2.2.0</version>
+	<version>2.2.3</version>
 	<publisher>Appcelerator</publisher>
 	<url>http://www.appcelerator.com</url>
 	<description>This app demonstrates Hyperloop</description>
@@ -33,15 +33,13 @@
 				</array>
 				<key>UIStatusBarStyle</key>
 				<string>UIStatusBarStyleLightContent</string>
-                		<key>NSLocationWhenInUseUsageDescription</key>
-                		<string>Can we use your location to detect iBeacons?</string>
+    		<key>NSLocationWhenInUseUsageDescription</key>
+    		<string>Can we use your location to detect iBeacons?</string>
 				<key>NSLocationAlwaysUsageDescription</key>
-                		<string>Can we use your location to detect iBeacons in the background?</string>
-				
+    		<string>Can we use your location to detect iBeacons in the background?</string>
 				<!-- iOS 11+ -->
 				<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-                		<string>Can we use your location to detect iBeacons in the background?</string>
-				
+    		<string>Can we use your location to detect iBeacons in the background?</string>
 				<key>CFBundleURLTypes</key>
 				<array>
 				    <dict>
@@ -62,7 +60,7 @@
 		</manifest>
 	</android>
 	<modules>
-		<module version="2.2.0">hyperloop</module>
+		<module version="2.2.3">hyperloop</module>
 	</modules>
 	<deployment-targets>
 		<target device="android">true</target>
@@ -71,9 +69,9 @@
 		<target device="mobileweb">false</target>
 		<target device="windows">false</target>
 	</deployment-targets>
-	<sdk-version>6.2.2.GA</sdk-version>
+	<sdk-version>6.2.3.GA</sdk-version>
 	<plugins>
 		<plugin version="1.0">ti.alloy</plugin>
-		<plugin version="2.2.0">hyperloop</plugin>
+		<plugin version="2.2.3">hyperloop</plugin>
 	</plugins>
 </ti:app>

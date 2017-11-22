@@ -17,7 +17,7 @@ function onListViewItemclick(e) {
 }
 
 function requestReviewDialog() {
-	if (!OS_IOS) {
+	if (!OS_IOS || !isiOS10_3()) {
 		// This is an iOS-only feature
 		return;
 	}
@@ -30,4 +30,9 @@ function requestReviewDialog() {
 		Ti.App.Properties.setBool('reviewDialogRequested', true);
 		Review.requestReview();
 	}
+}
+
+function isiOS10_3() {
+	var version = Ti.Platform.version.split(".");	
+	return (parseInt(version[0]) >= 10 && parseInt(version[1]) >= 3);
 }
