@@ -2,7 +2,12 @@
 	"global": {
 		"brandPrimary": "#CD1625",
 		"theme": "foo",
-		"foo": "Hello from: Alloy.CFG.foo"
+		"foo": "Hello from: Alloy.CFG.foo",
+		"services": {
+			"localytics": {
+				"apiKey": "ENTER_YOUR_LOCALYTICS_APP_KEY_HERE"
+			}
+		}
 	},
 	"env:development": {},
 	"env:test": {},
