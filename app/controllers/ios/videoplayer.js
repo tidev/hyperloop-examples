@@ -20,11 +20,10 @@ var UIScreen = require('UIKit/UIScreen'),
     var videoPath = NSBundle.mainBundle.pathForResourceOfType('/videos/movie', 'mp4');
     var videoURL = NSURL.fileURLWithPath(videoPath);
 
-    player = AVPlayer.alloc().initWithURL(videoURL);
+    player = AVPlayer.playerWithURL(videoURL);
     player.muted = true;
 
-    var layer = new AVPlayerLayer();
-    layer.player = player;
+    var layer = AVPlayerLayer.playerLayerWithPlayer(player);
     layer.videoGravity = AVLayerVideoGravityResizeAspectFill;
     layer.frame = CGRectMake(0, 0, videoSize.width, videoSize.height);
 
