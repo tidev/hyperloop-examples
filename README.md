@@ -24,7 +24,7 @@ You can download the [iOS Programming Guide](http://docs.appcelerator.com/platfo
 
 You can download the [Android Programming Guide](http://docs.appcelerator.com/platform/latest/#!/guide/Android_Hyperloop_Programming_Guide) for information on running this demo application for Android and learning how to use Hyperloop in your own project.
 
-## Windows (Tech-Preview)
+## Windows
 
 Hyperloop 2.1.0+ includes the Hyperloop Windows and it requires Titanium SDK 6.1.0+.
 You can download the [Windows Programming Guide](http://docs.appcelerator.com/platform/latest/#!/guide/Windows_Hyperloop_Programming_Guide) for information on running this demo application for Windows and learning how to use Hyperloop in your own project.
