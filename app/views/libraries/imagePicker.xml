@@ -1,0 +1,9 @@
+<Alloy>
+	<Window id="win" title="Image Picker">
+		<View>
+			<View id="container">
+				<Button class="button" onClick="selectPhoto">Select Photo</Button>
+			</View>
+		</View>
+	</Window>
+</Alloy>
