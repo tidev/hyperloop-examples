@@ -26,6 +26,6 @@ var imagePicker;
 	imagePicker.imageLimit = 5;	
 })($.container);
 
-function selectImage() {
+function selectPhoto() {
 	TiApp.app().showModalController(imagePicker, true);
 }
