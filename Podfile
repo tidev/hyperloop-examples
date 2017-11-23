@@ -6,5 +6,5 @@ target 'Hyperloop_Sample' do
 	pod 'JBChartView'
 	pod 'GLCalendarView', '~> 1.2'
 	pod 'Shimmer'
-	pod 'Localytics', '~> 4.4'
+	pod 'Localytics', '~> 4.4.1'
 end
