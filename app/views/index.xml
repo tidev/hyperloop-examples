@@ -5,7 +5,7 @@
 	See app/lib/xp.ui.js for how we use this to emulate the iOS-only NavigationWindow for Android
 	-->
 	<NavigationWindow id="navWin" module="xp.ui">
-		<Window title="Samples" onOpen="requestReviewDialog">
+		<Window title="Hyperloop Examples" onOpen="onOpen">
 			<ListView onItemclick="onListViewItemclick">
 				<ListSection>
 					<ListItem itemId="autolayout" platform="ios" title="Auto Layout"/>

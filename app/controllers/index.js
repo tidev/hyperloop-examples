@@ -7,7 +7,6 @@
 })(arguments[0] || {});
 
 function onListViewItemclick(e) {
-
 	// We've set the items special itemId-property to the controller name
 	var controllerName = e.itemId;
 
@@ -16,12 +15,19 @@ function onListViewItemclick(e) {
 	$.navWin.openWindow(Alloy.createController(controllerName, {nav: $.navWin}).getView());
 }
 
-function requestReviewDialog() {
-	if (!OS_IOS || !isiOS10_3()) {
-		// This is an iOS-only feature
-		return;
+function onOpen() {
+	if (OS_ANDROID) {
+		// For Android, try out the settings- and content-resolver API to check if the app
+		// is installed via Google Play 
+		var GooglePlayUtils = require('google-play-utils');
+		Ti.API.info('Installed via Google Play: ' + GooglePlayUtils.isInstalledViaGooglePlay());
+	} else if (OS_IOS && isiOS10_3()) {
+		// For iOS, request a review-dialog
+		requestReviewDialog();
 	}
-	
+}
+
+function requestReviewDialog() {
 	var Review = require('ti.reviewdialog');
 
 	// This will request a rating dialog in iOS 10.3+
