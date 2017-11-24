@@ -5,7 +5,8 @@
                 <ListItem itemId="calendar" platform="ios" title="Calendar (GLCalendarView)"/>
                 <ListItem itemId="charting" platform="ios" title="Charting (JBChartView)"/>
                 <ListItem itemId="localytics" platform="ios" title="Localytics"/>
-                <ListItem itemId="shimmer" title="Shimmer (Shimmer)"/>    
+                <ListItem itemId="imagePicker" platform="ios" title="Image Picker (ImagePicker)"/>
+                <ListItem itemId="shimmer" title="Shimmer"/>    
             </ListSection>
         </ListView>
     </Window>

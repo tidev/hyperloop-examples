@@ -21,6 +21,7 @@
 	<property name="run-on-main-thread" type="bool">true</property>
 	<ios>
 		<use-jscore-framework>true</use-jscore-framework>
+		<min-ios-ver>9.0</min-ios-ver>
 		<plist>
 			<dict>
 				<key>UISupportedInterfaceOrientations~iphone</key>
