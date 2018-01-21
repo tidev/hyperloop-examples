@@ -2,10 +2,11 @@
     <Window id="window" title="Libraries">
         <ListView onItemclick="onListViewItemclick">
             <ListSection>
-                <ListItem itemId="calendar" platform="ios" title="Calendar (GLCalendarView)"/>
-                <ListItem itemId="charting" platform="ios" title="Charting (JBChartView)"/>
+                <ListItem itemId="calendar" platform="ios" title="GLCalendarView"/>
+                <ListItem itemId="charting" platform="ios" title="JBChartView"/>
                 <ListItem itemId="localytics" platform="ios" title="Localytics"/>
-                <ListItem itemId="shimmer" title="Shimmer (Shimmer)"/>    
+                <ListItem itemId="shimmer" title="Shimmer"/>    
+                <ListItem itemId="markdown" title="MMMarkdown"/>    
             </ListSection>
         </ListView>
     </Window>

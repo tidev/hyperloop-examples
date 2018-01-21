@@ -1,0 +1,5 @@
+<Alloy>
+	<Window title="HTML-result">
+		<WebView id="webView" />
+	</Window>
+</Alloy>

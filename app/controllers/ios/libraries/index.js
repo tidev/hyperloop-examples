@@ -15,5 +15,5 @@ function onListViewItemclick(e) {
 
 	// Which we use to create the controller, get the window and open it in the navigation window
 	// See lib/xp.ui.js to see how we emulate this component for Android
-	nav.openWindow(Alloy.createController("libraries/" + controllerName).getView());
+	nav.openWindow(Alloy.createController("libraries/" + controllerName, { nav: nav }).getView());
 }

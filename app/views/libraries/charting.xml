@@ -1,5 +1,5 @@
 <Alloy>
-	<Window id="win" title="Charting (3rd party)">
+	<Window id="win" title="JBChartView">
 
 		<ScrollView>
 			<Label>3rd party charting library via CocoaPods</Label>

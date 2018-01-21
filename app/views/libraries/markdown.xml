@@ -1,0 +1,12 @@
+<Alloy>
+	<Window id="win" title="MMMarkdown" layout="vertical">
+		<TextArea class="field" value="# Try it out!" id="markdownField">
+			<Label class="meta">Markdown</Label>
+		</TextArea>
+		<Button class="submit" onClick="convertButtonTapped" />
+		<TextArea class="field" id="htmlField">
+			<Label class="meta">HTML (converted)</Label>
+			<Button bottom="10" title="Open in WebView" onClick="openInWebViewButtonTapped" />
+		</TextArea>
+	</Window>
+</Alloy>

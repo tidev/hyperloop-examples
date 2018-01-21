@@ -1,5 +1,5 @@
 <Alloy>
-	<Window id="win" title="Calendar">
+	<Window id="win" title="GLCalendarView">
 
 		<View>
 			<Label>3rd Party 3D Globe Library</Label>

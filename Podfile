@@ -9,4 +9,5 @@ target 'Hyperloop_Sample' do
 	pod 'GLCalendarView', '~> 1.2'
 	pod 'Shimmer'
 	pod 'Localytics', '~> 4.4.1'
+	pod 'MMMarkdown'
 end

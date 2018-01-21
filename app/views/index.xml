@@ -8,6 +8,7 @@
 		<Window title="Hyperloop Examples" onOpen="onOpen">
 			<ListView onItemclick="onListViewItemclick">
 				<ListSection>
+					<ListItem itemId="libraries/index" platform="android,ios" title="Third-Party Libraries"/>
 					<ListItem itemId="autolayout" platform="ios" title="Auto Layout"/>
 					<ListItem itemId="touchid" platform="ios" title="Apple Touch ID"/>
 					<ListItem itemId="httprequest" title="HTTP Request"/>
@@ -21,7 +22,6 @@
 					<ListItem itemId="touches" title="Touches"/>
 					<ListItem itemId="tableview" platform="ios" title="Table View"/>
 					<ListItem itemId="collectionview" platform="ios" title="Collection View"/>
-					<ListItem itemId="libraries/index" platform="android,ios" title="Third-Party Libraries"/>
 					<ListItem itemId="alert" title="Alert"/>
 					<ListItem itemId="xib" platform="ios" title="Interface Builder UI"/>
 					<ListItem itemId="donutchart" platform="android,ios" title="Donut Chart"/>

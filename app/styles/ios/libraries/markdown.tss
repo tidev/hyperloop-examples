@@ -1,0 +1,26 @@
+'.field': {
+	backgroundColor: '#fafafa',
+	width: Ti.UI.FILL,
+	top: 0,
+	height: '45%',
+	font: {
+		fontSize: 15
+	}
+}
+
+'.submit': {
+	backgroundColor: Alloy.CFG.brandPrimary,
+	color: 'white',
+	title: 'Convert!',
+	height: '10%',
+	width: Ti.UI.FILL
+}
+
+'.meta': {
+	top: 10,
+	color: 'gray',
+	right: 10,
+	font: {
+		fontSize: 10
+	}
+}
