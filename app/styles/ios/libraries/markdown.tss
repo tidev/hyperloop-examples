@@ -3,6 +3,9 @@
 	width: Ti.UI.FILL,
 	top: 0,
 	height: '45%',
+	suppressReturn: false,
+	autocorrect: false,
+	autocapitalization: false,
 	font: {
 		fontSize: 15
 	}

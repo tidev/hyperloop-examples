@@ -6,6 +6,7 @@ var nav;
 })(arguments[0] || {});
 
 function convertButtonTapped() {
+	$.markdownField.blur();
 	$.htmlField.value = MMMarkdown.HTMLStringWithMarkdownError($.markdownField.value, null);
 }
 
