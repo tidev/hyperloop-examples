@@ -201,7 +201,6 @@
    * @param  {object}  e
    */
   function onFxClick(e) {
-    Ti.API.info('onFxClick');
     try {
       if (fxManager.fx !== e.source.fx) {
         //Reset slider value
@@ -265,7 +264,6 @@
   function onToggleFxPanel(e) {
     var fxPanelParams,
       sliderValueParams;
-;
 
     fxPanelParams = {
       bottom: 0,
@@ -277,7 +275,6 @@
     };
 
     if ($.settingsPanel.bottom === 0) {
-
       fxPanelParams = {
         bottom: -FX_PANEL_HEIGHT,
         duration: 750
