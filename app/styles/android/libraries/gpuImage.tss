@@ -1,0 +1,72 @@
+'#settingsPanel' : {
+  bottom: 0,
+  width: Ti.UI.FILL,
+  height: 144,
+  layout: 'vertical',
+  zIndex: 1
+}
+'#sliderValueContainer' : {
+  left: 16,
+  top: 16,
+  width: 40,
+  height: 40,
+  zIndex: 1,
+  visible: false
+},
+'#sliderContainer' : {
+  left: 72,
+  right: 72,
+  bottom: 16,
+  width: Ti.UI.FILL,
+  height: 48,
+  backgroundColor: '#88F6F6F6',
+  visible: false
+}
+'#sliderValue' : {
+  font: {
+    fontSize: 16
+  },
+  text: '50',
+  opacity: 0
+}
+'#slider' : {
+  left: 16,
+  right: 16,
+  min: 0,
+  max: 200,
+  value: 100
+}
+'#fxPanel' : {
+  width: Ti.UI.FILL,
+  height: 80,
+  layout: 'horizontal',
+  scrollType: 'horizontal',
+  backgroundColor: '#88000000',
+  contentWidth: Ti.UI.SIZE,
+  contentHeight: 80
+}
+'#settings' : {
+  top: 16,
+  right: 16,
+  text: '\uE8B8'
+}
+'.icon' : {
+  font: {
+    fontFamily: 'MaterialIcons-Regular',
+    fontSize: 24
+  }
+}
+'.option' : {
+  width: 40,
+  height: 40,
+  backgroundColor: '#66000000',
+  color: '#F6F6F6',
+  zIndex: 1,
+  textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER
+}
+'.radius-circle' : {
+  borderRadius: 20
+}
+'.radius-slider-container' : {
+  borderRadius: 20
+}
