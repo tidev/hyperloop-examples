@@ -7,7 +7,7 @@
                 <ListItem itemId="localytics" platform="ios" title="Localytics"/>
                 <ListItem itemId="shimmer" title="Shimmer"/>
                 <ListItem itemId="markdown" title="MMMarkdown"/>
-                <ListItem itemId="gpuImage" platform="android" title="GPU Image"/>
+                <ListItem itemId="gpuImage" platform="android" title="Image Filters (GPUImage)"/>
             </ListSection>
         </ListView>
     </Window>
