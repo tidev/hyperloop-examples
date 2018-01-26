@@ -1,0 +1,15 @@
+<Alloy>
+	<Window id="win" title="GPUImage">
+		<View id="sliderValueContainer">
+				<Label id="sliderValue" class="option"/>
+		</View>
+		<Label id="settings" class="icon option"/>
+		<View id="bitmapContainer"/>
+		<View id="settingsPanel">
+			<View id="sliderContainer">
+				<Slider id="slider" />
+			</View>
+			<ScrollView id="fxPanel"/>
+		</View>
+	</Window>
+</Alloy>

@@ -42,6 +42,10 @@ overrode the settings with other TSS, XML, or JS settings:
 	layout: 'vertical'
 }
 
+'.hbox' : {
+	layout: 'horizontal'
+}
+
 '.tpad' : {
 	top: 20
 }
