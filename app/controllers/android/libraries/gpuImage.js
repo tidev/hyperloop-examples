@@ -1,6 +1,7 @@
 /**
  * Play with image filters
- * @file bitmapFilter.js
+ * @author Jorge Macías <jormagar@gmail.com>
+ * @file gpuImage.js
  * @method controller
  * @param  {object}   args  Controller arguments
  */
@@ -29,7 +30,6 @@
   fx = {
     'Normal': 'GPUImageFilter',
     'Contrast': 'GPUImageContrastFilter',
-    'Hue': 'GPUImageHueFilter',
     'Gray Scale': 'GPUImageGrayscaleFilter',
     'Sketch': 'GPUImageSketchFilter',
     'Gaussian Blur': 'GPUImageGaussianBlurFilter',
