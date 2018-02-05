@@ -5,8 +5,8 @@
                 <ListItem itemId="calendar" platform="ios" title="GLCalendarView"/>
                 <ListItem itemId="charting" platform="ios" title="JBChartView"/>
                 <ListItem itemId="localytics" platform="ios" title="Localytics"/>
+                <ListItem itemId="markdown" platform="ios" title="MMMarkdown"/>
                 <ListItem itemId="shimmer" title="Shimmer"/>
-                <ListItem itemId="markdown" title="MMMarkdown"/>
                 <ListItem itemId="gpuImage" platform="android" title="Image Filters (GPUImage)"/>
             </ListSection>
         </ListView>
