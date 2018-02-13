@@ -41,20 +41,20 @@ var browser;
 
   var browserDelegate = new BrowserDelegate();
 
+  // Handle error
   browserDelegate.didNotStartBrowsingForServices = function(browser, error) {
-    console.log('Error: ' + error.localizedDescription);
-  	// Handle error
+    Ti.API.error('Error: ' + error.localizedDescription);
   };
 
+  // Handle found services, e.g.
+  // service.location, service.serviceType, service.uniqueServiceName, service.server
   browserDelegate.didFindService = function(browser, service) {
-    console.log('Found service : ' + service.uniqueServiceName);
-  	// Handle found services, e.g.
-  	// service.location, service.serviceType, service.uniqueServiceName, service.server
+    Ti.API.info('Found service : ' + service.uniqueServiceName);
   };
 
+  // Handle removed services
   browserDelegate.didRemoveService = function(browser, service) {
-    console.log('Removed service : ' + service.uniqueServiceName);
-  	// Handle removed services
+    Ti.API.info('Removed service : ' + service.uniqueServiceName);
   };
 
   browser = new SSDPServiceBrowser(); 
