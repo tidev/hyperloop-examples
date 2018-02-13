@@ -37,6 +37,10 @@ module.exports = {
        * name of the package that will be used in the require (if code).
        * the values can either be an Array or String value to the directory
        * where the files are located
+       *
+       * **WARNING**: This functionality has been deprecated in Hyperloop 3.0.0
+       * and will be removed in future versions of Hyperloop. Use Cocoapods or 
+       * place your frameworks in platform/ios instead to be properly handled.
        */
       thirdparty: {
         'MyFramework': {
