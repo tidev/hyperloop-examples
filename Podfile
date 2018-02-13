@@ -10,4 +10,5 @@ target 'Hyperloop_Sample' do
 	pod 'Shimmer'
 	pod 'Localytics', '~> 4.4.1'
 	pod 'MMMarkdown'
+	pod 'CocoaSSDP'
 end

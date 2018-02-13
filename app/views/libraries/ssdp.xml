@@ -1,0 +1,6 @@
+<Alloy>
+	<Window id="window" title="SSDP-Search">		
+		<Button onClick="startSearch" class="button buttonStart" title="Start search" />
+		<Button onClick="stopSearch" class="button buttonPause" title="Stop search" />
+	</Window>
+</Alloy>
