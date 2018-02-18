@@ -1,0 +1,6 @@
+<Alloy>
+	<Window id="win" title="Media Player">
+		<Button top="100" title="Start Media" onClick="startMedia" />
+		<Button top="200" title="Stop Media" onClick="stopMedia" />
+	</Window>
+</Alloy>

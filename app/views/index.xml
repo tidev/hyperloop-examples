@@ -17,6 +17,7 @@
 					<ListItem itemId="devicecapabilities" platform="windows" title="Device Capabilities"/>
 					<ListItem itemId="label" title="Styled Labels"/>
 					<ListItem itemId="beacons" platform="ios" title="iBeacons"/>
+					<ListItem itemId="mediaplayer" platform="android" title="Media Player"/>
 					<ListItem itemId="videoplayer" title="Video Player"/>
 					<ListItem itemId="drawrect" platform="android,ios,windows" title="Custom Drawing"/>
 					<ListItem itemId="touches" title="Touches"/>
