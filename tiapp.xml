@@ -56,7 +56,7 @@
 	</ios>
 	<android xmlns:android="http://schemas.android.com/apk/res/android">
 		<manifest>
-			<application android:theme="@style/appcelerator"/>
+			<application android:theme="@style/appcelerator" android:icon="@mipmap/appicon" android:roundIcon="@mipmap/appicon_foreground"  />
 		</manifest>
 	</android>
 	<modules>
