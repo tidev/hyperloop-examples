@@ -43,11 +43,10 @@ var activity = new Activity(Ti.Android.currentActivity);
   }));
 
   // Crazy stuff here! So how does this work?
-  //   1. You can search for the hex-values in build/android/gen/ti/modules/titanium/ui/R.java
-  //   2. Convert the hex into a decimal number, e.g. using https://www.binaryhexconverter.com/hex-to-decimal-converter
-  //   3. Insert the res-ID's below
-  bottomNav.inflateMenu(2131689472); // HACKY HACKY -- USES THE RES-ID of app/platform/android/res/menu/tabs.xml
-  bottomNav.setItemBackgroundResource(2131558401);  // HACKY HACKY -- USES THE RES-ID "tabs_background_color" of app/platform/android/res/values/colors.xml
+  // Instead of using R.menu.tabs and R.colors.tabs_background_color, we use the programmatic approach to receive them
+  // In the future, this may also be possible by Ti.App.Android.R.*, but thats not available so far.
+  bottomNav.inflateMenu(resIDFromString('tabs', 'menu'));
+  bottomNav.setItemBackgroundResource(resIDFromString('tabs_background_color', 'color')); 
   
   // Uncomment to use custom item colors
   // 
@@ -70,3 +69,8 @@ var activity = new Activity(Ti.Android.currentActivity);
   // Add it to your Titanium view!
   container.add(bottomNav);
 })($.win);
+
+// Utility method to get a resource ID from a string
+function resIDFromString(variableName, resourceName) {
+  return activity.getResources().getIdentifier(variableName, resourceName, activity.getPackageName());
+}
