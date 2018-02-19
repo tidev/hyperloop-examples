@@ -46,8 +46,8 @@ var activity = new Activity(Ti.Android.currentActivity);
   //   1. You can search for the hex-values in build/android/gen/ti/modules/titanium/ui/R.java
   //   2. Convert the hex into a decimal number, e.g. using https://www.binaryhexconverter.com/hex-to-decimal-converter
   //   3. Insert the res-ID's below
-  bottomNav.inflateMenu(2131623936); // HACKY HACKY -- USES THE RES-ID of app/platform/android/res/menu/tabs.xml
-  bottomNav.setItemBackgroundResource(2131492865);  // HACKY HACKY -- USES THE RES-ID of app/platform/android/res/menu/tabs.xml
+  bottomNav.inflateMenu(2131689472); // HACKY HACKY -- USES THE RES-ID of app/platform/android/res/menu/tabs.xml
+  bottomNav.setItemBackgroundResource(2131558401);  // HACKY HACKY -- USES THE RES-ID "tabs_background_color" of app/platform/android/res/values/colors.xml
   
   // Uncomment to use custom item colors
   // 
