@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="menu_share">Share</string>
+	<string name="menu_users">Users</string>
+	<string name="menu_navigation">Navigation</string>
+</resources>
