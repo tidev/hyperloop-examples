@@ -11,13 +11,13 @@ function startRequest() {
         function(content) {
             Ti.API.info('Response is: ' + content);
             alert('Request completed!');
-            $.btn.setEnabled(true);
+            $.btn.setTouchEnabled(true);
             $.btn.setTitle('Start request!');
         },
         function (err) {
             Ti.API.error('HTTP error');
         });
 
-    $.btn.setEnabled(false);
+    $.btn.setTouchEnabled(false);
     $.btn.setTitle('Loading ...');
 }
