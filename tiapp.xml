@@ -66,8 +66,7 @@
 		<target device="android">true</target>
 		<target device="ipad">true</target>
 		<target device="iphone">true</target>
-		<target device="mobileweb">false</target>
-		<target device="windows">false</target>
+		<target device="windows">true</target>
 	</deployment-targets>
 	<sdk-version>7.0.2.GA</sdk-version>
 	<plugins>
