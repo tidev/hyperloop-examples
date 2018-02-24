@@ -1,18 +1,19 @@
 import { UIView, UIColor, UIBlurEffect, UIVisualEffectView, UIKit } from 'UIKit';
-import { CGRectMake } from 'CoreGraphics';
+import { CoreGraphics } from 'CoreGraphics';
 
 const UIBlurEffectStyleLight = UIKit.UIBlurEffectStyleLight;
+const CGRectMake = CoreGraphics.CGRectMake;
 
 (function (container) {
-    var blurEffectLight = UIBlurEffect.effectWithStyle(UIBlurEffectStyleLight);
-    var blurView = UIVisualEffectView.alloc().initWithEffect(blurEffectLight);
-    var isBlurred = false;
+    const blurEffectLight = UIBlurEffect.effectWithStyle(UIBlurEffectStyleLight);
+    const blurView = UIVisualEffectView.alloc().initWithEffect(blurEffectLight);
+    const isBlurred = false;
 
-    var WIDTH = 200;
-    var HEIGHT = 200;
-    var fileUrl = "images/appc-logo.png";
+    const WIDTH = 200;
+    const HEIGHT = 200;
+    const fileUrl = "images/appc-logo.png";
 
-    var imageView = Ti.UI.createImageView({
+    const imageView = Ti.UI.createImageView({
         image: fileUrl,
         width: WIDTH,
         height: HEIGHT,
@@ -20,7 +21,7 @@ const UIBlurEffectStyleLight = UIKit.UIBlurEffectStyleLight;
         borderWidth: 2
     });
 
-    var trigger = Ti.UI.createButton({
+    const trigger = Ti.UI.createButton({
         backgroundColor: "#000",
         tintColor: "#fff",
         height: 50,

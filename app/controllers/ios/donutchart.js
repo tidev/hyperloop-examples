@@ -1,3 +1,10 @@
+import { UIColor, UIView, UIBezierPath, UIScreen } from 'UIKit';
+import CoreGraphics from 'CoreGraphics';
+import DrawRectView from '/subclasses/drawrectview';
+
+const CGPointMake = CoreGraphics.CGPointMake;
+const CGRectMake = CoreGraphics.CGRectMake;
+	
 /**
  * DonutChart example
  * @author: Bert Grantges
@@ -8,15 +15,7 @@
  */
 
 (function (container) {
-
-	var UIView = require('UIKit/UIView'),
-		UIColor = require('UIKit/UIColor'),
-		UIBezierPath = require('UIKit/UIBezierPath'),
-		UIScreen = require('UIKit/UIScreen'),
-		CGPointMake = require('CoreGraphics').CGPointMake,
-		CGRectMake = require('CoreGraphics').CGRectMake;
-
-	var Styles = {
+	const Styles = {
 		midnight:  UIColor.colorWithRedGreenBlueAlpha(0.137, 0.180, 0.247, 1.000),
 		deepRed:  UIColor.colorWithRedGreenBlueAlpha(0.710, 0.098, 0.000, 1.000),
 		lightRed:  UIColor.colorWithRedGreenBlueAlpha(0.875, 0.184, 0.000, 1.000),
@@ -24,33 +23,29 @@
 		lightGray:  UIColor.colorWithRedGreenBlueAlpha(0.929, 0.933, 0.933, 1.000)
 	};
 
-	var DrawRectView = require('/subclasses/drawrectview')
-
 	/** Create a Titanium Wrapper View **/
-	var wrapper = Ti.UI.createView({
+	const wrapper = Ti.UI.createView({
 		backgroundColor: '#232E3F'
 	});
 
 	/** Create an Instance of the DrawRectView **/
-	var view = new DrawRectView();
+	const view = new DrawRectView();
 	view.onDrawRect = function(rect) {
 		//// Oval Drawing
-		var ovalPath = UIBezierPath.bezierPathWithOvalInRect(CGRectMake(8, 8, 240, 240));
+		const ovalPath = UIBezierPath.bezierPathWithOvalInRect(CGRectMake(8, 8, 240, 240));
 		Styles.blackPearl.setFill();
 		ovalPath.fill();
 
-
 		//// lineMarker Drawing
-		var lineMarkerPath = UIBezierPath.bezierPath();
+		const lineMarkerPath = UIBezierPath.bezierPath();
 		lineMarkerPath.moveToPoint(CGPointMake(9, 129));
 		lineMarkerPath.addCurveToPointControlPoint1ControlPoint2(CGPointMake(129, 9), CGPointMake(9, 62.73), CGPointMake(62.73, 9));
 		Styles.deepRed.setStroke();
 		lineMarkerPath.lineWidth = 2;
 		lineMarkerPath.stroke();
 
-
 		//// segment0 Drawing
-		var segment0Path = UIBezierPath.bezierPath();
+		const segment0Path = UIBezierPath.bezierPath();
 		segment0Path.moveToPoint(CGPointMake(129, 19));
 		segment0Path.addCurveToPointControlPoint1ControlPoint2(CGPointMake(129, 44.01), CGPointMake(129, 25.9), CGPointMake(129, 34.38));
 		segment0Path.addCurveToPointControlPoint1ControlPoint2(CGPointMake(128, 44), CGPointMake(128.67, 44), CGPointMake(128.33, 44));
@@ -66,9 +61,8 @@
 		Styles.lightGray.setFill();
 		segment0Path.fill();
 
-
 		//// segment1 Drawing
-		var segment1Path = UIBezierPath.bezierPath();
+		const segment1Path = UIBezierPath.bezierPath();
 		segment1Path.moveToPoint(CGPointMake(205.72, 51.57));
 		segment1Path.addCurveToPointControlPoint1ControlPoint2(CGPointMake(188.04, 69.25), CGPointMake(200.8, 56.5), CGPointMake(194.8, 62.49));
 		segment1Path.addCurveToPointControlPoint1ControlPoint2(CGPointMake(130, 44.02), CGPointMake(173.22, 54.11), CGPointMake(152.73, 44.55));
@@ -78,9 +72,8 @@
 		Styles.lightGray.setFill();
 		segment1Path.fill();
 
-
 		//// segment2 Drawing
-		var segment2Path = UIBezierPath.bezierPath();
+		const segment2Path = UIBezierPath.bezierPath();
 		segment2Path.moveToPoint(CGPointMake(51.44, 50.42));
 		segment2Path.addCurveToPointControlPoint1ControlPoint2(CGPointMake(69.12, 68.1), CGPointMake(56.25, 55.23), CGPointMake(62.25, 61.24));
 		segment2Path.addCurveToPointControlPoint1ControlPoint2(CGPointMake(44.01, 127), CGPointMake(53.83, 83.12), CGPointMake(44.27, 103.94));
@@ -90,9 +83,8 @@
 		Styles.lightGray.setFill();
 		segment2Path.fill();
 
-
 		//// segment3 Drawing
-		var segment3Path = UIBezierPath.bezierPath();
+		const segment3Path = UIBezierPath.bezierPath();
 		segment3Path.moveToPoint(CGPointMake(237, 128));
 		segment3Path.addCurveToPointControlPoint1ControlPoint2(CGPointMake(206.28, 203.85), CGPointMake(237, 157.48), CGPointMake(225.3, 184.23));
 		segment3Path.addCurveToPointControlPoint1ControlPoint2(CGPointMake(188.6, 186.17), CGPointMake(201.35, 198.92), CGPointMake(195.35, 192.92));
@@ -103,9 +95,8 @@
 		Styles.lightGray.setFill();
 		segment3Path.fill();
 
-
 		//// segment4 Drawing
-		var segment4Path = UIBezierPath.bezierPath();
+		const segment4Path = UIBezierPath.bezierPath();
 		segment4Path.moveToPoint(CGPointMake(69.25, 188.04));
 		segment4Path.addCurveToPointControlPoint1ControlPoint2(CGPointMake(51.57, 205.72), CGPointMake(62.4, 194.89), CGPointMake(56.39, 200.9));
 		segment4Path.addCurveToPointControlPoint1ControlPoint2(CGPointMake(19, 128), CGPointMake(31.47, 185.94), CGPointMake(19, 158.43));
@@ -115,9 +106,8 @@
 		Styles.lightGray.setFill();
 		segment4Path.fill();
 
-
 		//// segment5 Drawing
-		var segment5Path = UIBezierPath.bezierPath();
+		const segment5Path = UIBezierPath.bezierPath();
 		segment5Path.moveToPoint(CGPointMake(205.58, 204.56));
 		segment5Path.addCurveToPointControlPoint1ControlPoint2(CGPointMake(130, 236.98), CGPointMake(186.25, 224.15), CGPointMake(159.56, 236.45));
 		segment5Path.addCurveToPointControlPoint1ControlPoint2(CGPointMake(130, 211.98), CGPointMake(130, 230.09), CGPointMake(130, 221.6));
@@ -127,9 +117,8 @@
 		Styles.lightGray.setFill();
 		segment5Path.fill();
 
-
 		//// segment9 Drawing
-		var segment9Path = UIBezierPath.bezierPath();
+		const segment9Path = UIBezierPath.bezierPath();
 		segment9Path.moveToPoint(CGPointMake(69.97, 188.74));
 		segment9Path.addCurveToPointControlPoint1ControlPoint2(CGPointMake(128, 212), CGPointMake(85.05, 203.15), CGPointMake(105.49, 212));
 		segment9Path.addCurveToPointControlPoint1ControlPoint2(CGPointMake(129, 211.99), CGPointMake(128.33, 212), CGPointMake(128.67, 212));
@@ -141,9 +130,8 @@
 		Styles.lightGray.setFill();
 		segment9Path.fill();
 
-
 		//// segmentWithPointer Drawing
-		var segmentWithPointerPath = UIBezierPath.bezierPath();
+		const segmentWithPointerPath = UIBezierPath.bezierPath();
 		segmentWithPointerPath.moveToPoint(CGPointMake(225.26, 78.74));
 		segmentWithPointerPath.addCurveToPointControlPoint1ControlPoint2(CGPointMake(225.39, 78.43), CGPointMake(225.34, 78.54), CGPointMake(225.39, 78.43));
 		segmentWithPointerPath.addLineToPoint(CGPointMake(234.57, 82.39));
@@ -157,7 +145,8 @@
 		Styles.deepRed.setFill();
 		segmentWithPointerPath.fill();
 	}
-	var bounds = UIScreen.mainScreen.bounds;
+
+	const bounds = UIScreen.mainScreen.bounds;
 	view.frame = CGRectMake(0, 0, 256, 256);
 	view.center = CGPointMake(bounds.size.width / 2, (bounds.size.height / 2) - 30);
 	view.backgroundColor = UIColor.clearColor;
@@ -171,14 +160,14 @@
 		We can mix and match Titanium and Native super easy - here
 	  lets add a Titanium Label
 	**/
-	var lbl = Ti.UI.createLabel({
-		font:{ fontSize: 48, fontWeight: "bold"},
-		color: "#EDEEEE",
-		text: "35"
+	const label = Ti.UI.createLabel({
+		font: { fontSize: 48, fontWeight: 'bold' },
+		color: '#EDEEEE',
+		text: '35'
 	});
 
 	/** Add the label to the Wrapper View **/
-	wrapper.add(lbl);
+	wrapper.add(label);
 
 	/** Now lets add the wrapper to the containing object **/
 	container.add(wrapper);

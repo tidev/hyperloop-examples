@@ -39,7 +39,6 @@
 	container.add(calendar);
 	calendar.reload();
 
-
 	/**
 	 * Add Click Event Listener for the Right Nav Button
 	 * This event listener scrolls the calendar to the current day of the calendar.

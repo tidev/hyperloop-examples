@@ -1,5 +1,5 @@
-var MMMarkdown = require('MMMarkdown/MMMarkdown');
-var nav;
+import { MMMarkdown } = from 'MMMarkdown';
+let nav;
 
 (function (args) {
 	nav = args.nav;

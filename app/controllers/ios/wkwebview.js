@@ -1,4 +1,3 @@
-
 (function constructor(args) {
   $.loader.show();
 })(arguments[0] || {});

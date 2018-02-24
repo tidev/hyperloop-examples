@@ -1,4 +1,4 @@
-var Localytics = require('Localytics/Localytics');
+import { Localytics } from 'Localytics';
 
 (function (container) {
 	// Initialize SDK

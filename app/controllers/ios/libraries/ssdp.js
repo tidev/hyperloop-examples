@@ -1,10 +1,8 @@
-var SSDPService = require('CocoaSSDP/SSDPService');
-var SSDPServiceBrowser = require('CocoaSSDP/SSDPServiceBrowser');
-var browser;
+import { SSDPService, SSDPServiceBrowser } from 'CocoaSSDP';
+let browser;
 
 (function(container) {
-  
-  var BrowserDelegate = Hyperloop.defineClass('BrowserDelegate', 'NSObject', 'SSDPServiceBrowserDelegate');
+  const BrowserDelegate = Hyperloop.defineClass('BrowserDelegate', 'NSObject', 'SSDPServiceBrowserDelegate');
 
   BrowserDelegate.addMethod({
   	selector: 'ssdpBrowser:didNotStartBrowsingForServices:',
@@ -39,7 +37,7 @@ var browser;
   	}
   });
 
-  var browserDelegate = new BrowserDelegate();
+  const browserDelegate = new BrowserDelegate();
 
   // Handle error
   browserDelegate.didNotStartBrowsingForServices = function(browser, error) {
