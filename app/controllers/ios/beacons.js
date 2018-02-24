@@ -1,6 +1,6 @@
 import { CLBeaconRegion, CLLocationManager, CoreLocation } from 'CoreLocation';
 import { UIApplication, UILocalNotification } from 'UIKit';
-import { NSUIID } from 'Foundation';
+import { NSUUID } from 'Foundation';
 
 const CLProximityFar = CoreLocation.CLProximityFar;
 const CLProximityNear = CoreLocation.CLProximityNear;

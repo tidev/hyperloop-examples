@@ -1,11 +1,9 @@
-(function (container) {
-    var UIView = require('UIKit/UIView'),
-        UIColor = require('UIKit/UIColor'),
-        UIBlurEffect = require('UIKit/UIBlurEffect'),
-        UIBlurEffectStyleLight = require('UIKit').UIBlurEffectStyleLight,
-        UIVisualEffectView = require('UIKit/UIVisualEffectView'),
-        CGRectMake = require('CoreGraphics').CGRectMake;
+import { UIView, UIColor, UIBlurEffect, UIVisualEffectView, UIKit } from 'UIKit';
+import { CGRectMake } from 'CoreGraphics';
 
+const UIBlurEffectStyleLight = UIKit.UIBlurEffectStyleLight;
+
+(function (container) {
     var blurEffectLight = UIBlurEffect.effectWithStyle(UIBlurEffectStyleLight);
     var blurView = UIVisualEffectView.alloc().initWithEffect(blurEffectLight);
     var isBlurred = false;
