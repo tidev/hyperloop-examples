@@ -156,7 +156,7 @@
 	// container is a Titanium.UI.View but we can cast it into a UIView
 	var view = UIView.cast(container);
 
-	$.button.addEventListener('click', function(e){
+	$.button.addEventListener('click', (e) => {
 		clearView();
 		startAnimation(view);
 	});

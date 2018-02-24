@@ -7,7 +7,7 @@
 	// check to see if it's enabled
 	if (context.canEvaluatePolicyError(LocalAuthentication.LAPolicyDeviceOwnerAuthenticationWithBiometrics)) {
 		$.message.setText('Touch ID supported');
-		context.evaluatePolicyLocalizedReasonReply(LocalAuthentication.LAPolicyDeviceOwnerAuthenticationWithBiometrics, 'Please give us your Fingerprint to demonstrate the API', function (success) {
+		context.evaluatePolicyLocalizedReasonReply(LocalAuthentication.LAPolicyDeviceOwnerAuthenticationWithBiometrics, 'Please give us your Fingerprint to demonstrate the API', (success) => {
 			if (success) {
 				alert('Cool!');
 			}

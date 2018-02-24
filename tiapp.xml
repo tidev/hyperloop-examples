@@ -19,6 +19,7 @@
 	<guid>11111111-1111-1111-1111-111111111111</guid>
 	<property name="ti.ui.defaultunit" type="string">dp</property>
 	<property name="run-on-main-thread" type="bool">true</property>
+	<transpile>true</transpile>
 	<ios>
 		<default-background-color>#c7182c</default-background-color>
 		<enable-launch-screen-storyboard>true</enable-launch-screen-storyboard>

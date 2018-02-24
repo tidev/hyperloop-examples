@@ -10,7 +10,7 @@ var browser;
   	selector: 'ssdpBrowser:didNotStartBrowsingForServices:',
   	instance: true,
   	arguments: ['SSDPServiceBrowser', 'NSError'],
-  	callback: function (browser, error) {
+  	callback: (browser, error) => {
   			if (this.didNotStartBrowsingForServices) {
   					this.didNotStartBrowsingForServices(browser, error);
   			}
@@ -21,7 +21,7 @@ var browser;
   	selector: 'ssdpBrowser:didFindService:',
   	instance: true,
   	arguments: ['SSDPServiceBrowser', 'SSDPService'],
-  	callback: function (browser, service) {
+  	callback: (browser, service) => {
   			if (this.didFindService) {
   					this.didFindService(browser, service);
   			}
@@ -32,7 +32,7 @@ var browser;
   	selector: 'ssdpBrowser:didRemoveService:',
   	instance: true,
   	arguments: ['SSDPServiceBrowser', 'SSDPService'],
-  	callback: function (browser, service) {
+  	callback: (browser, service) => {
   			if (this.didRemoveService) {
   					this.didRemoveService(browser, service);
   			}

@@ -26,7 +26,7 @@
 		if (!fingerprintManager.hasEnrolledFingerprints()) {
 			$.message.setText("Go to 'Settings -> Security -> Fingerprint' and register at least one fingerprint");
 		} else {
-			$.button.addEventListener('click', function () {
+			$.button.addEventListener('click', () => {
 				var cryptoObject,
 					cipher,
 					keyStore,
@@ -62,19 +62,19 @@
 				// try to do the auth
 				cryptoObject = new CryptoObject(cipher);
 				var Subclass = AuthenticationCallback.extend({
-					onAuthenticationError: function(code, msg) {
+					onAuthenticationError: (code, msg) => {
 						console.log('onAuthenticationError');
 					},
-					onAuthenticationHelp: function (code, help) {
+					onAuthenticationHelp: (code, help) => {
 						console.log('onAuthenticationHelp');
 					},
-					onAuthenticationSucceeded: function (result) {
+					onAuthenticationSucceeded: (result) => {
 						console.log('onAuthenticationSucceeded');
 					},
-					onAuthenticationFailed: function () {
+					onAuthenticationFailed: () => {
 						console.log('onAuthenticationFailed');
 					},
-					onAuthenticationAcquired: function (code) {
+					onAuthenticationAcquired: (code) => {
 						console.log('onAuthenticationAcquired');
 					}
 				});

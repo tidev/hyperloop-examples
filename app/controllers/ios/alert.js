@@ -1,46 +1,43 @@
-(function (container) {
+import { UIAlertController, UIAlertAction } from 'UIKit';
+import { UIKit } from 'UIKit';
+import { TiApp } from 'Titanium/TiApp';
 
-	var UIAlertController = require('UIKit/UIAlertController'),
-		UIAlertAction = require('UIKit/UIAlertAction'),
-		UIAlertControllerStyleAlert = require('UIKit').UIAlertControllerStyleAlert,
-		UIAlertControllerStyleActionSheet = require('UIKit').UIAlertControllerStyleActionSheet,
-		UIAlertActionStyleDefault = require('UIKit').UIAlertActionStyleDefault,
-		UIAlertActionStyleDestructive = require('UIKit').UIAlertActionStyleDestructive,
-		UIAlertActionStyleCancel = require('UIKit').UIAlertActionStyleCancel,
-		TiApp = require('Titanium/TiApp');
+const UIAlertControllerStyleAlert = UIKit.UIAlertControllerStyleAlert;
+const UIAlertControllerStyleActionSheet = UIKit.UIAlertControllerStyleActionSheet;
+const UIAlertActionStyleDefault = UIKit.UIAlertActionStyleDefault;
+const UIAlertActionStyleDestructive = UIKit.UIAlertActionStyleDestructive;
+const UIAlertActionStyleCancel = UIKit.UIAlertActionStyleCancel;
+
+function showAlertWithStyle(style) {
+	const alertController = UIAlertController.alertControllerWithTitleMessagePreferredStyle(
+		'My Title',
+		'My Message',
+		style
+	);
+
+	const alertAction = UIAlertAction.actionWithTitleStyleHandler('OK', UIAlertActionStyleDefault, () => {
+		$.notice.setText('Clicked OK!');
+	});
 		
-	function showAlertWithStyle(style) {
-		var alertController = UIAlertController.alertControllerWithTitleMessagePreferredStyle(
-			'My Title',
-			'My Message',
-			style
-		);
-
-		var alertAction = UIAlertAction.actionWithTitleStyleHandler('OK', UIAlertActionStyleDefault, function () {
-			$.notice.setText('Clicked OK!');
-		});
-			
-		var cancelAction = UIAlertAction.actionWithTitleStyleHandler('Cancel', UIAlertActionStyleCancel, function () {
-			$.notice.setText('Clicked Cancel!');
-		});
-		
-		var destructiveAction = UIAlertAction.actionWithTitleStyleHandler('Delete', UIAlertActionStyleDestructive, function () {
-			$.notice.setText('Clicked Delete!');
-		});
-
-		alertController.addAction(alertAction);
-		alertController.addAction(destructiveAction);
-		alertController.addAction(cancelAction);
-
-		TiApp.app().showModalController(alertController, true);
-	}
-
-	$.buttonAlert.addEventListener('click', function () {
-		showAlertWithStyle(UIAlertControllerStyleAlert);
+	const cancelAction = UIAlertAction.actionWithTitleStyleHandler('Cancel', UIAlertActionStyleCancel, () => {
+		$.notice.setText('Clicked Cancel!');
 	});
 	
-	$.buttonOptions.addEventListener('click', function () {
-		showAlertWithStyle(UIAlertControllerStyleActionSheet);
+	const destructiveAction = UIAlertAction.actionWithTitleStyleHandler('Delete', UIAlertActionStyleDestructive, () => {
+		$.notice.setText('Clicked Delete!');
 	});
 
-})($.alert_container);
+	alertController.addAction(alertAction);
+	alertController.addAction(destructiveAction);
+	alertController.addAction(cancelAction);
+
+	TiApp.app().showModalController(alertController, true);
+}
+
+function showAlert() {
+	showAlertWithStyle(UIAlertControllerStyleAlert);
+}
+
+function showOptions() {
+	showAlertWithStyle(UIAlertControllerStyleActionSheet);
+}

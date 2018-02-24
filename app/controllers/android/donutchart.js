@@ -28,7 +28,7 @@
 			lightGray:  Color.argb(255, 237, 238, 238)
 		},
 		DonutChartView = View.extend({
-			onMeasure: function(widthMeasureSpec, heightMeasureSpec) {
+			onMeasure: (widthMeasureSpec, heightMeasureSpec) => {
 				// Do required super-class call
 				this.super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 				
@@ -37,7 +37,7 @@
 				
 				Ti.API.warn("Measure update: " + width + "x" + height);
 			},
-			onDraw: function (canvas) {
+			onDraw: (canvas) => {
 				this.super.onDraw(canvas);				
 				
 				var paint = new Paint();

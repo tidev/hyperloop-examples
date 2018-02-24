@@ -9,7 +9,7 @@ ChartDelegate.addMethod({
 	arguments: [
 		'UIView'
 	],
-	callback: function (view) {
+	callback: (view) => {
 		if (this.numberOfBars) {
 			return this.numberOfBars(view);
 		}
@@ -26,7 +26,7 @@ ChartDelegate.addMethod({
 		'UIView',
 		'int'
 	],
-	callback: function (view, index) {
+	callback: (view, index) => {
 		if (this.heightForBar) {
 			return this.heightForBar(view, index);
 		}
@@ -43,7 +43,7 @@ ChartDelegate.addMethod({
 		'UIView',
 		'unsigned int'
 	],
-	callback: function (view, index) {
+	callback: (view, index) => {
 		if (this.colorForBar) {
 			return this.colorForBar(view, index);
 		}

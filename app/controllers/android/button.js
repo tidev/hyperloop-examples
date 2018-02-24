@@ -27,7 +27,7 @@
 
     // Register a click-listener to the button
     button.setOnClickListener(new OnClickListener({
-        onClick: function(v) {
+        onClick: (v) => {
             alert("Button pressed!");
         }
     }));

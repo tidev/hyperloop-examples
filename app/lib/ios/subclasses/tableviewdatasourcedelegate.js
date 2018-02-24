@@ -5,7 +5,7 @@ TableViewDataSourceAndDelegate.addMethod({
 	instance: true,
 	arguments: ['UITableView'],
 	returnType: 'long',
-	callback: function (tableView) {
+	callback: (tableView) => {
 		if (this.numberOfSections) {
 			return this.numberOfSections(tableView);
 		}
@@ -18,7 +18,7 @@ TableViewDataSourceAndDelegate.addMethod({
 	instance: true,
 	arguments: ['UITableView', 'NSInteger'],
 	returnType: 'long',
-	callback: function (tableView, section) {
+	callback: (tableView, section) => {
 		if (this.numberOfRows) {
 			return this.numberOfRows(tableView, section);
 		}
@@ -31,7 +31,7 @@ TableViewDataSourceAndDelegate.addMethod({
 	instance: true,
 	arguments: ['UITableView', 'long'],
 	returnType: 'NSString',
-	callback: function (tableView, section) {
+	callback: (tableView, section) => {
 		if (this.titleForHeader) {
 			return this.titleForHeader(tableView, section);
 		}
@@ -44,7 +44,7 @@ TableViewDataSourceAndDelegate.addMethod({
 	instance: true,
 	arguments: ['UITableView', 'NSIndexPath'],
 	returnType: 'CGFloat',
-	callback: function (tableView, indexPath) {
+	callback: (tableView, indexPath) => {
 		if (this.heightForRow) {
 			return this.heightForRow(tableView, indexPath);
 		}
@@ -57,11 +57,12 @@ TableViewDataSourceAndDelegate.addMethod({
 	instance: true,
 	arguments: ['UITableView', 'NSIndexPath'],
 	returnType: 'UITableViewCell',
-	callback: function (tableView, indexPath) {
+	callback: (tableView, indexPath) => {
 		if (this.cellForRow) {
 			return this.cellForRow(tableView, indexPath);
 		}
-		throw new Exception('TableViewDataSourceAndDelegate cellForRow(tableView, indexPath) missing');
+		Ti.API.error('TableViewDataSourceAndDelegate cellForRow(tableView, indexPath) missing');
+		return null;
 	}
 });
 
@@ -69,7 +70,7 @@ TableViewDataSourceAndDelegate.addMethod({
 	selector: 'tableView:didSelectRowAtIndexPath:',
 	instance: true,
 	arguments: ['UITableView', 'NSIndexPath'],
-	callback: function (tableView, indexPath) {
+	callback: (tableView, indexPath) => {
 		if (this.didSelectRowAtIndexPath) {
 			this.didSelectRowAtIndexPath(tableView, indexPath);
 		}

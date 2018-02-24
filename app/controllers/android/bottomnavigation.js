@@ -18,7 +18,7 @@ var activity = new Activity(Ti.Android.currentActivity);
   
   // Optional: Handle reselection
   bottomNav.setOnNavigationItemReselectedListener(new BottomNavigationView.OnNavigationItemReselectedListener({
-    onNavigationItemReselected: function(menuItem) {
+    onNavigationItemReselected: (menuItem) => {
       var message = 'Menu reselected to "' + menuItem.getTitle() + '"';
 
       Ti.API.info(message);
@@ -30,7 +30,7 @@ var activity = new Activity(Ti.Android.currentActivity);
 
   // Optional: Handle selection
   bottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener({
-    onNavigationItemSelected: function(menuItem) {
+    onNavigationItemSelected: (menuItem) => {
       var message = 'Menu item "' + menuItem.getTitle() + '" selected!';
 
       Ti.API.info(message);

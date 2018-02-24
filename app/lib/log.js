@@ -7,7 +7,7 @@ Log.args = function () {
 
 	// Stringify non-strings
 	args = args.map(function (arg) {
-		return (typeof arg === 'string') ? arg : JSON.stringify(arg, OS_IOS ? null : function(key, value) {
+		return (typeof arg === 'string') ? arg : JSON.stringify(arg, OS_IOS ? null : (key, value) => {
 
 			// Just show apiName with optional ID and class
 			if (typeof value === 'object' && value.apiName) {

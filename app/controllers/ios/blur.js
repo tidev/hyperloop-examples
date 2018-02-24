@@ -31,7 +31,7 @@
         title: "Blur image"
     });
 
-    trigger.addEventListener("click", function() {
+    trigger.addEventListener("click", () => {
         if (isBlurred === true) {
             imageView.removeAllChildren();
         } else {

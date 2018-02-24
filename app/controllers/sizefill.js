@@ -57,7 +57,7 @@
 		label.backgroundColor = UIColor.yellowColor;
 		bottomViewContainer.add(label);
 
-		button.addEventListener('click', function () {
+		button.addEventListener('click', () => {
 			// if you call sizeToFit will make the label the biggest size to accomodate the label and position at 0,0
 			label.sizeToFit();
 		});

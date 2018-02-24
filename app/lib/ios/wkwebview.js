@@ -19,7 +19,7 @@ exports.createWebView = function(args) {
             selector: 'webView:didFinishNavigation:',
             instance: true,
             arguments: ['WKWebView', 'WKNavigation'],
-            callback: function(webView, navigation) {
+            callback: (webView, navigation) => {
                 if (this.didFinishNavigation) {
                     this.didFinishNavigation(webView, navigation);
                 }

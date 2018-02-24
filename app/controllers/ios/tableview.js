@@ -19,7 +19,7 @@
 	// Create + configure tableView
 	var tableView = UITableView.alloc().initWithFrameStyle(UIScreen.mainScreen.bounds, UITableViewStyleGrouped);
 	var dataSourceDelegate = new TableViewDataSourceAndDelegate();
-
+Ti.API.info(dataSourceDelegate);
 	dataSourceDelegate.numberOfSections = function(tableView) {
 		return 1;
 	};
@@ -39,8 +39,8 @@
 	    if (!cell) {
 	        cell = UITableViewCell.alloc().initWithStyleReuseIdentifier(UITableViewCellStyleSubtitle, 'hyperloop_cell');
 	    }
-		cell.textLabel.text = user.firstName + ' ' + user.lastName;
-		cell.detailTextLabel.text = user.email; // NOTE: This are not real email-addresses ;-)
+			cell.textLabel.text = user.firstName + ' ' + user.lastName;
+			cell.detailTextLabel.text = user.email; // NOTE: This are not real email-addresses ;-)
 	    cell.accessoryType =  UITableViewCellAccessoryDisclosureIndicator;
 		
 	    return cell;

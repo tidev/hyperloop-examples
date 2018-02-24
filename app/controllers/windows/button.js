@@ -13,7 +13,7 @@
     button.Content = 'CLICK ME';
 
     // Register a Tapped-listener to the button
-    button.addEventListener('Tapped', function (e) {
+    button.addEventListener('Tapped', (e) => {
         alert("Button pressed!");
     });
 

@@ -16,7 +16,7 @@
 
 	// create a unique View subclass for doing our custom drawing
 	var CustomView = View.extend({
-		onDraw: function(canvas) {
+		onDraw: (canvas) => {
 			this.super.onDraw(canvas);
 
 			var beams = 9,

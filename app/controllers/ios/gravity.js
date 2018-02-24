@@ -129,7 +129,7 @@ setTimeout(function () {
 		dynamicAnimator.addBehavior(gravityBehavior);
 		dynamicAnimator.addBehavior(dynamicItemBehavior);
 
-		$.win.addEventListener('close', function(){
+		$.win.addEventListener('close', () => {
 			dynamicAnimator.unprotect();
 			dynamicAnimator = null;
 		});

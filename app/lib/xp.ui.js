@@ -27,7 +27,7 @@ if (!OS_IOS) {
         }
 
         if (options.swipeBack !== false) {
-            window.addEventListener('swipe', function (e) {
+            window.addEventListener('swipe', (e) => {
                 if (e.direction === 'right') {
                     that.closeWindow(window, options);
                 }
@@ -35,7 +35,7 @@ if (!OS_IOS) {
         }
 
         if (OS_ANDROID && options.displayHomeAsUp !== false && !window.navBarHidden) {
-            window.addEventListener('open', function () {
+            window.addEventListener('open', () => {
                 var activity = window.getActivity();
                 if (activity) {
                     var actionBar = activity.actionBar;

@@ -5,7 +5,7 @@ var NativePanGestureRecognizer = Hyperloop.defineClass('NativePanGestureRecogniz
 NativePanGestureRecognizer.addMethod({
 	selector: 'onAction:',
 	arguments: ['NativePanGestureRecognizer'],
-	callback: function(recognizer) {
+	callback: (recognizer) => {
 		if (this.onAction) {
 			this.onAction(recognizer);
 		}

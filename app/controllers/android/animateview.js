@@ -31,15 +31,15 @@
 
 	// Do the animation
 	var flag;
-	$.button.addEventListener('click', function () {
+	$.button.addEventListener('click', () => {
 		$.notice.setText('');
 		flag = !flag;
 
 		// this function is called after the animation completes
 		var runnable = new Runnable({
-			run: function () {
+			run: () => {
 				$.notice.setText('Animation completed!');
-				setTimeout(function () {
+				setTimeout(() => {
 					$.notice.setText('');
 				}, 2000);
 			}

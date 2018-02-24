@@ -4,7 +4,7 @@ URLSessionDelegate.addMethod({
     selector: 'session:didBecomeInvalidWithError:',
 	instance: true,
 	arguments: ['NSURLSession', 'NSError'],
-	callback: function (session, error) {
+	callback: (session, error) => {
 		if (this.didBecomeInvalidWithError) {
 			this.didBecomeInvalidWithError(session, error);
 		}

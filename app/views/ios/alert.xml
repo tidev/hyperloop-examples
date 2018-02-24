@@ -3,8 +3,8 @@
 
 		<ScrollView>
 			<View class="vbox" id="alert_container"></View>
-			<Button class="button" id="buttonAlert">Show as Alert Dialog</Button>
-			<Button class="button" id="buttonOptions">Show as Option Dialog</Button>
+			<Button class="button" onClick="showAlert">Show as Alert Dialog</Button>
+			<Button class="button" onClick="showOptions">Show as Option Dialog</Button>
 			<Label id="notice"></Label>
 		</ScrollView>
 

@@ -9,7 +9,7 @@ CollisionBehaviorDelegate.addMethod({
 		'NSString',
 		'CGPoint'
 	],
-	callback: function (behavior, dest, identifier, point) {
+	callback: (behavior, dest, identifier, point) => {
 		if (this.beganContact) {
 			this.beganContact(behavior, dest, identifier, point);
 		}
@@ -24,7 +24,7 @@ CollisionBehaviorDelegate.addMethod({
 		'UIView',
 		'NSString'
 	],
-	callback: function (behavior, item, identifier) {
+	callback: (behavior, item, identifier) => {
 		if (this.endedContact) {
 			this.endedContact(behavior, item, identifier);
 		}

@@ -10,7 +10,7 @@ function startRequest() {
 
     var request = new VolleyToolbox.StringRequest(VolleyPackage.Request.Method.GET, url,
         new VolleyPackage.Response.Listener({
-            onResponse: function(response) {
+            onResponse: (response) => {
                 Ti.API.info('Response is: ' + response);
 
                 alert('Request completed!');
@@ -19,7 +19,7 @@ function startRequest() {
             }
         }),
         new VolleyPackage.Response.ErrorListener({
-            onErrrorResponse: function(error) {
+            onErrrorResponse: (error) => {
                 Ti.API.error('HTTP error');
             }
         })

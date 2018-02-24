@@ -12,7 +12,7 @@ var mMediaPlayer;
 	
 	mMediaPlayer = new MediaPlayer();
 	mMediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener({
-		onCompletion: function (mediaPlayer) {
+		onCompletion: (mediaPlayer) => {
 			Ti.API.info('MediaPlayer playback completed');
 		}
 	}));

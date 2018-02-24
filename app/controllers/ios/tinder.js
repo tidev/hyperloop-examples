@@ -64,14 +64,14 @@
 			case UIKit.UIGestureRecognizerStateEnded: {
 				// go right
 				if (xDist > 100) {
-					UIView.animateWithDurationAnimationsCompletion(0.2, function () {
+					UIView.animateWithDurationAnimationsCompletion(0.2, () => {
 						view.center = CGPointMake(600, 300);
 						view.transform = CGAffineTransformMakeRotation(-30);
 					});
 					viewIndex--;
 				// go left
 				} else if (xDist < -100) {
-					UIView.animateWithDurationAnimationsCompletion(0.2, function () {
+					UIView.animateWithDurationAnimationsCompletion(0.2, () => {
 						view.center = CGPointMake(-600, 300);
 						view.transform = CGAffineTransformMakeRotation(30);
 					});
@@ -80,7 +80,7 @@
 				} else {
 					viewArray[viewIndex].checkView.animate({opacity: 0, duration: 200});
 					viewArray[viewIndex].xView.animate({opacity: 0, duration: 200});
-					UIView.animateWithDurationAnimationsCompletion(0.2, function () {
+					UIView.animateWithDurationAnimationsCompletion(0.2, () => {
 						view.center = origPt;
 						view.transform = CGAffineTransformIdentity;
 						view.alpha = 1;

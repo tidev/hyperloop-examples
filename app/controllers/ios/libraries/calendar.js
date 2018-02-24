@@ -59,7 +59,7 @@
 	/**
 	 * Scroll to Today's date once the view is loaded.
 	 */
-	container.addEventListener('postlayout', function (e) {
+	container.addEventListener('postlayout', (e) => {
 		calendar.scrollToDateAnimated(today, false);
 	});
 

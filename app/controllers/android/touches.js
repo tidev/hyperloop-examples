@@ -15,7 +15,7 @@
 		colors = [];
 
 	drag = new OnTouchListener({
-		onTouch: function(v, event) {
+		onTouch: (v, event) => {
 			var params,
 				action = event.getAction();
 			if (action == MotionEvent.ACTION_MOVE || action == MotionEvent.ACTION_UP) {

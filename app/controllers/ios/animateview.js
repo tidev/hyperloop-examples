@@ -1,23 +1,24 @@
-(function (container) {
-	var UIView = require('UIKit/UIView'),
-		UIColor = require('UIKit/UIColor'),
-		CGRectMake = require('CoreGraphics').CGRectMake,
-		CGAffineTransformRotate = require('CoreGraphics').CGAffineTransformRotate,
-		CGAffineTransformScale = require('CoreGraphics').CGAffineTransformScale,
-		CGAffineTransformIdentity = require('CoreGraphics').CGAffineTransformIdentity;
+import { UIView, UIColor } from 'UIKit';
+import { CoreGraphics } from 'CoreGraphics';
 
+const CGRectMake = CoreGraphics.CGRectMake;
+const CGAffineTransformRotate = CoreGraphics.CGAffineTransformRotate;
+const CGAffineTransformScale = CoreGraphics.CGAffineTransformScale;
+const CGAffineTransformIdentity = CoreGraphics.CGAffineTransformIdentity;
+
+(function (container) {
 	// create a view box we're going to animate when you click the button
-	var view = UIView.alloc().initWithFrame(CGRectMake(10, 10, 50, 50));
+	const view = UIView.alloc().initWithFrame(CGRectMake(10, 10, 50, 50));
 	view.backgroundColor = UIColor.redColor;
 	container.add(view);
 
-	var flag;
+	let flag = false;
 
-	$.button.addEventListener('click', function () {
+	$.button.addEventListener('click', () => {
 		flag = !flag;
 		$.notice.setText('');
 		// animate the UIView
-		UIView.animateWithDurationAnimationsCompletion(1.0, function () {
+		UIView.animateWithDurationAnimationsCompletion(1.0, () => {
 			// this function will be called to handle the animation
 			// any changes done in this function will be animated
 			if (flag) {
@@ -33,10 +34,10 @@
 				view.transform = CGAffineTransformIdentity;
 				view.backgroundColor = UIColor.redColor;
 			}
-		}, function (_done) {
+		}, (_done) => {
 			// this function is called after the animation completes
 			$.notice.setText('Animation completed!');
-			setTimeout(function () {
+			setTimeout(() => {
 				$.notice.setText('');
 			}, 2000);
 		});

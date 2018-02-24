@@ -32,8 +32,8 @@
     animation.setDuration(3000);
     animation.setInterpolator(new LinearInterpolator());
     var listener = new AnimatorUpdateListener({
-        onAnimationUpdate: function(animation) {
-            $.lbl_progress.text = animation.getAnimatedValue() + " %";
+        onAnimationUpdate: (animation) => {
+            $.lbl_progress.text = animation.getAnimatedValue() + ' %';
             mSweepAngle = endValue / 100 * animation.getAnimatedValue();
             view.invalidate();
         }
@@ -42,7 +42,7 @@
 
     // view
     var CustomView = View.extend({
-        onDraw: function(canvas) {
+        onDraw: (canvas) => {
             var paint = new Paint();
             paint.setAntiAlias(true);
             paint.setStyle(Paint.Style.STROKE);
@@ -71,10 +71,10 @@
     view.setLayoutParams(layoutParams);
     container.add(view);
 
-    $.btn_start.addEventListener("click", function(e) {
+    $.btn_start.addEventListener('click', (e) => {
         animation.start();
     });
-    $.btn_switch.addEventListener("click", function(e) {
+    $.btn_switch.addEventListener('click', (e) => {
         if (!isHalf) {
             startValue = 135;
             endValue = 270;
@@ -84,7 +84,7 @@
         }
         mSweepAngle = 0;
         mStartAngle = startValue + ((mSweepAngle + $.container.startPosition) % 360);
-        $.lbl_progress.text = "0 %";
+        $.lbl_progress.text = '0 %';
         isHalf = !isHalf;
         view.invalidate();
     });

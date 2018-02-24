@@ -1,3 +1,20 @@
+
+// Require Activity class
+import Activity from 'android.app.Activity';
+
+// Require components to handle bitmaps
+import BitmapFactory from 'android.graphics.BitmapFactory';
+
+// Require third party library
+import GPUImageLib from 'jp.co.cyberagent.android.gpuimage.*';
+
+// Get instance of native activity with current Ti activity
+const activity = new Activity(Ti.Android.currentActivity);
+
+// Get Context instance to get the Asset Manager
+const Context = activity.getApplicationContext();
+const AssetManager = Context.getAssets();
+
 /**
  * Play with image filters
  * @author Jorge Macías <jormagar@gmail.com>
@@ -6,18 +23,10 @@
  * @param  {object}   args  Controller arguments
  */
 (function controller(args) {
-  'use strict';
-
   var FX_PANEL_HEIGHT,
     SAMPLE_IMAGE,
     DEFAULT_SLIDER_DISPLAY_VALUE,
     DEFAULT_SLIDER_VALUE,
-    AssetManager,
-    BitmapFactory,
-    Activity,
-    GPUImageLib,
-    Context,
-    activity,
     fx,
     fxManager,
     canAdjustFx;
@@ -64,22 +73,6 @@
       this.values.fx = value;
     }
   };
-
-  //Require Activity class
-  Activity = require('android.app.Activity');
-
-  //Get instance of native activity with current Ti activity
-  activity = new Activity(Ti.Android.currentActivity);
-
-  //Get Context instance to get the Asset Manager
-  Context = activity.getApplicationContext();
-  AssetManager = Context.getAssets();
-
-  //Require components to handle bitmaps
-  BitmapFactory = require('android.graphics.BitmapFactory');
-
-  //Require third party library
-  GPUImageLib = require('jp.co.cyberagent.android.gpuimage.*');
 
   /**
    * Add event handlers

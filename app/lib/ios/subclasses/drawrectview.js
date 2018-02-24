@@ -5,7 +5,7 @@ DrawRectView.addMethod({
 	arguments: [
 		'CGRect'
 	],
-	callback: function (rect) {
+	callback: (rect) => {
 		if (this.onDrawRect) {
 			this.onDrawRect(rect);
 		}

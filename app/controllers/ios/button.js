@@ -21,7 +21,7 @@
         selector: 'buttonPressed:',
         instance: true,
         arguments: ['UIButton'],
-        callback: function(sender) {
+        callback: (sender) => {
             if (this.buttonPressed) {
                 this.buttonPressed(sender);
             }

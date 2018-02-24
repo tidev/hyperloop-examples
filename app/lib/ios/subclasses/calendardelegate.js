@@ -33,7 +33,7 @@ CalendarDelegate.addMethod({
 		'GLCalendarView',
 		'NSDate'
 	],
-	callback: function (view, beginDate) {
+	callback: (view, beginDate) => {
 		return true;
 	}
 });
@@ -46,7 +46,7 @@ CalendarDelegate.addMethod({
 		'GLCalendarView',
 		'NSDate'
 	],
-	callback: function (calendarView, beginDate) {
+	callback: (calendarView, beginDate) => {
 		Ti.API.info(beginDate);
 
 		var endDate = GLDateUtils.dateByAddingDaysToDate(2, beginDate);
@@ -65,7 +65,7 @@ CalendarDelegate.addMethod({
 		'GLCalendarView',
 		'NSDate'
 	],
-	callback: function (view, range) {
+	callback: (view, range) => {
 		Ti.API.info('calenderView:beginToEditRange:');
 		currentSelectedRange = range;
 	}
@@ -79,7 +79,7 @@ CalendarDelegate.addMethod({
 		'NSDate',
 		'BOOL'
 	],
-	callback: function (view, range, continueEditing) {
+	callback: (view, range, continueEditing) => {
 		currentSelectedRange = null;
 	}
 });
@@ -94,7 +94,7 @@ CalendarDelegate.addMethod({
 		'NSDate',
 		'NSDate'
 	],
-	callback: function (view, range, beginDate, endDate) {
+	callback: (view, range, beginDate, endDate) => {
 		return true;
 	}
 });
@@ -108,7 +108,7 @@ CalendarDelegate.addMethod({
 		'NSDate',
 		'NSDate'
 	],
-	callback: function (view, range, beginDate, endDate) {
+	callback: (view, range, beginDate, endDate) => {
 		Ti.API.info('Did Update Range' + range);
 		return;
 	}

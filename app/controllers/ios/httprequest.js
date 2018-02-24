@@ -13,7 +13,7 @@ function startRequest() {
     sessionConfiguration.HTTPAdditionalHeaders = {"User-Agent" : "Appcelerator Hyperloop"};
 
     var session = NSURLSession.sessionWithConfigurationDelegateDelegateQueue(sessionConfiguration, delegate, null);
-    var task = session.dataTaskWithURLCompletionHandler(urlPath, function(data, response, error) {
+    var task = session.dataTaskWithURLCompletionHandler(urlPath, (data, response, error) => {
         UIApplication.sharedApplication.networkActivityIndicatorVisible = false
 
         alert("Request completed!");

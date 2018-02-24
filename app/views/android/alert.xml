@@ -1,11 +1,6 @@
 <Alloy>
 	<Window id="win" title="Alert Controller">
-
-		<ScrollView>
-			<View class="vbox" id="alert_container"></View>
-			<Button id="button">Show Alert</Button>
-			<Label id="notice"></Label>
-		</ScrollView>
-
+		<Button id="button" onClick="showAlert">Show Alert</Button>
+		<Label id="notice"></Label>
 	</Window>
 </Alloy>
