@@ -11,33 +11,33 @@ const CGRectMake = CoreGraphics.CGRectMake;
 
     const WIDTH = 200;
     const HEIGHT = 200;
-    const fileUrl = "images/appc-logo.png";
+    const fileUrl = 'images/appc-logo.png';
 
     const imageView = Ti.UI.createImageView({
         image: fileUrl,
         width: WIDTH,
         height: HEIGHT,
-        borderColor: "#ccc",
+        borderColor: '#ccc',
         borderWidth: 2
     });
 
     const trigger = Ti.UI.createButton({
-        backgroundColor: "#000",
-        tintColor: "#fff",
+        backgroundColor: '#000',
+        tintColor: '#fff',
         height: 50,
         width:200,
         bottom: 30,
-        title: "Blur image"
+        title: 'Blur image'
     });
 
-    trigger.addEventListener("click", () => {
+    trigger.addEventListener('click', () => {
         if (isBlurred === true) {
             imageView.removeAllChildren();
         } else {
             imageView.add(blurView);
         }
         isBlurred = !isBlurred;
-        trigger.setTitle(isBlurred === true ? "Unblur image" : "Blur image");
+        trigger.setTitle(isBlurred === true ? 'Unblur image' : 'Blur image');
     });
 
     container.add(imageView);

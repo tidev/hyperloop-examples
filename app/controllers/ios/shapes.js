@@ -112,17 +112,17 @@ function animateLabel (title, value, top, left, color) {
 		 color: RGB_TO_HEX(Math.floor(color.red*255), Math.floor(color.green*255), Math.floor(color.blue*255)),
 		 font:{
 			 fontSize: 16,
-			 fontFamily:"Helvetica"
+			 fontFamily:'Helvetica'
 		 },
 		 right: 0
 	 });
 
 	 const valueLbl = Ti.UI.createLabel({
 		 text: value,
-		 color: "#FFF",
+		 color: '#FFF',
 		 font:{
 			 fontSize: 20,
-			 fontFamily:"Helvetica"
+			 fontFamily:'Helvetica'
 		 },
 		 top:2,
 		 right: 0

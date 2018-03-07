@@ -97,7 +97,7 @@ function onPanGesture(recognizer) {
 }
 
 /**
- *	Toggle "x" and "check" views based on position
+ *	Toggle 'x' and 'check' views based on position
  */
 function toggleOverlayViews (dist) {
 	viewArray[viewIndex].checkView.opacity = (dist > 10) ? 1 : 0;
@@ -135,7 +135,7 @@ function addCards () {
 		// add view to window
 		container.add(view);
 
-		// add "check" icon overlay to view
+		// add 'check' icon overlay to view
 		const checkView = Ti.UI.createImageView({
 			height: 120,
 			width: 120,
@@ -144,7 +144,7 @@ function addCards () {
 		});
 		view.add(checkView);
 
-		// add "x" icon overlay to view
+		// add 'x' icon overlay to view
 		const xView = Ti.UI.createImageView({
 			height: 120,
 			width: 120,

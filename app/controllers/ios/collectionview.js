@@ -29,7 +29,7 @@ const CGRectMake = CoreGraphics.CGRectMake;
     
 	// Return the configured UICollectionViewCell
   dataSourceDelegate.cellForItem = function(collectionView, indexPath) {
-      const cell = collectionView.dequeueReusableCellWithReuseIdentifierForIndexPath("Cell", indexPath);
+      const cell = collectionView.dequeueReusableCellWithReuseIdentifierForIndexPath('Cell', indexPath);
       cell.backgroundColor = colors[indexPath.row];
       
       return cell;
@@ -38,7 +38,7 @@ const CGRectMake = CoreGraphics.CGRectMake;
 	// Triggered when we click on a certain cell
   dataSourceDelegate.didSelectItem = function(collectionView, indexPath) {
       const cell = collectionView.cellForItemAtIndexPath(indexPath);
-      Ti.API.warn("Cell selected at Index = " + indexPath.row);
+      Ti.API.warn('Cell selected at Index = ' + indexPath.row);
   };
     
 	// Generate 500 colors
@@ -63,7 +63,7 @@ const CGRectMake = CoreGraphics.CGRectMake;
          
 	// Create the UICollectionView, set the delegate, datasource and layout
   collectionView = UICollectionView.alloc().initWithFrameCollectionViewLayout(screenRect, layout);
-  collectionView.registerClassForCellWithReuseIdentifier("UICollectionViewCell", "Cell");
+  collectionView.registerClassForCellWithReuseIdentifier('UICollectionViewCell', 'Cell');
   collectionView.backgroundColor = UIColor.clearColor;
   collectionView.setDataSource(dataSourceDelegate);
   collectionView.setDelegate(dataSourceDelegate);
