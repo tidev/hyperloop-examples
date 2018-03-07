@@ -33,13 +33,13 @@
 				</array>
 				<key>UIStatusBarStyle</key>
 				<string>UIStatusBarStyleLightContent</string>
-    		                <key>NSLocationWhenInUseUsageDescription</key>
-    		                <string>Can we use your location to detect iBeacons?</string>
+				<key>NSLocationWhenInUseUsageDescription</key>
+				<string>Can we use your location to detect iBeacons?</string>
 				<key>NSLocationAlwaysUsageDescription</key>
-    		                <string>Can we use your location to detect iBeacons in the background?</string>
+				<string>Can we use your location to detect iBeacons in the background?</string>
 				<!-- iOS 11+ -->
 				<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-    		                <string>Can we use your location to detect iBeacons in the background?</string>
+				<string>Can we use your location to detect iBeacons in the background?</string>
 				<key>CFBundleURLTypes</key>
 				<array>
 					<dict>
@@ -60,7 +60,8 @@
 		</manifest>
 	</android>
 	<modules>
-		<module version="3.0.2">hyperloop</module>
+		<!-- Download the latest version from https://github.com/appcelerator-modules/hyperloop-builds/releases -->
+		<module version="3.0.3">hyperloop</module>
 	</modules>
 	<deployment-targets>
 		<target device="android">true</target>
