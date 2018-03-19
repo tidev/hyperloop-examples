@@ -9,9 +9,8 @@ let nav;
 })(arguments[0] || {});
 
 function onListViewItemclick(e) {
-
 	// We've set the items special itemId-property to the controller name
-	var controllerName = e.itemId;
+	const controllerName = e.itemId;
 
 	// Which we use to create the controller, get the window and open it in the navigation window
 	// See lib/xp.ui.js to see how we emulate this component for Android

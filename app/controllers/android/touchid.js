@@ -1,21 +1,21 @@
+import FingerprintManager from 'android.hardware.fingerprint.FingerprintManager';
+import AuthenticationCallback from 'android.hardware.fingerprint.FingerprintManager.AuthenticationCallback';
+import CancellationSignal from 'android.os.CancellationSignal';
+import CryptoObject from 'android.hardware.fingerprint.FingerprintManager.CryptoObject';
+import KeyStore from 'java.security.KeyStore';
+import KeyGenerator from 'javax.crypto.KeyGenerator';
+import Builder from 'android.security.keystore.KeyGenParameterSpec.Builder';
+import KeyProperties from 'android.security.keystore.KeyProperties';
+import Cipher from 'javax.crypto.Cipher';
+import Activity from 'android.app.Activity';
+
 (function (container) {
-	var FingerprintManager = require('android.hardware.fingerprint.FingerprintManager'),
-		AuthenticationCallback = require('android.hardware.fingerprint.FingerprintManager.AuthenticationCallback'),
-		CancellationSignal = require('android.os.CancellationSignal'),
-		CryptoObject = require('android.hardware.fingerprint.FingerprintManager.CryptoObject'),
-		KeyStore = require('java.security.KeyStore'),
-		KeyGenerator = require('javax.crypto.KeyGenerator'),
-		Builder = require('android.security.keystore.KeyGenParameterSpec.Builder'),
-		KeyProperties = require('android.security.keystore.KeyProperties'),
-		Cipher = require('javax.crypto.Cipher'),
-		Activity = require('android.app.Activity'),
-		KEY_NAME = 'my_key',
-		fingerprintManager,
-		activity;
+	// Specify your Keystore name (private)
+	const KEY_NAME = 'my_key';
 
 	// This is exposing an emulator bug for me: https://github.com/googlesamples/android-FingerprintDialog/issues/18
-	activity = new Activity(Titanium.App.Android.getTopActivity());
-	fingerprintManager = activity.getSystemService(FingerprintManager.class);
+	const activity = new Activity(Titanium.App.Android.getTopActivity());
+	const fingerprintManager = activity.getSystemService(FingerprintManager.class);
 
 	// https://github.com/googlesamples/android-FingerprintDialog/blob/master/Application/src/main/java/com/example/android/fingerprintdialog/MainActivity.java
 
@@ -27,15 +27,9 @@
 			$.message.setText('Go to "Settings -> Security -> Fingerprint" and register at least one fingerprint');
 		} else {
 			$.button.addEventListener('click', () => {
-				var cryptoObject,
-					cipher,
-					keyStore,
-					keyGenerator,
-					authCallback;
-
 				// Grab the FingerprintManager, keystore, keyGenerator from system
-				keyStore = KeyStore.getInstance('AndroidKeyStore');
-				keyGenerator = KeyGenerator.getInstance(KeyProperties.KEY_ALGORITHM_AES, 'AndroidKeyStore');
+				const keyStore = KeyStore.getInstance('AndroidKeyStore');
+				const keyGenerator = KeyGenerator.getInstance(KeyProperties.KEY_ALGORITHM_AES, 'AndroidKeyStore');
 
 				// Create a key
 				keyStore.load(null);
@@ -54,14 +48,14 @@
 
 				// init cipher
 				keyStore.load(null);
-				cipher = Cipher.getInstance(KeyProperties.KEY_ALGORITHM_AES + '/'
+				const cipher = Cipher.getInstance(KeyProperties.KEY_ALGORITHM_AES + '/'
 					+ KeyProperties.BLOCK_MODE_CBC + '/'
 					+ KeyProperties.ENCRYPTION_PADDING_PKCS7);
 				cipher.init(Cipher.ENCRYPT_MODE, keyStore.getKey(KEY_NAME, null));
 
 				// try to do the auth
-				cryptoObject = new CryptoObject(cipher);
-				var Subclass = AuthenticationCallback.extend({
+				const cryptoObject = new CryptoObject(cipher);
+				const Subclass = AuthenticationCallback.extend({
 					onAuthenticationError: (code, msg) => {
 						console.log('onAuthenticationError');
 					},
@@ -78,10 +72,9 @@
 						console.log('onAuthenticationAcquired');
 					}
 				});
-				authCallback = new Subclass();
+				const authCallback = new Subclass();
 
-				fingerprintManager
-					.authenticate(cryptoObject, new CancellationSignal(), 0 /* flags */, authCallback, null);
+				fingerprintManager.authenticate(cryptoObject, new CancellationSignal(), 0 /* flags */, authCallback, null);
 			});
 		}
 	} else {

@@ -1,3 +1,13 @@
+import View from 'android.view.View';
+import Gravity from 'android.view.Gravity';
+import Color from 'android.graphics.Color';
+import Paint from 'android.graphics.Paint';
+import Style from 'android.graphics.Paint.Style';
+import Path from 'android.graphics.Path';
+import PathDirection from 'android.graphics.Path.Direction';
+import LayoutParams from 'android.widget.FrameLayout.LayoutParams';
+import Activity from 'android.app.Activity';
+
 /**
  * DonutChart example
  * @author: Bert Grantges
@@ -7,44 +17,35 @@
  * of Titanium Cross Platform code and IOS specific Native UI for drawing the more
  * complex objects on the screen.
  */
-
 (function (container) {
 
-	var View = require('android.view.View'),
-		Gravity = require('android.view.Gravity'),
-		Color = require('android.graphics.Color'),
-		Paint = require('android.graphics.Paint'),
-		Style = require('android.graphics.Paint.Style'),
-		Path = require('android.graphics.Path'),
-		PathDirection = require('android.graphics.Path.Direction'),
-		LayoutParams = require('android.widget.FrameLayout.LayoutParams'),
-		Activity = require('android.app.Activity'),
-		activity = new Activity(Ti.Android.currentActivity),
-		Styles = {
+		const activity = new Activity(Ti.Android.currentActivity);
+		const Styles = {
 			midnight:  Color.argb(255, 35, 46, 63),
 			deepRed:  Color.argb(255, 181, 25, 0),
 			lightRed:  Color.argb(255, 223, 47, 0),
 			blackPearl:  Color.argb(255, 28, 36, 50),
 			lightGray:  Color.argb(255, 237, 238, 238)
-		},
-		DonutChartView = View.extend({
-			onMeasure: (widthMeasureSpec, heightMeasureSpec) => {
+		};
+		
+		const DonutChartView = View.extend({
+			onMeasure: function (widthMeasureSpec, heightMeasureSpec) {
 				// Do required super-class call
 				this.super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 				
-				var width = this.getMeasuredWidth();
-				var height = this.getMeasuredHeight();
+				const width = this.getMeasuredWidth();
+				const height = this.getMeasuredHeight();
 				
 				Ti.API.warn('Measure update: ' + width + 'x' + height);
 			},
-			onDraw: (canvas) => {
+			onDraw: function (canvas) {
 				this.super.onDraw(canvas);				
 				
-				var paint = new Paint();
+				const paint = new Paint();
 				paint.setAntiAlias(true);
 
 				//// Oval Drawing
-				var ovalPath = new Path();
+				const ovalPath = new Path();
 				ovalPath.addOval(8, 8, 240, 240, PathDirection.CW);
 
 				paint.setColor(Styles.blackPearl);
@@ -52,7 +53,7 @@
 				canvas.drawPath(ovalPath, paint);
 
 				//// lineMarker Drawing
-				var lineMarkerPath = new Path();
+				const lineMarkerPath = new Path();
 				lineMarkerPath.moveTo(9, 129);
 				lineMarkerPath.cubicTo(9, 62.73, 62.73, 9, 129, 9);
 
@@ -63,7 +64,7 @@
 
 
 				//// segment0 Drawing
-				var segment0Path = new Path();
+				const segment0Path = new Path();
 				segment0Path.moveTo(129, 19);
 				segment0Path.cubicTo(129, 25.9, 129, 34.38, 129, 44.01);
 				segment0Path.cubicTo(128.67, 44, 128.33, 44, 128, 44);
@@ -83,7 +84,7 @@
 
 
 				//// segment1 Drawing
-				var segment1Path = new Path();
+				const segment1Path = new Path();
 				segment1Path.moveTo(205.72, 51.57);
 				segment1Path.cubicTo(200.8, 56.5, 194.8, 62.49, 188.04, 69.25);
 				segment1Path.cubicTo(173.22, 54.11, 152.73, 44.55, 130, 44.02);
@@ -97,7 +98,7 @@
 
 
 				//// segment2 Drawing
-				var segment2Path = new Path();
+				const segment2Path = new Path();
 				segment2Path.moveTo(51.44, 50.42);
 				segment2Path.cubicTo(56.25, 55.23, 62.25, 61.24, 69.12, 68.1);
 				segment2Path.cubicTo(53.83, 83.12, 44.27, 103.94, 44.01, 127);
@@ -111,7 +112,7 @@
 
 
 				//// segment3 Drawing
-				var segment3Path = new Path();
+				const segment3Path = new Path();
 				segment3Path.moveTo(237, 128);
 				segment3Path.cubicTo(237, 157.48, 225.3, 184.23, 206.28, 203.85);
 				segment3Path.cubicTo(201.35, 198.92, 195.35, 192.92, 188.6, 186.17);
@@ -126,7 +127,7 @@
 
 
 				//// segment4 Drawing
-				var segment4Path = new Path();
+				const segment4Path = new Path();
 				segment4Path.moveTo(69.25, 188.04);
 				segment4Path.cubicTo(62.4, 194.89, 56.39, 200.9, 51.57, 205.72);
 				segment4Path.cubicTo(31.47, 185.94, 19, 158.43, 19, 128);
@@ -140,7 +141,7 @@
 
 
 				//// segment5 Drawing
-				var segment5Path = new Path();
+				const segment5Path = new Path();
 				segment5Path.moveTo(205.58, 204.56);
 				segment5Path.cubicTo(186.25, 224.15, 159.56, 236.45, 130, 236.98);
 				segment5Path.cubicTo(130, 230.09, 130, 221.6, 130, 211.98);
@@ -154,7 +155,7 @@
 
 
 				//// segment9 Drawing
-				var segment9Path = new Path();
+				const segment9Path = new Path();
 				segment9Path.moveTo(69.97, 188.74);
 				segment9Path.cubicTo(85.05, 203.15, 105.49, 212, 128, 212);
 				segment9Path.cubicTo(128.33, 212, 128.67, 212, 129, 211.99);
@@ -170,7 +171,7 @@
 
 
 				//// segmentWithPointer Drawing
-				var segmentWithPointerPath = new Path();
+				const segmentWithPointerPath = new Path();
 				segmentWithPointerPath.moveTo(225.26, 78.74);
 				segmentWithPointerPath.cubicTo(225.34, 78.54, 225.39, 78.43, 225.39, 78.43);
 				segmentWithPointerPath.lineTo(234.57, 82.39);
@@ -189,7 +190,7 @@
 		});
 
 	/** Create a Titanium Wrapper View **/
-	var wrapper = Ti.UI.createView({
+	const wrapper = Ti.UI.createView({
 		backgroundColor: '#232E3F'
 	});
 
@@ -207,8 +208,8 @@
 		We can mix and match Titanium and Native super easy - here
 	  lets add a Titanium Label
 	**/
-	var lbl = Ti.UI.createLabel({
-		font:{ fontSize: 48, fontWeight: 'bold'},
+	const lbl = Ti.UI.createLabel({
+		font: { fontSize: 48, fontWeight: 'bold'},
 		color: '#EDEEEE',
 		text: '35'
 	});

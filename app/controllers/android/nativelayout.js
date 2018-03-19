@@ -1,11 +1,12 @@
-var Activity = require('android.app.Activity'),
-    Context = require('android.content.Context'),
-    Inflater = require('android.view.LayoutInflater'),
-    activity = new Activity(Ti.Android.currentActivity);
+import Activity from 'android.app.Activity';
+import Context from 'android.content.Context';
+import Inflater from 'android.view.LayoutInflater';
+
+const activity = new Activity(Ti.Android.currentActivity);
     
 (function (container) {
-  var inflater = Inflater.cast(activity.getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE));
-  var view = inflater.inflate(resIDFromString('main_content', 'layout'), null);
+  const inflater = Inflater.cast(activity.getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE));
+  const view = inflater.inflate(resIDFromString('main_content', 'layout'), null);
 
   container.add(view);
 })($.window);

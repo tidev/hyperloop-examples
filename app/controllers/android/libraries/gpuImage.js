@@ -23,20 +23,12 @@ const AssetManager = Context.getAssets();
  * @param  {object}   args  Controller arguments
  */
 (function controller(args) {
-  var FX_PANEL_HEIGHT,
-    SAMPLE_IMAGE,
-    DEFAULT_SLIDER_DISPLAY_VALUE,
-    DEFAULT_SLIDER_VALUE,
-    fx,
-    fxManager,
-    canAdjustFx;
+  const FX_PANEL_HEIGHT = 144;
+  const DEFAULT_SLIDER_DISPLAY_VALUE = '50';
+  const DEFAULT_SLIDER_VALUE = 100;
+  const SAMPLE_IMAGE = 'Resources/images/road.jpg';
 
-  FX_PANEL_HEIGHT = 144;
-  DEFAULT_SLIDER_DISPLAY_VALUE = '50';
-  DEFAULT_SLIDER_VALUE = 100;
-  SAMPLE_IMAGE = 'Resources/images/road.jpg';
-
-  fx = {
+  const fx = {
     'Normal': 'GPUImageFilter',
     'Contrast': 'GPUImageContrastFilter',
     'Gray Scale': 'GPUImageGrayscaleFilter',
@@ -53,9 +45,9 @@ const AssetManager = Context.getAssets();
     'Saturation': 'GPUImageSaturationFilter'
   };
 
-  canAdjustFx = ['GPUImageContrastFilter', 'GPUImageHueFilter', 'GPUImageSaturationFilter'];
+  const canAdjustFx = ['GPUImageContrastFilter', 'GPUImageHueFilter', 'GPUImageSaturationFilter'];
 
-  fxManager = {
+  const fxManager = {
     values: {
       label: null,
       fx: null
@@ -136,14 +128,12 @@ const AssetManager = Context.getAssets();
    * @method createLabel
    * @param  {string}    fxFilter
    * @param  {number}    index
-   * @return {object}        Ti Label
+   * @return {object}    Ti Label
    */
   function createLabel(fxFilter, index) {
-    var label,
-      isFirstItem;
-    isFirstItem = (index == 0);
+    const isFirstItem = index === 0;
 
-    label = Ti.UI.createLabel({
+    const label = Ti.UI.createLabel({
       left: 8,
       right: 8,
       width: 80,
@@ -176,7 +166,7 @@ const AssetManager = Context.getAssets();
    */
   function loadResource(path) {
     //Get resource stream from assets
-    var stream = AssetManager.open(path);
+    const stream = AssetManager.open(path);
 
     if (stream) {
       //Decoding stream to Bitmap. GPUImageView uses Bitmap like input param
@@ -240,7 +230,7 @@ const AssetManager = Context.getAssets();
    */
   function setFilter(filter) {
     //Check if selected filter can be adjusted
-    var canAdjust = (canAdjustFx.indexOf(filter) !== -1) ? true : false;
+    const canAdjust = (canAdjustFx.indexOf(filter) !== -1) ? true : false;
 
     //If can adjusted show slider and display value
     $.sliderContainer.setVisible(canAdjust);
@@ -255,14 +245,11 @@ const AssetManager = Context.getAssets();
    * @param  {object}      e
    */
   function onToggleFxPanel(e) {
-    var fxPanelParams,
-      sliderValueParams;
-
-    fxPanelParams = {
+    let fxPanelParams = {
       bottom: 0,
       duration: 750
     }
-    sliderValueParams = {
+    let sliderValueParams = {
       opacity: 1,
       duration: 750
     };

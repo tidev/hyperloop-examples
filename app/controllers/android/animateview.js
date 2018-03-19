@@ -1,24 +1,23 @@
+import FrameLayout from 'android.widget.FrameLayout';
+import ViewGroupLayoutParams from 'android.view.ViewGroup.LayoutParams';
+import Color from 'android.graphics.Color';
+import Gravity from 'android.view.Gravity';
+import View from 'android.view.View';
+import Activity from 'android.app.Activity';
+import LayoutParams from 'android.widget.FrameLayout.LayoutParams';
+import Runnable from 'java.lang.Runnable';
+
 (function (container) {
-	var FrameLayout = require('android.widget.FrameLayout'),
-		ViewGroupLayoutParams = require('android.view.ViewGroup.LayoutParams'),
-		Color = require('android.graphics.Color'),
-		Gravity = require('android.view.Gravity'),
-		View = require('android.view.View'),
-		Activity = require('android.app.Activity'),
-		LayoutParams = require('android.widget.FrameLayout.LayoutParams'),
-		Runnable = require('java.lang.Runnable'),
-		activity = new Activity(Ti.Android.currentActivity),
-		view,
-		main,
-		layoutParams;
+	const activity = new Activity(Ti.Android.currentActivity);
+	let flag;
 
 	// Create a native layout to add our boxes to
-	main = new FrameLayout(activity);
+	const main = new FrameLayout(activity);
 	main.setLayoutParams(new LayoutParams(600, 600, Gravity.TOP)); // Make containing view large enough to hold box when animated
 
 	// create a view box we're going to animate when you click the button
-	view = new View(activity);
-	layoutParams = new LayoutParams(50, 50, Gravity.TOP);
+	const view = new View(activity);
+	const layoutParams = new LayoutParams(50, 50, Gravity.TOP);
 	layoutParams.setMargins(10, 10, 0, 0);
 	view.setLayoutParams(layoutParams);
 	view.setBackgroundColor(Color.RED);
@@ -30,13 +29,12 @@
 	container.add(main);
 
 	// Do the animation
-	var flag;
 	$.button.addEventListener('click', () => {
 		$.notice.setText('');
 		flag = !flag;
 
 		// this function is called after the animation completes
-		var runnable = new Runnable({
+		const runnable = new Runnable({
 			run: () => {
 				$.notice.setText('Animation completed!');
 				setTimeout(() => {

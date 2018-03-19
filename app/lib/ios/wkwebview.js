@@ -1,6 +1,6 @@
 exports.createWebView = function(args) {
 
-    if (!OS_IOS){
+    if (!OS_IOS) {
         return Ti.UI.createWebView(args);
     }
 

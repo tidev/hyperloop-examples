@@ -1,9 +1,8 @@
-(function (container) {
-	var Snackbar = require('android.support.design.widget.Snackbar');
+import Snackbar from 'android.support.design.widget.Snackbar';
 
+(function (container) {
 	$.button.addEventListener('click', () => {
-		var	snack = Snackbar.make(container, 'Hello world!', Snackbar.LENGTH_LONG);
+		const snack = Snackbar.make(container, 'Hello world!', Snackbar.LENGTH_LONG);
 		snack.show();
 	});
-
 })($.alert_container);
