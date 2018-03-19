@@ -24,7 +24,7 @@
 		$.message.setText('Fingerprints supported');
 
 		if (!fingerprintManager.hasEnrolledFingerprints()) {
-			$.message.setText('Go to 'Settings -> Security -> Fingerprint' and register at least one fingerprint');
+			$.message.setText('Go to "Settings -> Security -> Fingerprint" and register at least one fingerprint');
 		} else {
 			$.button.addEventListener('click', () => {
 				var cryptoObject,
