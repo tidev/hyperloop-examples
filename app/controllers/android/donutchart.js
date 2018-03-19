@@ -35,7 +35,7 @@
 				var width = this.getMeasuredWidth();
 				var height = this.getMeasuredHeight();
 				
-				Ti.API.warn("Measure update: " + width + "x" + height);
+				Ti.API.warn('Measure update: ' + width + 'x' + height);
 			},
 			onDraw: (canvas) => {
 				this.super.onDraw(canvas);				
@@ -194,9 +194,9 @@
 	});
 
 	/** Create an Instance of the DonutChartView **/
-	var view = new DonutChartView(activity);
+	const view = new DonutChartView(activity);
 	view.setBackgroundColor(Color.TRANSPARENT);
-	layoutParams = new LayoutParams(256, 256, Gravity.CENTER);
+	const layoutParams = new LayoutParams(256, 256, Gravity.CENTER);
 	view.setLayoutParams(layoutParams);
 	//view.layer.cornerRadius = 10; // TODO What's the Android equivalent?
 
@@ -208,9 +208,9 @@
 	  lets add a Titanium Label
 	**/
 	var lbl = Ti.UI.createLabel({
-		font:{ fontSize: 48, fontWeight: "bold"},
-		color: "#EDEEEE",
-		text: "35"
+		font:{ fontSize: 48, fontWeight: 'bold'},
+		color: '#EDEEEE',
+		text: '35'
 	});
 
 	/** Add the label to the Wrapper View **/

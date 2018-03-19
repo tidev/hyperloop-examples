@@ -2,7 +2,7 @@
 	var Snackbar = require('android.support.design.widget.Snackbar');
 
 	$.button.addEventListener('click', () => {
-		var	snack = Snackbar.make(container, "Hello world!", Snackbar.LENGTH_LONG);
+		var	snack = Snackbar.make(container, 'Hello world!', Snackbar.LENGTH_LONG);
 		snack.show();
 	});
 

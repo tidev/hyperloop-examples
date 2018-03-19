@@ -32,7 +32,7 @@ const AssetManager = Context.getAssets();
     canAdjustFx;
 
   FX_PANEL_HEIGHT = 144;
-  DEFAULT_SLIDER_DISPLAY_VALUE = "50";
+  DEFAULT_SLIDER_DISPLAY_VALUE = '50';
   DEFAULT_SLIDER_VALUE = 100;
   SAMPLE_IMAGE = 'Resources/images/road.jpg';
 

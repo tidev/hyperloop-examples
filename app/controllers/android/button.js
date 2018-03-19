@@ -1,5 +1,5 @@
 (function (container) {
-    var Button = require("android.widget.Button"),
+    var Button = require('android.widget.Button'),
         LayoutParams = require('android.widget.FrameLayout.LayoutParams'),
         Activity = require('android.app.Activity'),
         Color = require('android.graphics.Color'),
@@ -23,12 +23,12 @@
     button.setBackgroundColor(Color.BLUE);
 
     // Set a button title
-    button.setText("CLICK ME");
+    button.setText('CLICK ME');
 
     // Register a click-listener to the button
     button.setOnClickListener(new OnClickListener({
         onClick: (v) => {
-            alert("Button pressed!");
+            alert('Button pressed!');
         }
     }));
 

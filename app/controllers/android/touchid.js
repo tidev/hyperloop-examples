@@ -9,7 +9,7 @@
 		KeyProperties = require('android.security.keystore.KeyProperties'),
 		Cipher = require('javax.crypto.Cipher'),
 		Activity = require('android.app.Activity'),
-		KEY_NAME = "my_key",
+		KEY_NAME = 'my_key',
 		fingerprintManager,
 		activity;
 
@@ -24,7 +24,7 @@
 		$.message.setText('Fingerprints supported');
 
 		if (!fingerprintManager.hasEnrolledFingerprints()) {
-			$.message.setText("Go to 'Settings -> Security -> Fingerprint' and register at least one fingerprint");
+			$.message.setText('Go to 'Settings -> Security -> Fingerprint' and register at least one fingerprint');
 		} else {
 			$.button.addEventListener('click', () => {
 				var cryptoObject,
@@ -34,8 +34,8 @@
 					authCallback;
 
 				// Grab the FingerprintManager, keystore, keyGenerator from system
-				keyStore = KeyStore.getInstance("AndroidKeyStore");
-				keyGenerator = KeyGenerator.getInstance(KeyProperties.KEY_ALGORITHM_AES, "AndroidKeyStore");
+				keyStore = KeyStore.getInstance('AndroidKeyStore');
+				keyGenerator = KeyGenerator.getInstance(KeyProperties.KEY_ALGORITHM_AES, 'AndroidKeyStore');
 
 				// Create a key
 				keyStore.load(null);
@@ -54,8 +54,8 @@
 
 				// init cipher
 				keyStore.load(null);
-				cipher = Cipher.getInstance(KeyProperties.KEY_ALGORITHM_AES + "/"
-					+ KeyProperties.BLOCK_MODE_CBC + "/"
+				cipher = Cipher.getInstance(KeyProperties.KEY_ALGORITHM_AES + '/'
+					+ KeyProperties.BLOCK_MODE_CBC + '/'
 					+ KeyProperties.ENCRYPTION_PADDING_PKCS7);
 				cipher.init(Cipher.ENCRYPT_MODE, keyStore.getKey(KEY_NAME, null));
 
@@ -86,7 +86,7 @@
 		}
 	} else {
 		if (ENV_DEV) {
-			$.message.setText("Fingerprints not supported on this device.\n\nYou must enable the permission in your AndroidManifest.xml");
+			$.message.setText('Fingerprints not supported on this device.\n\nYou must enable the permission in your AndroidManifest.xml');
 			$.image.opacity = 1;
 		} else {
 			$.message.setText('Fingerprints not supported on this device');
