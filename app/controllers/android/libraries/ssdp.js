@@ -5,10 +5,11 @@ import DiscoveryListener from 'io.resourcepool.ssdp.model.DiscoveryListener';
 let client;
 
 (function(container) {
-  client = SsdpClient.create();
+  // Constructor
 })($.window);
 
 function startSearch() {
+  client = SsdpClient.create();
   const all = SsdpRequest.discoverAll();
 
   client.discoverServices(all, new DiscoveryListener({
@@ -28,4 +29,5 @@ function startSearch() {
 
 function stopSearch() {
   client.stopDiscovery();
+  client = null;
 }
