@@ -1,4 +1,4 @@
-import { MMMarkdown } = from 'MMMarkdown';
+import { MMMarkdown } from 'MMMarkdown';
 let nav;
 
 (function (args) {
