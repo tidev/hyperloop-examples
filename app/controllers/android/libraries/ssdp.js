@@ -5,11 +5,13 @@ var DiscoveryListener = require('io.resourcepool.ssdp.model.DiscoveryListener');
 var client;
 
 (function(container) {
-  client = SsdpClient.create();
+  // Constructor
 })($.window);
 
 function startSearch() {
+  client = SsdpClient.create();
   var all = SsdpRequest.discoverAll();
+
   client.discoverServices(all, new DiscoveryListener({
     onServiceDiscovered: function (service) {
       Ti.API.info('Found service: ' + service.getServiceType());
@@ -27,4 +29,5 @@ function startSearch() {
 
 function stopSearch() {
   client.stopDiscovery();
+  client = null;
 }
