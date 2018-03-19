@@ -2,7 +2,7 @@
 <ti:app xmlns:ti="http://ti.appcelerator.org">
 	<id>com.appcelerator.sample.hyperloop</id>
 	<name>Hyperloop_Sample</name>
-	<version>3.0.2</version>
+	<version>3.0.3</version>
 	<publisher>Appcelerator</publisher>
 	<url>http://www.appcelerator.com</url>
 	<description>This app demonstrates Hyperloop</description>
@@ -20,6 +20,8 @@
 	<property name="ti.ui.defaultunit" type="string">dp</property>
 	<property name="run-on-main-thread" type="bool">true</property>
 	<ios>
+		<default-background-color>#c7182c</default-background-color>
+		<enable-launch-screen-storyboard>true</enable-launch-screen-storyboard>
 		<use-jscore-framework>true</use-jscore-framework>
 		<plist>
 			<dict>
@@ -69,7 +71,7 @@
 		<target device="iphone">true</target>
 		<target device="windows">true</target>
 	</deployment-targets>
-	<sdk-version>7.0.2.GA</sdk-version>
+	<sdk-version>7.1.0.GA</sdk-version>
 	<plugins>
 	<plugin version="1.0">ti.alloy</plugin>
 	</plugins>

@@ -17,6 +17,7 @@ overrode the settings with other TSS, XML, or JS settings:
 	barColor: Alloy.CFG.brandPrimary,
 	navTintColor: '#FFF',
 	translucent: false,
+	largeTitleEnabled: true,
 	titleAttributes: {
 		color: '#FFF'
 	},
