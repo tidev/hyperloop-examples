@@ -1,3 +1,6 @@
+import { GLCalendarDateRange, GLDateUtils } from 'GLCalendarView';
+import UIColor from 'UIKit/UIColor';
+
 /**
  * Create a native class to act as the delegate of the GLCalendarView.
  * A delegate is similar to an Alloy javascript controller file for the XML
@@ -16,10 +19,7 @@
  * - (NSArray *)weekDayTitlesForCalendarView:(GLCalendarView *)calendarView;
  * @end
  */	
-var CalendarDelegate = Hyperloop.defineClass('CalendarDelegate', 'NSObject');
-var GLDateUtils = require('GLCalendarView/GLDateUtils');
-var GLCalendarDateRange = require('GLCalendarView/GLCalendarDateRange');
-var UIColor = require('UIKit/UIColor');
+const CalendarDelegate = Hyperloop.defineClass('CalendarDelegate', 'NSObject');
 
 /**
  * Implement the required delegate methods that are defined by the
@@ -49,8 +49,8 @@ CalendarDelegate.addMethod({
 	callback: (calendarView, beginDate) => {
 		Ti.API.info(beginDate);
 
-		var endDate = GLDateUtils.dateByAddingDaysToDate(2, beginDate);
-		var range = GLCalendarDateRange.rangeWithBeginDateEndDate(beginDate, endDate);
+		const endDate = GLDateUtils.dateByAddingDaysToDate(2, beginDate);
+		const range = GLCalendarDateRange.rangeWithBeginDateEndDate(beginDate, endDate);
 		range.backgroundColor = UIColor.redColor;
 		range.editable = true;
 
@@ -114,4 +114,4 @@ CalendarDelegate.addMethod({
 	}
 });
 
-module.exports = CalendarDelegate;
+export { CalendarDelegate };

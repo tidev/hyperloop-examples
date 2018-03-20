@@ -1,3 +1,14 @@
+// Native classes
+import { UIView, UIScreen, UIColor } from 'UIKit';
+import CoreGraphics from 'CoreGraphics/CoreGraphics';
+import NSDate from 'Foundation/NSDate';
+
+// 3rd Party Native Classes
+import { GLCalendarView, GLCalendarDateRange, GLDateUtils } from 'GLCalendarView';
+
+// Delegate from app/lib/ios/subclasses/calendardelegate.js
+import { CalendarDelegate } from '/subclasses/calendardelegate';
+
 /**
  * Implementation of the GLCalendarView 3rd Party Library for iOS
  * using Appcelerator Hyperloop.
@@ -6,28 +17,16 @@
  * for their great open source calendar!
  */
 (function (container) {
+	let currentSelectedRange;
 
-	// Require in core native classes
-	var CGRectMake = require('CoreGraphics').CGRectMake,
-		UIView = require('UIKit/UIView'),
-		UIScreen = require('UIKit/UIScreen'),
-		UIColor = require('UIKit/UIColor'),
-		NSDate = require('Foundation/NSDate');
-
-	// Require in 3rd Party Native Classes
-	var GLCalendarView = require('GLCalendarView/GLCalendarView'),
-		GLCalendarDateRange = require('GLCalendarView/GLCalendarDateRange'),
-		GLDateUtils = require('GLCalendarView/GLDateUtils');
-
-	var calendar, delegate, currentSelectedRange;
-	var CalendarDelegate = require('/subclasses/calendardelegate');
+	// Prepare native classes
+	const calendar = new GLCalendarView();
+	const delegate = new CalendarDelegate();
 
 	// Get the screensize
-	var bounds = UIScreen.mainScreen.bounds
-	var frame = CGRectMake(0, 0, bounds.size.width, bounds.size.height);
-	var today = NSDate.date();
-	calendar = new GLCalendarView();
-	delegate = new CalendarDelegate();
+	const bounds = UIScreen.mainScreen.bounds
+	const frame = CoreGraphics.CGRectMake(0, 0, bounds.size.width, bounds.size.height);
+	const today = NSDate.date();
 
 	// Setup the GLCalendarView
 	calendar.frame = frame;
