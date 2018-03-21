@@ -15,3 +15,4 @@ Thumbs.db
 /plugins/ti.alloy
 /modules/**/hyperloop
 /Podfile.lock
+/.gradle

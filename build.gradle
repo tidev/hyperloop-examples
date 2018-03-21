@@ -1,0 +1,20 @@
+// Example of using Gradle in Hyperloop.
+// Usage: "gradle getDeps" from the Terminal
+// Note: In the future, Hyperloop will do this for you automatically!
+
+apply plugin: 'java'
+
+repositories {
+	google()
+	jcenter()
+	mavenCentral()
+}
+
+dependencies {
+	compile 'com.android.volley:volley:1.1.0'
+}
+
+task getDeps(type: Copy) {
+	from sourceSets.main.runtimeClasspath
+	into 'app/platform/android/'
+}
