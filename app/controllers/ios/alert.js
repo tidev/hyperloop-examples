@@ -31,7 +31,13 @@ function showAlertWithStyle(style) {
 	alertController.addAction(destructiveAction);
 	alertController.addAction(cancelAction);
 
-	TiApp.app().showModalController(alertController, true);
+	// Get the native UIViewController and present it
+	TiApp.getController().presentViewControllerAnimatedCompletion(alertController, true, () => {
+		Ti.API.info('Presented!');
+	});
+
+	// Alternative: Use the showModalController utility!
+	// TiApp.app().showModalController(alertController, true);
 }
 
 function showAlert() {
