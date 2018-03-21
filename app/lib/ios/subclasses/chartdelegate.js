@@ -1,3 +1,5 @@
+import UIColor from 'UIKit/UIColor';
+
 // create a custom delegate class that can receive dataSource and delegate
 // callbacks from the JBBarChartView
 const ChartDelegate = Hyperloop.defineClass('ChartDelegate');
@@ -48,7 +50,6 @@ ChartDelegate.addMethod({
 			return this.colorForBar(view, index);
 		}
 		Ti.API.error('ChartDelegate colorForBar(view, index) callback missing');
-		UIColor = require('UIKit/UIColor');
 		return UIColor.clearColor;
 	}
 });

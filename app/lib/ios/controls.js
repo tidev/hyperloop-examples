@@ -1,9 +1,9 @@
-var UIView = require('UIKit/UIView'),
-	UIColor = require('UIKit/UIColor'),
-	UIBezierPath = require('UIKit/UIBezierPath'),
-	CAShapeLayer = require('QuartzCore/CAShapeLayer'),
-	CGPointMake = require('CoreGraphics').CGPointMake,
-	CGRectMake = require('CoreGraphics').CGRectMake;
+import { UIView, UIColor, UIBezierPath } from 'UIKit';
+import { CAShapeLayer } from 'QuartzCore';
+import { CoreGraphics } from 'CoreGraphics';
+
+const CGPointMake = CoreGraphics.CGPointMake;
+const CGRectMake = CoreGraphics.CGRectMake;
 
 function bubble() {
 	// Bubbles to parent view

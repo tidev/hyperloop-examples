@@ -2,6 +2,7 @@ import Activity from 'android.app.Activity';
 import LayoutParams from 'android.widget.FrameLayout.LayoutParams';
 import ViewGroupLayoutParams from 'android.view.ViewGroup.LayoutParams';
 import Gravity from 'android.view.Gravity';
+import FBShimmerFrameLayout from 'com.facebook.shimmer.ShimmerFrameLayout';
 
 /**
  * Shimmer example
@@ -20,7 +21,6 @@ import Gravity from 'android.view.Gravity';
     }
   });
 
-  const FBShimmerFrameLayout = require('com.facebook.shimmer.ShimmerFrameLayout');
   const shimmer = new FBShimmerFrameLayout(activity);
 
   shimmer.setLayoutParams(new LayoutParams(ViewGroupLayoutParams.WRAP_CONTENT, ViewGroupLayoutParams.WRAP_CONTENT, Gravity.CENTER));
