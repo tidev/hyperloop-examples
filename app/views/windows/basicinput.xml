@@ -2,8 +2,8 @@
 	<Window id="win" title="Basic Input">
 
 		<ScrollView>
-			<View class="vbox" id="touch_container"></View>
-			<Label id="notice"></Label>
+			<View class="vbox" id="touch_container" />
+			<Label id="notice" />
 		</ScrollView>
 
 	</Window>

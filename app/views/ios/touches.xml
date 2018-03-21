@@ -2,7 +2,7 @@
 	<Window id="win" title="Touches">
 
 		<ScrollView>
-			<View class="vbox" id="touch_container"></View>
+			<View class="vbox" id="touch_container" />
 		</ScrollView>
 
 	</Window>

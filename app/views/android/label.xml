@@ -2,7 +2,7 @@
 	<Window id="win" title="Styled Labels">
 
 		<ScrollView>
-			<View class="vbox" id="label_container"></View>
+			<View class="vbox" id="label_container" />
 		</ScrollView>
 
 	</Window>

@@ -1,6 +1,6 @@
 <Alloy>
-	<Window id="win" title="Alert Controller">
+	<Window id="win" title="Dialogs">
 		<Button id="button" onClick="showAlert">Show Alert</Button>
-		<Label id="notice"></Label>
+		<Label id="notice" />
 	</Window>
 </Alloy>

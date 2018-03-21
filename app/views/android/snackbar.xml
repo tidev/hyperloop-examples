@@ -2,9 +2,9 @@
 	<Window id="win" title="Snackbar Controller">
 
 		<ScrollView>
-			<View class="vbox" id="alert_container"></View>
+			<View class="vbox" id="alert_container" />
 			<Button id="button">Show Snackbar</Button>
-			<Label id="notice"></Label>
+			<Label id="notice" />
 		</ScrollView>
 
 	</Window>

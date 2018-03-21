@@ -3,7 +3,7 @@
 
 		<ScrollView>
 			<Label>3rd party charting library via CocoaPods</Label>
-			<View class="vbox" id="chart_container"></View>
+			<View class="vbox" id="chart_container" />
 		</ScrollView>
 
 	</Window>

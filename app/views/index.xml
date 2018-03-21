@@ -25,7 +25,7 @@
 					<ListItem itemId="collectionview" platform="ios" title="Collection View"/>
 					<ListItem itemId="bottomnavigation" platform="android" title="Bottom Navigation View"/>
 					<ListItem itemId="nativelayout" platform="android" title="Native Layout (XML)"/>
-					<ListItem itemId="alert" title="Alert"/>
+					<ListItem itemId="alert" title="Dialogs"/>
 					<ListItem itemId="xib" platform="ios" title="Interface Builder UI"/>
 					<ListItem itemId="donutchart" platform="android,ios" title="Donut Chart"/>
 					<ListItem itemId="shapes" platform="ios" title="Shapes &amp; Animation"/>

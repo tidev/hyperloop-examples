@@ -1,5 +1,5 @@
 <Alloy>
 	<Window id="win" title="Custom Drawing">
-		<View class="vbox" id="rect_container"></View>
+		<View class="vbox" id="rect_container" />
 	</Window>
 </Alloy>

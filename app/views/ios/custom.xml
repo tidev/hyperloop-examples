@@ -3,7 +3,7 @@
 
 		<ScrollView>
 			<Label top="50">Custom objective-c and swift from the src directory</Label>
-			<View id="custom_container"></View>
+			<View id="custom_container" />
 		</ScrollView>
 
 	</Window>

@@ -2,7 +2,7 @@
 	<Window id="win" title="Gravity">
 
 		<ScrollView>
-			<View id="gravity_container"></View>
+			<View id="gravity_container" />
 		</ScrollView>
 
 	</Window>

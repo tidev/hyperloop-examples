@@ -2,7 +2,7 @@
 	<Window id="win" title="Interface Builder View (XIB)">
 
 		<ScrollView>
-			<View class="vbox" id="xib_container"></View>
+			<View class="vbox" id="xib_container" />
 		</ScrollView>
 
 	</Window>

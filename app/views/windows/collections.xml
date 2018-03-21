@@ -1,5 +1,5 @@
 <Alloy>
 	<Window id="win" title="Generic Collections">
-		<Label id="notice"></Label>
+		<Label id="notice" />
 	</Window>
 </Alloy>

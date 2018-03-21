@@ -3,7 +3,7 @@
 
 		<ScrollView>
 			<Label top="20">Vote for the most uneligible bachelor</Label>
-			<View id="tinder_container"></View>
+			<View id="tinder_container" />
 		</ScrollView>
 
 	</Window>

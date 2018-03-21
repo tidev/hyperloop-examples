@@ -2,7 +2,7 @@
 	<Window id="win" title="Custom Drawing">
 
 		<ScrollView>
-			<View class="vbox" id="rect_container"></View>
+			<View class="vbox" id="rect_container" />
 		</ScrollView>
 		
 		<Circle module="controls" id="controls">
