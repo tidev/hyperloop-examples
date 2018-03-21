@@ -17,7 +17,7 @@ const CARD_COUNT = 7;
 let viewIndex;
 
 // view array for cards
-let viewArray = [];
+let viewArray = new Array();
 
 // original location of view
 let origPt;

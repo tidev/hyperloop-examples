@@ -196,8 +196,9 @@ import Activity from 'android.app.Activity';
 
 	/** Create an Instance of the DonutChartView **/
 	const view = new DonutChartView(activity);
-	view.setBackgroundColor(Color.TRANSPARENT);
 	const layoutParams = new LayoutParams(256, 256, Gravity.CENTER);
+
+	view.setBackgroundColor(Color.TRANSPARENT);
 	view.setLayoutParams(layoutParams);
 	//view.layer.cornerRadius = 10; // TODO What's the Android equivalent?
 
@@ -208,14 +209,14 @@ import Activity from 'android.app.Activity';
 		We can mix and match Titanium and Native super easy - here
 	  lets add a Titanium Label
 	**/
-	const lbl = Ti.UI.createLabel({
-		font: { fontSize: 48, fontWeight: 'bold'},
+	const label = Ti.UI.createLabel({
+		font: { fontSize: 36, fontWeight: 'bold'},
 		color: '#EDEEEE',
 		text: '35'
 	});
 
 	/** Add the label to the Wrapper View **/
-	wrapper.add(lbl);
+	wrapper.add(label);
 
 	/** Now lets add the wrapper to the containing object **/
 	container.add(wrapper);

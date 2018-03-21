@@ -21,7 +21,7 @@ const CGRectMake = CoreGraphics.CGRectMake;
 
 	const numberOfColors = 50;
 
-	let colors = [];
+	let colors = new Array();
 	let collectionView;
 
 	// Return the number of collection view cells
