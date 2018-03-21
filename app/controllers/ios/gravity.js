@@ -1,9 +1,9 @@
 import { UIDynamicAnimator, UIDynamicItemBehavior, UIGravityBehavior, UICollisionBehavior, UIColor } from 'UIKit';
 import { NSBundle, NSURL } from 'Foundation';
-import AVAudioPlayer from 'AVFoundation/AVAudioPlayer';
-import CoreGraphics from 'CoreGraphics';
+import { AVAudioPlayer } from 'AVFoundation';
+import { CoreGraphics } from 'CoreGraphics';
 
-import CollisionBehaviorDelegate from '/subclasses/collisionbehaviordelegate';
+import { CollisionBehaviorDelegate } from '/subclasses/collisionbehaviordelegate';
 
 const CGPointMake = CoreGraphics.CGPointMake;
 const CGRectMake = CoreGraphics.CGRectMake;
@@ -15,6 +15,7 @@ setTimeout(() => {
 		const soundPath = NSBundle.mainBundle.pathForResourceOfType('sounds/hit', 'mp3');
 		const soundURL = NSURL.fileURLWithPath(soundPath);
 		const sound = AVAudioPlayer.alloc().initWithContentsOfURLError(soundURL);
+
 		sound.prepareToPlay();
 
 		// create Titanium view (ball)
@@ -58,7 +59,7 @@ setTimeout(() => {
 		container.add(barrier3);
 
 		// create Dynamic Animator for our main window
-		const dynamicAnimator = UIDynamicAnimator.alloc().initWithReferenceView(container);
+		let dynamicAnimator = UIDynamicAnimator.alloc().initWithReferenceView(container);
 
 		// protect from GC, remember to unprotect in the window's close event
 		dynamicAnimator.protect();
@@ -76,7 +77,7 @@ setTimeout(() => {
 
 		const delegate = new CollisionBehaviorDelegate();
 		delegate.beganContact = function (behavior, dest, identifier, point) {
-			Ti.API.debug('+collision begin ' + point.x + ' ' + point.y + ' ' + String(identifier));
+			Ti.API.debug(`Collision began: x = ${point.x}, y = ${point.y}, identifier = ${String(identifier)}`);
 			if (sound.isPlaying()) {
 				sound.stop();
 				sound.currentTime = 0;

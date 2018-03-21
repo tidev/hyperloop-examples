@@ -1,32 +1,35 @@
 import { UIView, UIColor, UIScreen, UIBezierPath } from 'UIKit';
 import { CAShapeLayer, CABasicAnimation } from 'QuartzCore';
-import CoreGraphics from 'CoreGraphics';
+import { CoreGraphics } from 'CoreGraphics';
 
 const CGPointMake = CoreGraphics.CGPointMake;
 const CGRectMake = CoreGraphics.CGRectMake;
 
-(function (container) {
-	const pathData = [
-		{ radius: 100, startAngle:270, endAngle: 89, lineWidth: 50, duration: 0.25, title: 'iOS', value:'300', lblTop: 320, lblLeft: 350 },
-		{ radius: 100, startAngle:90, endAngle: 180, lineWidth: 30, duration: 0.25, title: 'Android', value:'100', lblTop: 400, lblLeft: 50 },
-		{ radius: 100, startAngle:181, endAngle: 269, lineWidth: 10,duration: 0.25, title: 'Windows', value:'50', lblTop: 190, lblLeft: 30 }
-	];
+const pathData = [
+	{ radius: 100, startAngle:270, endAngle: 89, lineWidth: 50, duration: 0.25, title: 'iOS', value:'300', lblTop: 320, lblLeft: 325 },
+	{ radius: 100, startAngle:90, endAngle: 180, lineWidth: 30, duration: 0.25, title: 'Android', value:'100', lblTop: 410, lblLeft: 30 },
+	{ radius: 100, startAngle:181, endAngle: 269, lineWidth: 10,duration: 0.25, title: 'Windows', value:'50', lblTop: 210, lblLeft: 30 }
+];
 
-	const colors = [
-		{ red: 0.74, green: 0.05, blue: 0, alpha: 1 },
-		{ red: 0.99, green: 0.62, blue: 0.14, alpha: 1 },
-		{ red: 0.02, green: 0.48, blue: 1, alpha: 1 }
-	];
+const colors = [
+	{ red: 0.74, green: 0.05, blue: 0, alpha: 1.0 },
+	{ red: 0.99, green: 0.62, blue: 0.14, alpha: 1.0 },
+	{ red: 0.02, green: 0.48, blue: 1, alpha: 1.0 }
+];
 
-	let shapes = [];
-	let labels = [];
+let shapes = new Array();
+let labels = new Array();
 
+let view;
+let container;
+
+(function (_container) {
 	// container is a Titanium.UI.View but we can cast it into a UIView
-	const view = UIView.cast(container);
+	container = _container;
 
 	$.button.addEventListener('click', (e) => {
 		clearView();
-		startAnimation(view);
+		startAnimation();
 	});
 })($.shapes_container);
 
@@ -41,8 +44,9 @@ function RGB_TO_HEX (r, g, b) {
 	return '#' + componentToHex(r) + componentToHex(g) + componentToHex(b);
 }
 
-function startAnimation (view) {
+function startAnimation () {
 	const color = Math.floor(Math.random() * colors.length);
+	const view = UIView.cast(container);
 
 	for (let i = 0; i < pathData.length; i++) {
 		animateSection(view, pathData[i].radius, pathData[i].startAngle, pathData[i].endAngle, pathData[i].lineWidth, pathData[i].duration, colors[color]);
@@ -52,8 +56,7 @@ function startAnimation (view) {
 	animateRing(container);
 }
 
-function animateSection (viewproxy, radius, startAngle, endAngle, lineWidth, duration, color) {
-
+function animateSection (view, radius, startAngle, endAngle, lineWidth, duration, color) {
 	const rect = view.frame;
 	const centerPoint = CGPointMake(rect.size.width / 2, rect.size.height / 2);
 
@@ -79,7 +82,6 @@ function animateSection (viewproxy, radius, startAngle, endAngle, lineWidth, dur
 }
 
 function animateRing (view) {
-
 	const growAndFade = Ti.UI.createAnimation({
 		transform: Ti.UI.create2DMatrix().scale(1.5),
 		opacity: 0.0,
@@ -94,12 +96,12 @@ function animateRing (view) {
 		width: 80,
 		height: 80
 	});
+
 	view.add(ring);
 	ring.animate(growAndFade);
 }
 
 function animateLabel (title, value, top, left, color) {
-
 	 const view = Ti.UI.createView({
 		 width: Ti.UI.SIZE,
 		 height: Ti.UI.SIZE,

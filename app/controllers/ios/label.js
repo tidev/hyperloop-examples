@@ -1,9 +1,10 @@
 import { UILabel, UIColor, UIFont, UIKit, NSShadow } from 'UIKit';
-import { NSMutableAttributedString, NSMakeRange } from 'Foundation';
-import CoreGraphics from 'CoreGraphics';
+import { NSMutableAttributedString, Foundation } from 'Foundation';
+import { CoreGraphics } from 'CoreGraphics';
 
 const CGSizeMake = CoreGraphics.CGSizeMake;
 const CGRectMake = CoreGraphics.CGRectMake; 
+const NSMakeRange = Foundation.NSMakeRange;
 
 (function (container) {
 	const infoString = 'We ♥ iOS';

@@ -1,6 +1,6 @@
 // create a custom delegate class that can receive dataSource and delegate
 // callbacks from the JBBarChartView
-var ChartDelegate = Hyperloop.defineClass('ChartDelegate');
+const ChartDelegate = Hyperloop.defineClass('ChartDelegate');
 
 ChartDelegate.addMethod({
 	selector: 'numberOfBarsInBarChartView:',
@@ -9,7 +9,7 @@ ChartDelegate.addMethod({
 	arguments: [
 		'UIView'
 	],
-	callback: (view) => {
+	callback: function (view) {
 		if (this.numberOfBars) {
 			return this.numberOfBars(view);
 		}
@@ -26,7 +26,7 @@ ChartDelegate.addMethod({
 		'UIView',
 		'int'
 	],
-	callback: (view, index) => {
+	callback: function (view, index) {
 		if (this.heightForBar) {
 			return this.heightForBar(view, index);
 		}
@@ -43,7 +43,7 @@ ChartDelegate.addMethod({
 		'UIView',
 		'unsigned int'
 	],
-	callback: (view, index) => {
+	callback: function (view, index) {
 		if (this.colorForBar) {
 			return this.colorForBar(view, index);
 		}
@@ -53,4 +53,4 @@ ChartDelegate.addMethod({
 	}
 });
 
-module.exports = ChartDelegate;
+export { ChartDelegate };

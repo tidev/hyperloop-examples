@@ -114,4 +114,4 @@ CalendarDelegate.addMethod({
 	}
 });
 
-export { CalendarDelegate };
+export { CalendarDelegate }

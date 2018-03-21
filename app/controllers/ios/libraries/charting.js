@@ -1,7 +1,7 @@
 import { UIColor, UIScreen } from 'UIKit';
-import CoreGraphics from 'CoreGraphics';
-import { JBBarChartView } from 'JBBarChartView/JBBarChartView';
-import ChartDelegate from '/subclasses/chartdelegate';
+import { CoreGraphics } from 'CoreGraphics';
+import { JBBarChartView } from 'JBChartView/JBBarChartView';
+import { ChartDelegate } from '/subclasses/chartdelegate';
 
 const CGRectMake = CoreGraphics.CGRectMake;
 

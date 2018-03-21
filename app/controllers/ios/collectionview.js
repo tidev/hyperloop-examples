@@ -8,20 +8,22 @@ import {
 	UIKit 
 } from 'UIKit';
 
-import CoreGraphics from 'CoreGraphics';
-import CollectionViewDataSourceAndDelegate from '/subclasses/collectionviewdatasourcedelegate';
+import { CoreGraphics } from 'CoreGraphics';
+import { CollectionViewDataSourceAndDelegate } from '/subclasses/collectionviewdatasourcedelegate';
 
 const UIEdgeInsetsMake = UIKit.UIEdgeInsetsMake;
 const CGSizeMake = CoreGraphics.CGSizeMake;
 const CGRectMake = CoreGraphics.CGRectMake;
 
 (function (container) {
-	const numberOfColors = 50;
-	let colors = [];
-
 	// Subclass delegate + data source
 	const dataSourceDelegate = new CollectionViewDataSourceAndDelegate();
-    
+
+	const numberOfColors = 50;
+
+	let colors = [];
+	let collectionView;
+
 	// Return the number of collection view cells
   dataSourceDelegate.numberOfCells = function(collectionView, indexPath) {
       return colors.length;
@@ -50,8 +52,7 @@ const CGRectMake = CoreGraphics.CGRectMake;
   }
     
 	// Calculate the cell specs 
-  const screenRect = UIScreen.mainScreen.bounds;
-  screenRect = CGRectMake(0, 0, UIScreen.mainScreen.bounds.size.width, UIScreen.mainScreen.bounds.size.height - 64);
+  const screenRect = CGRectMake(0, 0, UIScreen.mainScreen.bounds.size.width, UIScreen.mainScreen.bounds.size.height - 64);
   const cellWidth = screenRect.size.width / 3.0;
     
 	// Create the cell layout and assign the size 

@@ -1,6 +1,6 @@
 import { MyClass, MySwiftView } from 'MyFramework';
 import { UIScreen } from 'UIKit';
-import CoreGraphics from 'CoreGraphics';
+import { CoreGraphics } from 'CoreGraphics';
 
 const CGRectMake = CoreGraphics.CGRectMake;
 const CGPointMake = CoreGraphics.CGPointMake;

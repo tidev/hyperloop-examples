@@ -1,6 +1,6 @@
 // Native classes
 import { UIView, UIScreen, UIColor } from 'UIKit';
-import CoreGraphics from 'CoreGraphics/CoreGraphics';
+import { CoreGraphics } from 'CoreGraphics';
 import NSDate from 'Foundation/NSDate';
 
 // 3rd Party Native Classes

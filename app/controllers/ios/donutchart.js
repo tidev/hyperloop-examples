@@ -1,6 +1,6 @@
-import { UIColor, UIView, UIBezierPath, UIScreen } from 'UIKit';
-import CoreGraphics from 'CoreGraphics';
-import DrawRectView from '/subclasses/drawrectview';
+import { UIColor, UIBezierPath, UILabel, UIView, UIScreen } from 'UIKit';
+import { CoreGraphics } from 'CoreGraphics';
+import { DrawRectView } from '/subclasses/drawrectview';
 
 const CGPointMake = CoreGraphics.CGPointMake;
 const CGRectMake = CoreGraphics.CGRectMake;
@@ -25,7 +25,8 @@ const CGRectMake = CoreGraphics.CGRectMake;
 
 	/** Create a Titanium Wrapper View **/
 	const wrapper = Ti.UI.createView({
-		backgroundColor: '#232E3F'
+		width: 256,
+		height: 256
 	});
 
 	/** Create an Instance of the DrawRectView **/
@@ -148,15 +149,11 @@ const CGRectMake = CoreGraphics.CGRectMake;
 
 	const bounds = UIScreen.mainScreen.bounds;
 	view.frame = CGRectMake(0, 0, 256, 256);
-	view.center = CGPointMake(bounds.size.width / 2, (bounds.size.height / 2) - 30);
 	view.backgroundColor = UIColor.clearColor;
 	view.layer.allowsEdgeAntialiasing = true;
 	view.layer.cornerRadius = 10;
 
-	/** Add the native UIView based object to the Titanium View **/
-	wrapper.add(view);
-
-  /**
+	/**
 		We can mix and match Titanium and Native super easy - here
 	  lets add a Titanium Label
 	**/
@@ -166,10 +163,12 @@ const CGRectMake = CoreGraphics.CGRectMake;
 		text: '35'
 	});
 
+	/** Add the native UIView based object to the Titanium View **/
+	wrapper.add(view);
+
 	/** Add the label to the Wrapper View **/
 	wrapper.add(label);
 
 	/** Now lets add the wrapper to the containing object **/
 	container.add(wrapper);
-
 })($.donut_container);

@@ -1,6 +1,6 @@
 import { UIColor, UIView, UIBezierPath, UIKit } from 'UIKit';
-import CoreGraphics from 'CoreGraphics';
-import DrawRectView from '/subclasses/drawrectview';
+import { CoreGraphics } from 'CoreGraphics';
+import { DrawRectView } from '/subclasses/drawrectview';
 
 const CGContextFillRect = CoreGraphics.CGContextFillRect;
 const CGPointMake = CoreGraphics.CGPointMake;
@@ -13,7 +13,13 @@ const UIGraphicsGetCurrentContext = UIKit.UIGraphicsGetCurrentContext;
 
 	view.onDrawRect = (rect) => {
 		const beams = 9;
+		const sliceDegrees = 360 / beams / 2;
 		const radius = rect.size.width / 2;
+		const bezierPath = UIBezierPath.bezierPath();
+		const centerPoint = CGPointMake(rect.size.width / 2, rect.size.height / 2);
+
+		let thisPoint = CGPointMake(centerPoint.x + radius, centerPoint.y);
+		let thisAngle = 0;
 
 		UIColor.whiteColor.setFill();
 		CGContextFillRect(UIGraphicsGetCurrentContext(), rect);
@@ -21,14 +27,7 @@ const UIGraphicsGetCurrentContext = UIKit.UIGraphicsGetCurrentContext;
 		UIColor.redColor.setFill();
 		UIColor.greenColor.setStroke();
 
-		const bezierPath = UIBezierPath.bezierPath();
-		const centerPoint = CGPointMake(rect.size.width / 2, rect.size.height / 2);
-		const thisPoint = CGPointMake(centerPoint.x + radius, centerPoint.y);
-
 		bezierPath.moveToPoint(centerPoint);
-
-		let thisAngle = 0;
-		const sliceDegrees = 360 / beams / 2;
 
 		for (let i = 0; i < beams; i++) {
 
@@ -60,6 +59,6 @@ const UIGraphicsGetCurrentContext = UIKit.UIGraphicsGetCurrentContext;
 })($.rect_container);
 
 // convenience function for converting an angle in degress to radians
-function DEGREES_TO_RADIANS(angle) {
+function DEGREES_TO_RADIANS (angle) {
 	return (Number(angle) / 180.0 * Math.PI);
 };

@@ -1,5 +1,5 @@
 import { UIButton, UIScreen, UIColor, UILabel, UIKit } from 'UIKit';
-import CoreGraphics from 'CoreGraphics';
+import { CoreGraphics } from 'CoreGraphics';
 
 const UIControlStateNormal = UIKit.UIControlStateNormal;
 const UIControlStateSelected = UIKit.UIControlStateSelected;
@@ -19,7 +19,7 @@ const CGRectMake = CoreGraphics.CGRectMake;
         selector: 'buttonPressed:',
         instance: true,
         arguments: ['UIButton'],
-        callback: (sender) => {
+        callback: function (sender) {
             if (this.buttonPressed) {
                 this.buttonPressed(sender);
             }

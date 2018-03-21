@@ -1,7 +1,6 @@
 import { UIView, UIColor, UIKit, UIPanGestureRecognizer } from 'UIKit';
-import CoreGraphics from 'CoreGraphics';
-
-import PanGestureRecognizer from '/subclasses/gesturerecognizer';
+import { CoreGraphics } from 'CoreGraphics';
+import { PanGestureRecognizer } from '/subclasses/gesturerecognizer';
 
 const CGRectMake = CoreGraphics.CGRectMake;
 const CGPointMake = CoreGraphics.CGPointMake;

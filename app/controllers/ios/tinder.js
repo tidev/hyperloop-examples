@@ -1,5 +1,6 @@
 import { UIView, UIColor, UIKit } from 'UIKit';
-import CoreGraphics from 'CoreGraphics';
+import { CoreGraphics } from 'CoreGraphics';
+import { PanGestureRecognizer } from '/subclasses/gesturerecognizer';
 
 const CGRectMake = CoreGraphics.CGRectMake;
 const CGSizeMake = CoreGraphics.CGSizeMake;
@@ -12,9 +13,6 @@ const CGAffineTransformIdentity = CoreGraphics.CGAffineTransformIdentity;
 // number of cards
 const CARD_COUNT = 7;
 
-// create a custom implementation of UIPanGestureRecognizer
-const PanGestureRecognizer = require('/subclasses/gesturerecognizer');
-
 // view counter
 let viewIndex;
 
@@ -25,11 +23,19 @@ let viewArray = [];
 let origPt;
 
 (function (container) {	
-	addCards();
+	addCards(container);
 })($.tinder_container);
 
+function hideViews() {
+	const container = $.tinder_container;
+
+	container.animate({ opacity: 0.0 }, () => {
+		container.removeAllChildren();
+	});
+}
+
 // implement a callback which will do the changes as the user moves the view
-function onPanGesture(recognizer) {
+function onPanGesture (recognizer) {
 	// get view and current x/y distance
 	const view = recognizer.view;
 	const xDist = recognizer.translationInView(view).x;
@@ -104,7 +110,7 @@ function toggleOverlayViews (dist) {
 	viewArray[viewIndex].xView.opacity = (dist < -10) ? 1 : 0;
 }
 
-function addCards () {
+function addCards (container) {
 	for (let i = CARD_COUNT - 1; i >= 0; i--) {
 		// create instance of gesture recognizer
 		const panGesture = new PanGestureRecognizer();
@@ -112,7 +118,7 @@ function addCards () {
 		panGesture.onAction = onPanGesture;
 
 		// create card view
-		const view = Ti.UI.createView({
+		let view = Ti.UI.createView({
 			height: 250,
 			width: 250,
 			backgroundColor: '#fff',
@@ -126,9 +132,8 @@ function addCards () {
 		});
 
 		// slightly rotate card (alternate right and left)
-		const matrix = Ti.UI.create2DMatrix();
+		const matrix = Ti.UI.create2DMatrix().rotate((i % 2) ? 5 : -5);
 		const animation = Titanium.UI.createAnimation();
-		matrix = matrix.rotate((i % 2) ? 5 : -5);
 		animation.transform = matrix;
 		view.animate(animation);
 

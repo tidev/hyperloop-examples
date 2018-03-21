@@ -1,6 +1,7 @@
 import { CLBeaconRegion, CLLocationManager, CoreLocation } from 'CoreLocation';
 import { UIApplication, UILocalNotification } from 'UIKit';
 import { NSUUID } from 'Foundation';
+import { LocationManagerDelegate } from '/subclasses/locationmanagerdelegate';
 
 const CLProximityFar = CoreLocation.CLProximityFar;
 const CLProximityNear = CoreLocation.CLProximityNear;
@@ -16,7 +17,6 @@ let IDENTIFIER;
 	UUID = 'B9407F30-F5F8-466E-AFF9-25556B57FE6D'; // Change to the UUID of your beacon
 	IDENTIFIER = 'com.appcelerator.beacons';
 	
-	const LocationManagerDelegate = require('subclasses/locationmanagerdelegate');
 	const delegate = new LocationManagerDelegate();
 	
 	delegate.didEnterRegion = function(manager, region) {

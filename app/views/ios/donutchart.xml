@@ -1,5 +1,5 @@
 <Alloy>
-	<Window id="win" title="Donut Chart">
+	<Window id="win" title="Donut Chart" backgroundColor="#232E3F">
 
 		<ScrollView>
 			<View id="donut_container"></View>

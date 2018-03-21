@@ -1,11 +1,11 @@
-var TableViewDataSourceAndDelegate = Hyperloop.defineClass('TableViewDataSourceAndDelegate', 'NSObject', ['UITableViewDelegate', 'UITableViewDataSource']);
+const TableViewDataSourceAndDelegate = Hyperloop.defineClass('TableViewDataSourceAndDelegate', 'NSObject', ['UITableViewDelegate', 'UITableViewDataSource']);
 
 TableViewDataSourceAndDelegate.addMethod({
 	selector: 'numberOfSectionsInTableView:',
 	instance: true,
 	arguments: ['UITableView'],
 	returnType: 'long',
-	callback: (tableView) => {
+	callback: function (tableView) {
 		if (this.numberOfSections) {
 			return this.numberOfSections(tableView);
 		}
@@ -18,7 +18,7 @@ TableViewDataSourceAndDelegate.addMethod({
 	instance: true,
 	arguments: ['UITableView', 'NSInteger'],
 	returnType: 'long',
-	callback: (tableView, section) => {
+	callback: function (tableView, section) {
 		if (this.numberOfRows) {
 			return this.numberOfRows(tableView, section);
 		}
@@ -31,7 +31,7 @@ TableViewDataSourceAndDelegate.addMethod({
 	instance: true,
 	arguments: ['UITableView', 'long'],
 	returnType: 'NSString',
-	callback: (tableView, section) => {
+	callback: function (tableView, section) {
 		if (this.titleForHeader) {
 			return this.titleForHeader(tableView, section);
 		}
@@ -44,7 +44,7 @@ TableViewDataSourceAndDelegate.addMethod({
 	instance: true,
 	arguments: ['UITableView', 'NSIndexPath'],
 	returnType: 'CGFloat',
-	callback: (tableView, indexPath) => {
+	callback: function (tableView, indexPath) {
 		if (this.heightForRow) {
 			return this.heightForRow(tableView, indexPath);
 		}
@@ -57,7 +57,7 @@ TableViewDataSourceAndDelegate.addMethod({
 	instance: true,
 	arguments: ['UITableView', 'NSIndexPath'],
 	returnType: 'UITableViewCell',
-	callback: (tableView, indexPath) => {
+	callback: function (tableView, indexPath) {
 		if (this.cellForRow) {
 			return this.cellForRow(tableView, indexPath);
 		}
@@ -70,11 +70,11 @@ TableViewDataSourceAndDelegate.addMethod({
 	selector: 'tableView:didSelectRowAtIndexPath:',
 	instance: true,
 	arguments: ['UITableView', 'NSIndexPath'],
-	callback: (tableView, indexPath) => {
+	callback: function (tableView, indexPath) {
 		if (this.didSelectRowAtIndexPath) {
 			this.didSelectRowAtIndexPath(tableView, indexPath);
 		}
 	}
 });
 
-module.exports = TableViewDataSourceAndDelegate;
+export { TableViewDataSourceAndDelegate }

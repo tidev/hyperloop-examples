@@ -1,7 +1,6 @@
 import { UIScreen, UIColor, UITableView, UITableViewCell, UIKit } from 'UIKit';
-import Foundation from 'Foundation';
-
-import TableViewDataSourceAndDelegate from '/subclasses/tableviewdatasourcedelegate';
+import { Foundation } from 'Foundation';
+import { TableViewDataSourceAndDelegate } from '/subclasses/tableviewdatasourcedelegate';
 
 const NSIndexPath = Foundation.NSIndexPath;
 const UITableViewStyleGrouped = UIKit.UITableViewStyleGrouped;
@@ -34,7 +33,7 @@ const UITableViewCellAccessoryDisclosureIndicator = UIKit.UITableViewCellAccesso
 	};
 
 	dataSourceDelegate.cellForRow = function(tableView, indexPath) {
-		const cell = tableView.dequeueReusableCellWithIdentifier('hyperloop_cell');
+		let cell = tableView.dequeueReusableCellWithIdentifier('hyperloop_cell');
 		const user = users[indexPath.row];
 
     if (!cell) {

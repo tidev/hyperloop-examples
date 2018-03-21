@@ -1,4 +1,4 @@
-var CollisionBehaviorDelegate = Hyperloop.defineClass('CollisionBehaviorDelegate', 'NSObject', 'UICollisionBehaviorDelegate');
+const CollisionBehaviorDelegate = Hyperloop.defineClass('CollisionBehaviorDelegate', 'NSObject', 'UICollisionBehaviorDelegate');
 
 CollisionBehaviorDelegate.addMethod({
 	selector: 'collisionBehavior:beganContactForItem:withBoundaryIdentifier:atPoint:',
@@ -9,7 +9,7 @@ CollisionBehaviorDelegate.addMethod({
 		'NSString',
 		'CGPoint'
 	],
-	callback: (behavior, dest, identifier, point) => {
+	callback: function (behavior, dest, identifier, point) {
 		if (this.beganContact) {
 			this.beganContact(behavior, dest, identifier, point);
 		}
@@ -24,10 +24,11 @@ CollisionBehaviorDelegate.addMethod({
 		'UIView',
 		'NSString'
 	],
-	callback: (behavior, item, identifier) => {
+	callback: function (behavior, item, identifier) {
 		if (this.endedContact) {
 			this.endedContact(behavior, item, identifier);
 		}
 	}
 });
-module.exports = CollisionBehaviorDelegate;
+
+export { CollisionBehaviorDelegate }

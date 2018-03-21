@@ -1,7 +1,6 @@
 import { UIApplication } from 'UIKit';
 import { NSURL, NSURLSession, NSURLSessionConfiguration } from 'Foundation';
-
-import URLSessionDelegate from '/subclasses/urlsessiondelegate';
+import { URLSessionDelegate } from '/subclasses/urlsessiondelegate';
 
 function startRequest() {
     const delegate = new URLSessionDelegate();

@@ -8,7 +8,7 @@ let browser;
   	selector: 'ssdpBrowser:didNotStartBrowsingForServices:',
   	instance: true,
   	arguments: ['SSDPServiceBrowser', 'NSError'],
-  	callback: (browser, error) => {
+  	callback: function (browser, error) {
   			if (this.didNotStartBrowsingForServices) {
   					this.didNotStartBrowsingForServices(browser, error);
   			}
@@ -19,7 +19,7 @@ let browser;
   	selector: 'ssdpBrowser:didFindService:',
   	instance: true,
   	arguments: ['SSDPServiceBrowser', 'SSDPService'],
-  	callback: (browser, service) => {
+  	callback: function (browser, service) {
   			if (this.didFindService) {
   					this.didFindService(browser, service);
   			}
@@ -30,7 +30,7 @@ let browser;
   	selector: 'ssdpBrowser:didRemoveService:',
   	instance: true,
   	arguments: ['SSDPServiceBrowser', 'SSDPService'],
-  	callback: (browser, service) => {
+  	callback: function (browser, service) {
   			if (this.didRemoveService) {
   					this.didRemoveService(browser, service);
   			}
@@ -40,18 +40,18 @@ let browser;
   const browserDelegate = new BrowserDelegate();
 
   // Handle error
-  browserDelegate.didNotStartBrowsingForServices = function(browser, error) {
+  browserDelegate.didNotStartBrowsingForServices = (browser, error) => {
     Ti.API.error('Error: ' + error.localizedDescription);
   };
 
   // Handle found services, e.g.
   // service.location, service.serviceType, service.uniqueServiceName, service.server
-  browserDelegate.didFindService = function(browser, service) {
+  browserDelegate.didFindService = (browser, service) => {
     Ti.API.info('Found service : ' + service.uniqueServiceName);
   };
 
   // Handle removed services
-  browserDelegate.didRemoveService = function(browser, service) {
+  browserDelegate.didRemoveService = (browser, service) => {
     Ti.API.info('Removed service : ' + service.uniqueServiceName);
   };
 

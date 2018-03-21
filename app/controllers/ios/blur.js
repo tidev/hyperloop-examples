@@ -1,13 +1,10 @@
 import { UIView, UIColor, UIBlurEffect, UIVisualEffectView, UIKit } from 'UIKit';
 import { CoreGraphics } from 'CoreGraphics';
 
-const UIBlurEffectStyleLight = UIKit.UIBlurEffectStyleLight;
-const CGRectMake = CoreGraphics.CGRectMake;
-
 (function (container) {
-    const blurEffectLight = UIBlurEffect.effectWithStyle(UIBlurEffectStyleLight);
+    const blurEffectLight = UIBlurEffect.effectWithStyle(UIKit.UIBlurEffectStyleLight);
     const blurView = UIVisualEffectView.alloc().initWithEffect(blurEffectLight);
-    const isBlurred = false;
+    let isBlurred = false;
 
     const WIDTH = 200;
     const HEIGHT = 200;

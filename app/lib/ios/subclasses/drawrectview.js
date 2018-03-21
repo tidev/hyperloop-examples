@@ -1,15 +1,16 @@
-var DrawRectView = Hyperloop.defineClass('DrawRectView', 'UIView');
+const DrawRectView = Hyperloop.defineClass('DrawRectView', 'UIView');
+
 DrawRectView.addMethod({
 	selector: 'drawRect:',
 	instance: true,
 	arguments: [
 		'CGRect'
 	],
-	callback: (rect) => {
+	callback: function (rect) {
 		if (this.onDrawRect) {
 			this.onDrawRect(rect);
 		}
 	}
 });
 
-module.exports = DrawRectView;
+export { DrawRectView }

@@ -1,13 +1,12 @@
 (function (container) {
-
-	var sizeViewContainer = Ti.UI.createView({
+	const sizeViewContainer = Ti.UI.createView({
 		width: '200',
 		height: '200',
 		top: 20,
 		backgroundColor: 'green'
 	});
 
-	var sizeView = Ti.UI.createLabel({
+	const sizeView = Ti.UI.createLabel({
 		width: Ti.UI.SIZE,
 		height: Ti.UI.SIZE,
 		text: 'Hello',
@@ -18,13 +17,13 @@
 	container.add(sizeViewContainer);
 	sizeViewContainer.add(sizeView);
 
-	var fillViewContainer = Ti.UI.createView({
+	const fillViewContainer = Ti.UI.createView({
 		width: '200',
 		height: '200',
 		backgroundColor: 'blue'
 	});
 
-	var fillView = Ti.UI.createLabel({
+	const fillView = Ti.UI.createLabel({
 		width: Ti.UI.FILL,
 		height: Ti.UI.FILL,
 		text: 'Hello',
@@ -35,7 +34,7 @@
 	container.add(fillViewContainer);
 	fillViewContainer.add(fillView);
 
-	var bottomViewContainer = Ti.UI.createView({
+	const bottomViewContainer = Ti.UI.createView({
 		width: '200',
 		height: '200',
 		bottom: 20,
@@ -45,15 +44,15 @@
 	container.add(bottomViewContainer);
 
 	if (OS_IOS) {
-		var button = Ti.UI.createButton({
+		const button = Ti.UI.createButton({
 			title: 'Make size to fit',
 			bottom: 10
 		});
 
-		var UILabel = require('UIKit/UILabel');
-		var UIColor = require('UIKit/UIColor');
-		var label = new UILabel();
-		label.text = "Hello";
+		const UILabel = require('UIKit/UILabel');
+		const UIColor = require('UIKit/UIColor');
+		const label = new UILabel();
+		label.text = 'Hello';
 		label.backgroundColor = UIColor.yellowColor;
 		bottomViewContainer.add(label);
 
@@ -64,5 +63,4 @@
 
 		bottomViewContainer.add(button);
 	}
-
 })($.sizefill_container);

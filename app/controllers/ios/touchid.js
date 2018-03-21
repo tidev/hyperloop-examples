@@ -1,12 +1,12 @@
 import { LAContext, LocalAuthentication } from 'LocalAuthentication';
 
 (function (container) {
-	const context = new LAContext();
+	const authContext = new LAContext();
 
 	// check to see if it's enabled
-	if (context.canEvaluatePolicyError(LocalAuthentication.LAPolicyDeviceOwnerAuthenticationWithBiometrics)) {
+	if (authContext.canEvaluatePolicyError(LocalAuthentication.LAPolicyDeviceOwnerAuthenticationWithBiometrics)) {
 		$.message.setText('Touch ID supported');
-		context.evaluatePolicyLocalizedReasonReply(LocalAuthentication.LAPolicyDeviceOwnerAuthenticationWithBiometrics, 'Please give us your Fingerprint to demonstrate the API', (success) => {
+		authContext.evaluatePolicyLocalizedReasonReply(LocalAuthentication.LAPolicyDeviceOwnerAuthenticationWithBiometrics, 'Please give us your Fingerprint to demonstrate the API', (success) => {
 			if (success) {
 				alert('Success!');
 			}
