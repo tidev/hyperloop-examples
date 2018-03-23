@@ -31,15 +31,15 @@
 			onMeasure: function(widthMeasureSpec, heightMeasureSpec) {
 				// Do required super-class call
 				this.super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-				
+
 				var width = this.getMeasuredWidth();
 				var height = this.getMeasuredHeight();
-				
+
 				Ti.API.warn("Measure update: " + width + "x" + height);
 			},
 			onDraw: function (canvas) {
-				this.super.onDraw(canvas);				
-				
+				this.super.onDraw(canvas);
+
 				var paint = new Paint();
 				paint.setAntiAlias(true);
 
@@ -196,7 +196,7 @@
 	/** Create an Instance of the DonutChartView **/
 	var view = new DonutChartView(activity);
 	view.setBackgroundColor(Color.TRANSPARENT);
-	layoutParams = new LayoutParams(256, 256, Gravity.CENTER);
+	var layoutParams = new LayoutParams(256, 256, Gravity.CENTER);
 	view.setLayoutParams(layoutParams);
 	//view.layer.cornerRadius = 10; // TODO What's the Android equivalent?
 
