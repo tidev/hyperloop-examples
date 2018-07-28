@@ -1,3 +1,6 @@
+import { GLCalendarDateRange, GLDateUtils } from 'GLCalendarView';
+import UIColor from 'UIKit/UIColor';
+
 /**
  * Create a native class to act as the delegate of the GLCalendarView.
  * A delegate is similar to an Alloy javascript controller file for the XML
@@ -16,10 +19,7 @@
  * - (NSArray *)weekDayTitlesForCalendarView:(GLCalendarView *)calendarView;
  * @end
  */	
-var CalendarDelegate = Hyperloop.defineClass('CalendarDelegate', 'NSObject');
-var GLDateUtils = require('GLCalendarView/GLDateUtils');
-var GLCalendarDateRange = require('GLCalendarView/GLCalendarDateRange');
-var UIColor = require('UIKit/UIColor');
+const CalendarDelegate = Hyperloop.defineClass('CalendarDelegate', 'NSObject');
 
 /**
  * Implement the required delegate methods that are defined by the
@@ -33,7 +33,7 @@ CalendarDelegate.addMethod({
 		'GLCalendarView',
 		'NSDate'
 	],
-	callback: function (view, beginDate) {
+	callback: (view, beginDate) => {
 		return true;
 	}
 });
@@ -46,11 +46,11 @@ CalendarDelegate.addMethod({
 		'GLCalendarView',
 		'NSDate'
 	],
-	callback: function (calendarView, beginDate) {
+	callback: (calendarView, beginDate) => {
 		Ti.API.info(beginDate);
 
-		var endDate = GLDateUtils.dateByAddingDaysToDate(2, beginDate);
-		var range = GLCalendarDateRange.rangeWithBeginDateEndDate(beginDate, endDate);
+		const endDate = GLDateUtils.dateByAddingDaysToDate(2, beginDate);
+		const range = GLCalendarDateRange.rangeWithBeginDateEndDate(beginDate, endDate);
 		range.backgroundColor = UIColor.redColor;
 		range.editable = true;
 
@@ -65,7 +65,7 @@ CalendarDelegate.addMethod({
 		'GLCalendarView',
 		'NSDate'
 	],
-	callback: function (view, range) {
+	callback: (view, range) => {
 		Ti.API.info('calenderView:beginToEditRange:');
 		currentSelectedRange = range;
 	}
@@ -79,7 +79,7 @@ CalendarDelegate.addMethod({
 		'NSDate',
 		'BOOL'
 	],
-	callback: function (view, range, continueEditing) {
+	callback: (view, range, continueEditing) => {
 		currentSelectedRange = null;
 	}
 });
@@ -94,7 +94,7 @@ CalendarDelegate.addMethod({
 		'NSDate',
 		'NSDate'
 	],
-	callback: function (view, range, beginDate, endDate) {
+	callback: (view, range, beginDate, endDate) => {
 		return true;
 	}
 });
@@ -108,10 +108,10 @@ CalendarDelegate.addMethod({
 		'NSDate',
 		'NSDate'
 	],
-	callback: function (view, range, beginDate, endDate) {
+	callback: (view, range, beginDate, endDate) => {
 		Ti.API.info('Did Update Range' + range);
 		return;
 	}
 });
 
-module.exports = CalendarDelegate;
+export { CalendarDelegate }

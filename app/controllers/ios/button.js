@@ -1,40 +1,38 @@
-(function (container) {
-    var UIButton = require("UIKit/UIButton"),
-        UIControlStateNormal = require("UIKit").UIControlStateNormal,
-        UIControlStateSelected = require("UIKit").UIControlStateSelected,
-        UIControlEventTouchUpInside = require("UIKit").UIControlEventTouchUpInside,
-        UIScreen = require("UIKit/UIScreen"),
-        UIColor = require("UIKit/UIColor"),
-        CGRectMake = require('CoreGraphics').CGRectMake,
-        UILabel = require("UIKit/UILabel");
+import { UIButton, UIScreen, UIColor, UILabel, UIKit } from 'UIKit';
+import { CoreGraphics } from 'CoreGraphics';
 
-    var button = new UIButton();
+const UIControlStateNormal = UIKit.UIControlStateNormal;
+const UIControlStateSelected = UIKit.UIControlStateSelected;
+const UIControlEventTouchUpInside = UIKit.UIControlEventTouchUpInside;
+const CGRectMake = CoreGraphics.CGRectMake;
+
+(function (container) {
+    const button = new UIButton();
+    const ButtonDelegate = Hyperloop.defineClass('ButtonDelegate', 'NSObject');
 
     button.backgroundColor = UIColor.redColor;
     button.layer.cornerRadius = 6;
     button.frame = CGRectMake(50, 50, 300, 45);
-    button.setTitleForState("CLICK ME", UIControlStateNormal);
-
-    var ButtonDelegate = Hyperloop.defineClass('ButtonDelegate', 'NSObject');
+    button.setTitleForState('CLICK ME', UIControlStateNormal);
 
     ButtonDelegate.addMethod({
         selector: 'buttonPressed:',
         instance: true,
         arguments: ['UIButton'],
-        callback: function(sender) {
+        callback: function (sender) {
             if (this.buttonPressed) {
                 this.buttonPressed(sender);
             }
         }
     });
 
-    var delegate = new ButtonDelegate();
+    const delegate = new ButtonDelegate();
 
     delegate.buttonPressed = function(sender) {
         alert('Button pressed!');
     };
 
-    button.addTargetActionForControlEvents(delegate, "buttonPressed:", UIControlEventTouchUpInside);
+    button.addTargetActionForControlEvents(delegate, 'buttonPressed:', UIControlEventTouchUpInside);
 
     container.add(button);
 })($.window);

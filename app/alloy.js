@@ -10,4 +10,4 @@
 // accessible globally by attaching them to the `Alloy.Globals`
 // object. For example:
 //
-// Alloy.Globals.someGlobalFunction = function(){};
+// Alloy.Globals.someGlobalFunction = () => { ... };

@@ -1,50 +1,52 @@
-(function (container) {
+import { UIScreen, UIColor, UITableView, UITableViewCell, UIKit } from 'UIKit';
+import { Foundation } from 'Foundation';
+import { TableViewDataSourceAndDelegate } from '/subclasses/tableviewdatasourcedelegate';
 
-	var UIScreen = require('UIKit/UIScreen'),
-		UIColor = require('UIKit/UIColor'),
-		UITableView = require('UIKit/UITableView'),
-		UITableViewCell = require('UIKit/UITableViewCell'),
-		NSIndexPath = require('Foundation').NSIndexPath,
-		UITableViewStyleGrouped = require('UIKit').UITableViewStyleGrouped,
-		UITableViewCellStyleSubtitle = require('UIKit').UITableViewCellStyleSubtitle,
-		UITableViewCellAccessoryDisclosureIndicator = require('UIKit').UITableViewCellAccessoryDisclosureIndicator;
-	
+const NSIndexPath = Foundation.NSIndexPath;
+const UITableViewStyleGrouped = UIKit.UITableViewStyleGrouped;
+const UITableViewCellStyleSubtitle = UIKit.UITableViewCellStyleSubtitle;
+const UITableViewCellAccessoryDisclosureIndicator = UIKit.UITableViewCellAccessoryDisclosureIndicator;
+
+(function (container) {	
 	// Grabs the JSON-file from app/lib/static/data.json 
-	var file = Ti.Filesystem.getFile(Ti.Filesystem.getResourcesDirectory() + 'static/data.json'); 
-	var users = JSON.parse(file.read().text).users;
-	
-	// Subclass delegate + data source
-	var TableViewDataSourceAndDelegate = require('/subclasses/tableviewdatasourcedelegate')
+	const file = Ti.Filesystem.getFile(Ti.Filesystem.getResourcesDirectory() + 'static/data.json'); 
+	const users = JSON.parse(file.read().text).users;
 
 	// Create + configure tableView
-	var tableView = UITableView.alloc().initWithFrameStyle(UIScreen.mainScreen.bounds, UITableViewStyleGrouped);
-	var dataSourceDelegate = new TableViewDataSourceAndDelegate();
+	const tableView = UITableView.alloc().initWithFrameStyle(UIScreen.mainScreen.bounds, UITableViewStyleGrouped);
+	const dataSourceDelegate = new TableViewDataSourceAndDelegate();
 
 	dataSourceDelegate.numberOfSections = function(tableView) {
 		return 1;
 	};
+
 	dataSourceDelegate.numberOfRows = function(tableView, section) {
 		return users.length;
 	};
+
 	dataSourceDelegate.titleForHeader = function(tableView, section) {
 		return 'Available users: ' + users.length;
 	};
+
 	dataSourceDelegate.heightForRow = function(tableView, indexPath) {
 		return 44;
 	};
+
 	dataSourceDelegate.cellForRow = function(tableView, indexPath) {
-		var cell = tableView.dequeueReusableCellWithIdentifier('hyperloop_cell');
-		var user = users[indexPath.row];
-				
-	    if (!cell) {
-	        cell = UITableViewCell.alloc().initWithStyleReuseIdentifier(UITableViewCellStyleSubtitle, 'hyperloop_cell');
-	    }
+		let cell = tableView.dequeueReusableCellWithIdentifier('hyperloop_cell');
+		const user = users[indexPath.row];
+
+    if (!cell) {
+        cell = UITableViewCell.alloc().initWithStyleReuseIdentifier(UITableViewCellStyleSubtitle, 'hyperloop_cell');
+    }
+
 		cell.textLabel.text = user.firstName + ' ' + user.lastName;
-		cell.detailTextLabel.text = user.email; // NOTE: This are not real email-addresses ;-)
-	    cell.accessoryType =  UITableViewCellAccessoryDisclosureIndicator;
-		
-	    return cell;
+		cell.detailTextLabel.text = user.email; // NOTE: These are no real mail-addresses ;-)
+    cell.accessoryType =  UITableViewCellAccessoryDisclosureIndicator;
+	
+    return cell;
 	};
+
 	dataSourceDelegate.didSelectRowAtIndexPath = function(tableView, indexPath) {		
 		alert('Call me maybe: ' + users[indexPath.row].phone);
 		tableView.deselectRowAtIndexPathAnimated(indexPath, true);

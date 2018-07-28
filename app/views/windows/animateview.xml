@@ -2,9 +2,9 @@
 	<Window id="win" title="View Animation">
 
 		<ScrollView>
-			<View class="vbox" id="animateview_container"></View>
+			<View class="vbox" id="animateview_container" />
 			<Button id="button">Animate</Button>
-			<Label id="notice"></Label>
+			<Label id="notice" />
 		</ScrollView>
 
 	</Window>

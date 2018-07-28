@@ -12,6 +12,8 @@ Thumbs.db
 /Pods
 /i18n
 /platform
-/plugins/ti.alloy
 /modules/**/hyperloop
 /Podfile.lock
+/.gradle
+/plugins/ti.alloy/hooks/alloy.js
+/.classpath

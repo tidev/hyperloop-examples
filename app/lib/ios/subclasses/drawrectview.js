@@ -1,4 +1,5 @@
-var DrawRectView = Hyperloop.defineClass('DrawRectView', 'UIView');
+const DrawRectView = Hyperloop.defineClass('DrawRectView', 'UIView');
+
 DrawRectView.addMethod({
 	selector: 'drawRect:',
 	instance: true,
@@ -12,4 +13,4 @@ DrawRectView.addMethod({
 	}
 });
 
-module.exports = DrawRectView;
+export { DrawRectView }

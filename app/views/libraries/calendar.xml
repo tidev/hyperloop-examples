@@ -3,7 +3,7 @@
 
 		<View>
 			<Label>3rd Party 3D Globe Library</Label>
-			<View class="vbox" id="calendar_container"></View>
+			<View class="vbox" id="calendar_container" />
 		</View>
 
 	</Window>

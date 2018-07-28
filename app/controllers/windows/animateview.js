@@ -18,7 +18,7 @@
 
 	// Do the animation
 	var flag = false;
-	$.button.addEventListener('click', function () {
+	$.button.addEventListener('click', () => {
 		$.notice.setText('');
 		flag = !flag;
 

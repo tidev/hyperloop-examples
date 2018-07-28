@@ -2,7 +2,7 @@
 	<Window id="win" title="Donut Chart">
 
 		<ScrollView>
-			<View class="vbox" id="donut_container"></View>
+			<View class="vbox" id="donut_container" />
 		</ScrollView>
 
 	</Window>

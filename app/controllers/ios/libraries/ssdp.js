@@ -1,10 +1,8 @@
-var SSDPService = require('CocoaSSDP/SSDPService');
-var SSDPServiceBrowser = require('CocoaSSDP/SSDPServiceBrowser');
-var browser;
+import { SSDPService, SSDPServiceBrowser } from 'CocoaSSDP';
+let browser;
 
 (function(container) {
-  
-  var BrowserDelegate = Hyperloop.defineClass('BrowserDelegate', 'NSObject', 'SSDPServiceBrowserDelegate');
+  const BrowserDelegate = Hyperloop.defineClass('BrowserDelegate', 'NSObject', 'SSDPServiceBrowserDelegate');
 
   BrowserDelegate.addMethod({
   	selector: 'ssdpBrowser:didNotStartBrowsingForServices:',
@@ -39,21 +37,21 @@ var browser;
   	}
   });
 
-  var browserDelegate = new BrowserDelegate();
+  const browserDelegate = new BrowserDelegate();
 
   // Handle error
-  browserDelegate.didNotStartBrowsingForServices = function(browser, error) {
+  browserDelegate.didNotStartBrowsingForServices = (browser, error) => {
     Ti.API.error('Error: ' + error.localizedDescription);
   };
 
   // Handle found services, e.g.
   // service.location, service.serviceType, service.uniqueServiceName, service.server
-  browserDelegate.didFindService = function(browser, service) {
+  browserDelegate.didFindService = (browser, service) => {
     Ti.API.info('Found service : ' + service.uniqueServiceName);
   };
 
   // Handle removed services
-  browserDelegate.didRemoveService = function(browser, service) {
+  browserDelegate.didRemoveService = (browser, service) => {
     Ti.API.info('Removed service : ' + service.uniqueServiceName);
   };
 

@@ -1,28 +1,25 @@
+import { UIDynamicAnimator, UIDynamicItemBehavior, UIGravityBehavior, UICollisionBehavior, UIColor } from 'UIKit';
+import { NSBundle, NSURL } from 'Foundation';
+import { AVAudioPlayer } from 'AVFoundation';
+import { CoreGraphics } from 'CoreGraphics';
+
+import { CollisionBehaviorDelegate } from '/subclasses/collisionbehaviordelegate';
+
+const CGPointMake = CoreGraphics.CGPointMake;
+const CGRectMake = CoreGraphics.CGRectMake;
+
 // wait for the window to finish before starting the ball drop
-setTimeout(function () {
+setTimeout(() => {
 	(function (container) {
-
-		var UIDynamicAnimator = require('UIKit/UIDynamicAnimator'),
-			UIDynamicItemBehavior = require('UIKit/UIDynamicItemBehavior'),
-			UIGravityBehavior = require('UIKit/UIGravityBehavior'),
-			UICollisionBehavior = require('UIKit/UICollisionBehavior'),
-			UIColor = require('UIKit/UIColor'),
-			CGRectMake = require('CoreGraphics').CGRectMake,
-			CGPointMake = require('CoreGraphics').CGPointMake,
-			NSBundle = require('Foundation/NSBundle'),
-			NSURL = require('Foundation/NSURL'),
-			AVAudioPlayer = require('AVFoundation/AVAudioPlayer');
-
 		// create class to detect collisions
-		var CollisionBehaviorDelegate = require('/subclasses/collisionbehaviordelegate');
+		const soundPath = NSBundle.mainBundle.pathForResourceOfType('sounds/hit', 'mp3');
+		const soundURL = NSURL.fileURLWithPath(soundPath);
+		const sound = AVAudioPlayer.alloc().initWithContentsOfURLError(soundURL);
 
-		var soundPath = NSBundle.mainBundle.pathForResourceOfType('sounds/hit', 'mp3');
-		var soundURL = NSURL.fileURLWithPath(soundPath);
-		var sound = AVAudioPlayer.alloc().initWithContentsOfURLError(soundURL);
 		sound.prepareToPlay();
 
 		// create Titanium view (ball)
-		var view = Ti.UI.createView({
+		const view = Ti.UI.createView({
 			height: 50,
 			width: 50,
 			borderRadius: 25,
@@ -32,7 +29,7 @@ setTimeout(function () {
 		container.add(view);
 
 		// create Titanium, view (barrier 1)
-		var barrier1 = Ti.UI.createView({
+		const barrier1 = Ti.UI.createView({
 			height: 20,
 			width: 200,
 			left: 0,
@@ -42,7 +39,7 @@ setTimeout(function () {
 		container.add(barrier1);
 
 		// create Titanium, view (barrier 2)
-		var barrier2 = Ti.UI.createView({
+		const barrier2 = Ti.UI.createView({
 			height: 20,
 			width: 100,
 			right: 0,
@@ -52,7 +49,7 @@ setTimeout(function () {
 		container.add(barrier2);
 
 		// create Titanium, view (barrier 3)
-		var barrier3 = Ti.UI.createView({
+		const barrier3 = Ti.UI.createView({
 			height: 20,
 			width: 250,
 			left: 0,
@@ -62,25 +59,25 @@ setTimeout(function () {
 		container.add(barrier3);
 
 		// create Dynamic Animator for our main window
-		var dynamicAnimator = UIDynamicAnimator.alloc().initWithReferenceView(container);
+		let dynamicAnimator = UIDynamicAnimator.alloc().initWithReferenceView(container);
+
 		// protect from GC, remember to unprotect in the window's close event
 		dynamicAnimator.protect();
 
 		// add gravity behavior to ball
-		var gravityBehavior = UIGravityBehavior.alloc().initWithItems([view]);
+		const gravityBehavior = UIGravityBehavior.alloc().initWithItems([view]);
 
 		// add elasticity (bounce) behavior to ball
-		var dynamicItemBehavior = UIDynamicItemBehavior.alloc().initWithItems([view]);
+		const dynamicItemBehavior = UIDynamicItemBehavior.alloc().initWithItems([view]);
 		dynamicItemBehavior.elasticity = 0.7;
 
 		// add frame as collision boundary
-		var collisionBehavior = UICollisionBehavior.alloc().initWithItems([view]);
+		const collisionBehavior = UICollisionBehavior.alloc().initWithItems([view]);
 		collisionBehavior.translatesReferenceBoundsIntoBoundary = true;
 
-
-		var delegate = new CollisionBehaviorDelegate();
+		const delegate = new CollisionBehaviorDelegate();
 		delegate.beganContact = function (behavior, dest, identifier, point) {
-			Ti.API.debug('+collision begin ' + point.x + ' ' + point.y + ' ' + String(identifier));
+			Ti.API.debug(`Collision began: x = ${point.x}, y = ${point.y}, identifier = ${String(identifier)}`);
 			if (sound.isPlaying()) {
 				sound.stop();
 				sound.currentTime = 0;
@@ -129,7 +126,7 @@ setTimeout(function () {
 		dynamicAnimator.addBehavior(gravityBehavior);
 		dynamicAnimator.addBehavior(dynamicItemBehavior);
 
-		$.win.addEventListener('close', function(){
+		$.win.addEventListener('close', () => {
 			dynamicAnimator.unprotect();
 			dynamicAnimator = null;
 		});

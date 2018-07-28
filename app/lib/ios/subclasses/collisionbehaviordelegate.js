@@ -1,4 +1,4 @@
-var CollisionBehaviorDelegate = Hyperloop.defineClass('CollisionBehaviorDelegate', 'NSObject', 'UICollisionBehaviorDelegate');
+const CollisionBehaviorDelegate = Hyperloop.defineClass('CollisionBehaviorDelegate', 'NSObject', 'UICollisionBehaviorDelegate');
 
 CollisionBehaviorDelegate.addMethod({
 	selector: 'collisionBehavior:beganContactForItem:withBoundaryIdentifier:atPoint:',
@@ -30,4 +30,5 @@ CollisionBehaviorDelegate.addMethod({
 		}
 	}
 });
-module.exports = CollisionBehaviorDelegate;
+
+export { CollisionBehaviorDelegate }

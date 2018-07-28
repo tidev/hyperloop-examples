@@ -12,35 +12,35 @@
     box.Width  = 250;
     box.Height = 250;
 
-    box.addEventListener('Tapped', function (e) {
+    box.addEventListener('Tapped', (e) => {
         $.notice.text = 'Tapped';
     });
 
-    box.addEventListener('DoubleTapped', function (e) {
+    box.addEventListener('DoubleTapped', (e) => {
         $.notice.text = 'DoubleTapped';
     });
 
-    box.addEventListener('Holding', function (e) {
+    box.addEventListener('Holding', (e) => {
         $.notice.text = 'Holding';
     });
 
-    box.addEventListener('RightTapped', function (e) {
+    box.addEventListener('RightTapped', (e) => {
         $.notice.text = 'RightTapped';
     });
 
-    box.addEventListener('PointerPressed', function (e) {
+    box.addEventListener('PointerPressed', (e) => {
         $.notice.text = 'PointerPressed';
     });
     
-    box.addEventListener('PointerReleased', function (e) {
+    box.addEventListener('PointerReleased', (e) => {
         $.notice.text = 'PointerReleased';
     });
 
-    box.addEventListener('PointerEntered', function (e) {
+    box.addEventListener('PointerEntered', (e) => {
         $.notice.text = 'PointerEntered';
     });
 
-    box.addEventListener('PointerExited', function (e) {
+    box.addEventListener('PointerExited', (e) => {
         $.notice.text = 'PointerExited';
     });
 

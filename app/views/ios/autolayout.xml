@@ -2,7 +2,7 @@
 	<Window id="win" title="Auto Layout">
 
 		<ScrollView>
-			<View class="vbox" id="autolayout_container"></View>
+			<View class="vbox" id="autolayout_container" />
 		</ScrollView>
 
 	</Window>

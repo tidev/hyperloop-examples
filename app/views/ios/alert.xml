@@ -1,12 +1,10 @@
 <Alloy>
-	<Window id="win" title="Alert Controller">
-
+	<Window id="win" title="Dialogs">
 		<ScrollView>
-			<View class="vbox" id="alert_container"></View>
-			<Button class="button" id="buttonAlert">Show as Alert Dialog</Button>
-			<Button class="button" id="buttonOptions">Show as Option Dialog</Button>
-			<Label id="notice"></Label>
+			<View class="vbox" id="alert_container" />
+			<Button class="button" id="buttonAlert" onClick="showAlert">Show as Alert Dialog</Button>
+			<Button class="button" id="buttonOptions" onClick="showOptions">Show as Option Dialog</Button>
+			<Label id="notice" />
 		</ScrollView>
-
 	</Window>
 </Alloy>

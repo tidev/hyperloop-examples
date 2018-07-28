@@ -1,7 +1,7 @@
-var URLSessionDelegate = Hyperloop.defineClass('URLSessionDelegate', 'NSObject', ['NSURLSessionDelegate']);
+const URLSessionDelegate = Hyperloop.defineClass('URLSessionDelegate', 'NSObject', ['NSURLSessionDelegate']);
 
 URLSessionDelegate.addMethod({
-    selector: 'session:didBecomeInvalidWithError:',
+  selector: 'session:didBecomeInvalidWithError:',
 	instance: true,
 	arguments: ['NSURLSession', 'NSError'],
 	callback: function (session, error) {
@@ -11,4 +11,4 @@ URLSessionDelegate.addMethod({
 	}
 });
 
-module.exports = URLSessionDelegate;
+export { URLSessionDelegate }

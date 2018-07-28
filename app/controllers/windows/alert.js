@@ -1,5 +1,5 @@
 (function (container) {
-    $.button.addEventListener('click', function () {
+    $.button.addEventListener('click', () => {
         var MessageDialog = require('Windows.UI.Popups.MessageDialog'),
             UICommand = require('Windows.UI.Popups.UICommand'),
             PropertyValue = require('Windows.Foundation.PropertyValue'),

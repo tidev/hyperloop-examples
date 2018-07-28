@@ -2,7 +2,7 @@
 	<Window id="win" title="Blur">
 
 		<ScrollView>
-			<View id="blur_container"></View>
+			<View id="blur_container" />
 		</ScrollView>
 
 	</Window>

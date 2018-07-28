@@ -10,7 +10,7 @@
     box.Width = 50;
     box.Height = 50;
 
-    box.addEventListener('Tapped', function (e) {
+    box.addEventListener('Tapped', (e) => {
         var pos = e.GetPosition(null);
         Ti.API.info('Moving to ' + pos.X + ' : ' + pos.Y);
         var transform = new TranslateTransform();

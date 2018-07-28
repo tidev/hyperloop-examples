@@ -1,5 +1,5 @@
 <Alloy>
-	<Window id="win" title="WKWebView Example">
+	<Window id="win" title="WKWebView">
 		<RightNavButton>
 			<ActivityIndicator id="loader" />
 		</RightNavButton>

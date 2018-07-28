@@ -1,4 +1,4 @@
-var CollectionViewDataSourceAndDelegate = Hyperloop.defineClass('CollectionViewDataSourceAndDelegate', 'NSObject', ['UICollectionViewDataSource', 'UICollectionViewDelegate', 'UICollectionViewDelegateFlowLayout']);
+const CollectionViewDataSourceAndDelegate = Hyperloop.defineClass('CollectionViewDataSourceAndDelegate', 'NSObject', ['UICollectionViewDataSource', 'UICollectionViewDelegate', 'UICollectionViewDelegateFlowLayout']);
 
 CollectionViewDataSourceAndDelegate.addMethod({
 	selector: 'collectionView:numberOfItemsInSection:',
@@ -37,4 +37,4 @@ CollectionViewDataSourceAndDelegate.addMethod({
     }
 });
 
-module.exports = CollectionViewDataSourceAndDelegate;
+export { CollectionViewDataSourceAndDelegate }

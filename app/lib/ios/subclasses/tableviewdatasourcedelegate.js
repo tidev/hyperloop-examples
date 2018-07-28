@@ -1,4 +1,4 @@
-var TableViewDataSourceAndDelegate = Hyperloop.defineClass('TableViewDataSourceAndDelegate', 'NSObject', ['UITableViewDelegate', 'UITableViewDataSource']);
+const TableViewDataSourceAndDelegate = Hyperloop.defineClass('TableViewDataSourceAndDelegate', 'NSObject', ['UITableViewDelegate', 'UITableViewDataSource']);
 
 TableViewDataSourceAndDelegate.addMethod({
 	selector: 'numberOfSectionsInTableView:',
@@ -61,7 +61,8 @@ TableViewDataSourceAndDelegate.addMethod({
 		if (this.cellForRow) {
 			return this.cellForRow(tableView, indexPath);
 		}
-		throw new Exception('TableViewDataSourceAndDelegate cellForRow(tableView, indexPath) missing');
+		Ti.API.error('TableViewDataSourceAndDelegate cellForRow(tableView, indexPath) missing');
+		return null;
 	}
 });
 
@@ -76,4 +77,4 @@ TableViewDataSourceAndDelegate.addMethod({
 	}
 });
 
-module.exports = TableViewDataSourceAndDelegate;
+export { TableViewDataSourceAndDelegate }

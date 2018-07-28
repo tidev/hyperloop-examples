@@ -1,8 +1,8 @@
-var SsdpClient = require('io.resourcepool.ssdp.client.SsdpClient');
-var SsdpRequest = require('io.resourcepool.ssdp.model.SsdpRequest');
-var DiscoveryListener = require('io.resourcepool.ssdp.model.DiscoveryListener');
+import SsdpClient from 'io.resourcepool.ssdp.client.SsdpClient';
+import SsdpRequest from 'io.resourcepool.ssdp.model.SsdpRequest';
+import DiscoveryListener from 'io.resourcepool.ssdp.model.DiscoveryListener';
 
-var client;
+let client;
 
 (function(container) {
   // Constructor
@@ -10,18 +10,18 @@ var client;
 
 function startSearch() {
   client = SsdpClient.create();
-  var all = SsdpRequest.discoverAll();
+  const all = SsdpRequest.discoverAll();
 
   client.discoverServices(all, new DiscoveryListener({
-    onServiceDiscovered: function (service) {
+    onServiceDiscovered: (service) => {
       Ti.API.info('Found service: ' + service.getServiceType());
     },
     
-    onServiceAnnouncement: function (announcement) {
+    onServiceAnnouncement: (announcement) => {
       Ti.API.info('Service announced something: ' + announcement);
     },
     
-    onFailed: function (exception) {
+    onFailed: (exception) => {
       Ti.API.error('Error: ' + exception.getMessage());
     }
   }));

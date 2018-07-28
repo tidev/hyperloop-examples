@@ -1,17 +1,13 @@
-/**
- * Titanium Review Dialog (Hyperloop)
- * Version: 1.0.0
- */
- 
-var SKStoreReviewController = require('StoreKit/SKStoreReviewController');
-var UIDevice = require('UIKit/UIDevice');
-var NSNumericSearch = require('Foundation').NSNumericSearch;
-var NSOrderedAscending = require('Foundation').NSOrderedAscending;
+import { SKStoreReviewController } from 'StoreKit';
+import { UIDevice } from 'UIKit';
+import { Foundation } from 'Foundation';
 
-exports.isSupported = function() {
-    return UIDevice.currentDevice.systemVersion.compareOptions('10.3', NSNumericSearch) != NSOrderedAscending;
+const isSupported = () => {
+    return UIDevice.currentDevice.systemVersion.compareOptions('10.3', Foundation.NSNumericSearch) !== Foundation.NSOrderedAscending;
 };
 
-exports.requestReview = function() {
+const requestReview = () => {
     SKStoreReviewController.requestReview();
 };
+
+export { isSupported, requestReview }

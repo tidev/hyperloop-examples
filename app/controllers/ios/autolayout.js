@@ -1,24 +1,18 @@
-var UILabel = require('UIKit/UILabel'),
-	UIColor = require('UIKit/UIColor'),
-	UIScreen = require('UIKit/UIScreen'),
-	UIView = require('UIKit/UIView'),
-	CGRectMake = require('CoreGraphics/CoreGraphics').CGRectMake,
-	UIKit = require('UIKit/UIKit'),
-	NSLayoutConstraint = require('UIKit/NSLayoutConstraint');
+import { UILabel, UIColor, UIScreen, UIView, NSLayoutConstraint, UIKit } from 'UIKit';
 
 (function (container) {
-	var label = new UILabel();
+	const label = new UILabel();
 	label.translatesAutoresizingMaskIntoConstraints = false;
 	label.setText('Hello World');
 	label.setTextAlignment(UIKit.NSTextAlignmentCenter);
 	label.setTextColor(UIColor.redColor);
 	label.setBackgroundColor(UIColor.blueColor);
 
-	var view = new UIView();
+	const view = new UIView();
 	view.setBackgroundColor(UIColor.yellowColor);
 	view.addSubview(label);
 
-	var heightConstraint = {
+	const heightConstraint = {
 		item: label,
 		attribute: UIKit.NSLayoutAttributeHeight,
 		relatedBy: UIKit.NSLayoutRelationEqual,
@@ -28,7 +22,7 @@ var UILabel = require('UIKit/UILabel'),
 		constant: 100.0
 	};
 
-	var widthConstraint = {
+	const widthConstraint = {
 		item: label,
 		attribute: UIKit.NSLayoutAttributeWidth,
 		relatedBy: UIKit.NSLayoutRelationEqual,
@@ -38,7 +32,7 @@ var UILabel = require('UIKit/UILabel'),
 		constant: 200.0
 	};
 
-	var horizontalConstraint = {
+	const horizontalConstraint = {
 		item: label,
 		attribute: UIKit.NSLayoutAttributeCenterX,
 		relatedBy: UIKit.NSLayoutRelationEqual,
@@ -48,7 +42,7 @@ var UILabel = require('UIKit/UILabel'),
 		constant: 0.0
 	};
 
-	var verticalConstraint = {
+	const verticalConstraint = {
 		item: label,
 		attribute: UIKit.NSLayoutAttributeCenterY,
 		relatedBy: UIKit.NSLayoutRelationEqual,
@@ -68,7 +62,7 @@ var UILabel = require('UIKit/UILabel'),
 })($.autolayout_container);
 
 function addConstraint(element, options) {
-	var constraint = NSLayoutConstraint.constraintWithItemAttributeRelatedByToItemAttributeMultiplierConstant(
+	const constraint = NSLayoutConstraint.constraintWithItemAttributeRelatedByToItemAttributeMultiplierConstant(
 		options.item,
 		options.attribute,
 		options.relatedBy,

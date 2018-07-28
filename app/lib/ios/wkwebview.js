@@ -1,38 +1,34 @@
-exports.createWebView = function(args) {
+import { WKWebView, WKNavigation } from 'WebKit';
+import { NSURLRequest, NSURL } from 'Foundation';
+import { UIScreen } from 'UIKit';
+import { CoreGraphics } from 'CoreGraphics';
 
-    if (!OS_IOS){
-        return Ti.UI.createWebView(args);
-    }
+// function tht creates our delegate
+const createWebViewDelegate = () => {
+    const WebViewDelegate = Hyperloop.defineClass('WebViewDelegate', 'NSObject', ['WKNavigationDelegate']);
 
-    var WKWebView = require("WebKit/WKWebView"),
-        WKNavigation = require("WebKit/WKNavigation"),
-        NSURLRequest = require("Foundation/NSURLRequest"),
-        NSURL = require("Foundation/NSURL"),
-        UIScreen = require("UIKit/UIScreen"),
-        CGRectMake = require('CoreGraphics').CGRectMake;
-
-    // function tht creates our delegate
-    function createWebViewDelegate() {
-        var WebViewDelegate = Hyperloop.defineClass('WebViewDelegate', 'NSObject', ['WKNavigationDelegate']);
-
-        WebViewDelegate.addMethod({
-            selector: 'webView:didFinishNavigation:',
-            instance: true,
-            arguments: ['WKWebView', 'WKNavigation'],
-            callback: function(webView, navigation) {
-                if (this.didFinishNavigation) {
-                    this.didFinishNavigation(webView, navigation);
-                }
+    WebViewDelegate.addMethod({
+        selector: 'webView:didFinishNavigation:',
+        instance: true,
+        arguments: ['WKWebView', 'WKNavigation'],
+        callback: (webView, navigation) => {
+            if (this.didFinishNavigation) {
+                this.didFinishNavigation(webView, navigation);
             }
-        });
+        }
+    });
 
-        return WebViewDelegate;
-    }
+    return WebViewDelegate;
+}
+
+// function to create our web view
+const createWebView = (args) => {
+    const CGRectMake = CoreGraphics.CGRectMake;
 
     // init a new WKWebView, plus delegate
-    var webview = new WKWebView(),
-        WebViewDelegate = createWebViewDelegate(),
-        delegate = new WebViewDelegate();
+    const webview = new WKWebView();
+    const WebViewDelegate = createWebViewDelegate();
+    const delegate = new WebViewDelegate();
 
     // Assign the deleate to the webview
     webview.setNavigationDelegate(delegate);
@@ -55,7 +51,7 @@ exports.createWebView = function(args) {
 
     // fire our load event -- you could also just do webView.load()
     delegate.didFinishNavigation = function(webview, navigation) {
-        webview.fireEvent("load", {
+        webview.fireEvent('load', {
             url: webview.URL
         });
     };
@@ -65,3 +61,5 @@ exports.createWebView = function(args) {
 
     return webview;
 };
+
+export { createWebView }

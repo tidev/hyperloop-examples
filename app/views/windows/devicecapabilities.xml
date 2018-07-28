@@ -1,9 +1,9 @@
 <Alloy>
 	<Window id="win" title="Device Capabilities">
 
-		<Label id="notice1" class='label notice1'></Label>
-		<Label id="notice2" class='label notice2'></Label>
-		<Label id="notice3" class='label notice3'></Label>
+		<Label id="notice1" class='label notice1' />
+		<Label id="notice2" class='label notice2' />
+		<Label id="notice3" class='label notice3' />
 
 	</Window>
 </Alloy>

@@ -1,44 +1,40 @@
+import { UIView, UIColor, UIBlurEffect, UIVisualEffectView, UIKit } from 'UIKit';
+import { CoreGraphics } from 'CoreGraphics';
+
 (function (container) {
-    var UIView = require('UIKit/UIView'),
-        UIColor = require('UIKit/UIColor'),
-        UIBlurEffect = require('UIKit/UIBlurEffect'),
-        UIBlurEffectStyleLight = require('UIKit').UIBlurEffectStyleLight,
-        UIVisualEffectView = require('UIKit/UIVisualEffectView'),
-        CGRectMake = require('CoreGraphics').CGRectMake;
+    const blurEffectLight = UIBlurEffect.effectWithStyle(UIKit.UIBlurEffectStyleLight);
+    const blurView = UIVisualEffectView.alloc().initWithEffect(blurEffectLight);
+    let isBlurred = false;
 
-    var blurEffectLight = UIBlurEffect.effectWithStyle(UIBlurEffectStyleLight);
-    var blurView = UIVisualEffectView.alloc().initWithEffect(blurEffectLight);
-    var isBlurred = false;
+    const WIDTH = 200;
+    const HEIGHT = 200;
+    const fileUrl = 'images/appc-logo.png';
 
-    var WIDTH = 200;
-    var HEIGHT = 200;
-    var fileUrl = "images/appc-logo.png";
-
-    var imageView = Ti.UI.createImageView({
+    const imageView = Ti.UI.createImageView({
         image: fileUrl,
         width: WIDTH,
         height: HEIGHT,
-        borderColor: "#ccc",
+        borderColor: '#ccc',
         borderWidth: 2
     });
 
-    var trigger = Ti.UI.createButton({
-        backgroundColor: "#000",
-        tintColor: "#fff",
+    const trigger = Ti.UI.createButton({
+        backgroundColor: '#000',
+        tintColor: '#fff',
         height: 50,
         width:200,
         bottom: 30,
-        title: "Blur image"
+        title: 'Blur image'
     });
 
-    trigger.addEventListener("click", function() {
+    trigger.addEventListener('click', () => {
         if (isBlurred === true) {
             imageView.removeAllChildren();
         } else {
             imageView.add(blurView);
         }
         isBlurred = !isBlurred;
-        trigger.setTitle(isBlurred === true ? "Unblur image" : "Blur image");
+        trigger.setTitle(isBlurred === true ? 'Unblur image' : 'Blur image');
     });
 
     container.add(imageView);

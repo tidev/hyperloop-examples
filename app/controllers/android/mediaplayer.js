@@ -1,23 +1,22 @@
+import Activity from 'android.app.Activity';
+import AudioManager from 'android.media.AudioManager';
+import MediaPlayer from 'android.media.MediaPlayer';
+import Uri from 'android.net.Uri';
 
-var Activity = require('android.app.Activity');
-var AudioManager = require('android.media.AudioManager');
-var MediaPlayer = require('android.media.MediaPlayer');
-var Uri = require('android.net.Uri');
-var activity = new Activity(Ti.Android.currentActivity);
-var context = activity.getApplicationContext();
-var mMediaPlayer;
+let mMediaPlayer;
 
 (function(container) {
-	var contentUri = Uri.parse('android.resource://' + activity.getPackageName() + '/raw/audio');
-	
+	const activity = new Activity(Ti.Android.currentActivity);
+	const contentUri = Uri.parse('android.resource://' + activity.getPackageName() + '/raw/audio');
+
 	mMediaPlayer = new MediaPlayer();
 	mMediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener({
-		onCompletion: function (mediaPlayer) {
+		onCompletion: (mediaPlayer) => {
 			Ti.API.info('MediaPlayer playback completed');
 		}
 	}));
 	mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-	mMediaPlayer.setDataSource(context, contentUri);
+	mMediaPlayer.setDataSource(activity.getApplicationContext(), contentUri);
 	mMediaPlayer.prepare();
 })($.window);
 

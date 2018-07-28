@@ -1,3 +1,20 @@
+
+// Require Activity class
+import Activity from 'android.app.Activity';
+
+// Require components to handle bitmaps
+import BitmapFactory from 'android.graphics.BitmapFactory';
+
+// Require third party library
+import GPUImageLib from 'jp.co.cyberagent.android.gpuimage.*';
+
+// Get instance of native activity with current Ti activity
+const activity = new Activity(Ti.Android.currentActivity);
+
+// Get Context instance to get the Asset Manager
+const Context = activity.getApplicationContext();
+const AssetManager = Context.getAssets();
+
 /**
  * Play with image filters
  * @author Jorge Macías <jormagar@gmail.com>
@@ -6,28 +23,12 @@
  * @param  {object}   args  Controller arguments
  */
 (function controller(args) {
-  'use strict';
+  const FX_PANEL_HEIGHT = 144;
+  const DEFAULT_SLIDER_DISPLAY_VALUE = '50';
+  const DEFAULT_SLIDER_VALUE = 100;
+  const SAMPLE_IMAGE = 'Resources/images/road.jpg';
 
-  var FX_PANEL_HEIGHT,
-    SAMPLE_IMAGE,
-    DEFAULT_SLIDER_DISPLAY_VALUE,
-    DEFAULT_SLIDER_VALUE,
-    AssetManager,
-    BitmapFactory,
-    Activity,
-    GPUImageLib,
-    Context,
-    activity,
-    fx,
-    fxManager,
-    canAdjustFx;
-
-  FX_PANEL_HEIGHT = 144;
-  DEFAULT_SLIDER_DISPLAY_VALUE = "50";
-  DEFAULT_SLIDER_VALUE = 100;
-  SAMPLE_IMAGE = 'Resources/images/road.jpg';
-
-  fx = {
+  const fx = {
     'Normal': 'GPUImageFilter',
     'Contrast': 'GPUImageContrastFilter',
     'Gray Scale': 'GPUImageGrayscaleFilter',
@@ -44,9 +45,9 @@
     'Saturation': 'GPUImageSaturationFilter'
   };
 
-  canAdjustFx = ['GPUImageContrastFilter', 'GPUImageHueFilter', 'GPUImageSaturationFilter'];
+  const canAdjustFx = ['GPUImageContrastFilter', 'GPUImageHueFilter', 'GPUImageSaturationFilter'];
 
-  fxManager = {
+  const fxManager = {
     values: {
       label: null,
       fx: null
@@ -64,22 +65,6 @@
       this.values.fx = value;
     }
   };
-
-  //Require Activity class
-  Activity = require('android.app.Activity');
-
-  //Get instance of native activity with current Ti activity
-  activity = new Activity(Ti.Android.currentActivity);
-
-  //Get Context instance to get the Asset Manager
-  Context = activity.getApplicationContext();
-  AssetManager = Context.getAssets();
-
-  //Require components to handle bitmaps
-  BitmapFactory = require('android.graphics.BitmapFactory');
-
-  //Require third party library
-  GPUImageLib = require('jp.co.cyberagent.android.gpuimage.*');
 
   /**
    * Add event handlers
@@ -143,14 +128,12 @@
    * @method createLabel
    * @param  {string}    fxFilter
    * @param  {number}    index
-   * @return {object}        Ti Label
+   * @return {object}    Ti Label
    */
   function createLabel(fxFilter, index) {
-    var label,
-      isFirstItem;
-    isFirstItem = (index == 0);
+    const isFirstItem = index === 0;
 
-    label = Ti.UI.createLabel({
+    const label = Ti.UI.createLabel({
       left: 8,
       right: 8,
       width: 80,
@@ -183,7 +166,7 @@
    */
   function loadResource(path) {
     //Get resource stream from assets
-    var stream = AssetManager.open(path);
+    const stream = AssetManager.open(path);
 
     if (stream) {
       //Decoding stream to Bitmap. GPUImageView uses Bitmap like input param
@@ -247,7 +230,7 @@
    */
   function setFilter(filter) {
     //Check if selected filter can be adjusted
-    var canAdjust = (canAdjustFx.indexOf(filter) !== -1) ? true : false;
+    const canAdjust = (canAdjustFx.indexOf(filter) !== -1) ? true : false;
 
     //If can adjusted show slider and display value
     $.sliderContainer.setVisible(canAdjust);
@@ -262,14 +245,11 @@
    * @param  {object}      e
    */
   function onToggleFxPanel(e) {
-    var fxPanelParams,
-      sliderValueParams;
-
-    fxPanelParams = {
+    let fxPanelParams = {
       bottom: 0,
       duration: 750
     }
-    sliderValueParams = {
+    let sliderValueParams = {
       opacity: 1,
       duration: 750
     };

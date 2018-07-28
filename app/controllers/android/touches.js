@@ -1,25 +1,21 @@
+import FrameLayout from 'android.widget.FrameLayout';
+import LayoutParams from 'android.widget.FrameLayout.LayoutParams';
+import ViewGroupLayoutParams from 'android.view.ViewGroup.LayoutParams';
+import Gravity from 'android.view.Gravity';
+import Color from 'android.graphics.Color';
+import View from 'android.view.View';
+import OnTouchListener from 'android.view.View.OnTouchListener';
+import MotionEvent from 'android.view.MotionEvent';
+import Activity from 'android.app.Activity';
+
 (function (container) {
+	const activity = new Activity(Ti.Android.currentActivity);
 
-	var FrameLayout = require('android.widget.FrameLayout'),
-		LayoutParams = require('android.widget.FrameLayout.LayoutParams'),
-		ViewGroupLayoutParams = require('android.view.ViewGroup.LayoutParams'),
-		Gravity = require('android.view.Gravity'),
-		Color = require('android.graphics.Color'),
-		View = require('android.view.View'),
-		OnTouchListener = require('android.view.View.OnTouchListener'),
-		MotionEvent = require('android.view.MotionEvent'),
-		Activity = require('android.app.Activity'),
-		activity = new Activity(Ti.Android.currentActivity),
-		drag,
-		main,
-		colors = [];
-
-	drag = new OnTouchListener({
-		onTouch: function(v, event) {
-			var params,
-				action = event.getAction();
+	const drag = new OnTouchListener({
+		onTouch: (v, event) => {
+			const action = event.getAction();
 			if (action == MotionEvent.ACTION_MOVE || action == MotionEvent.ACTION_UP) {
-				params = LayoutParams.cast(v.getLayoutParams());
+				const params = LayoutParams.cast(v.getLayoutParams());
 				// FIXME We're cheating by adjusting for the position of the parent view on screen here
 				// Ideally we'd use View.getLocationOnScreen(int[])
 				// http://stackoverflow.com/questions/2224844/how-to-get-the-absolute-coordinates-of-a-view
@@ -32,11 +28,11 @@
 	});
 
 	// Create a native layout to add our boxes to
-	main = new FrameLayout(activity);
+	const main = new FrameLayout(activity);
 	main.setLayoutParams(new LayoutParams(ViewGroupLayoutParams.MATCH_PARENT, ViewGroupLayoutParams.MATCH_PARENT, Gravity.TOP));
 
 	// Let's create a box for each color constant
-	colors = [
+	const colors = [
 		Color.BLUE,
 		Color.CYAN,
 		Color.DKGRAY,
@@ -48,10 +44,10 @@
 		Color.WHITE,
 		Color.YELLOW
 	];
-	for (var i = 0; i < colors.length; i++) {
-		var temp = new View(activity);
+	for (let i = 0; i < colors.length; i++) {
+		const temp = new View(activity);
 		temp.setBackgroundColor(colors[i]);
-		var layoutParams = new LayoutParams(50, 50, Gravity.TOP);
+		const layoutParams = new LayoutParams(50, 50, Gravity.TOP);
 		layoutParams.setMargins(0, i * 50, 0, 0);
 		temp.setLayoutParams(layoutParams);
 		temp.setOnTouchListener(drag);
