@@ -1,10 +1,5 @@
-import { UIButton, UIScreen, UIColor, UILabel, UIKit } from 'UIKit';
+import { UIButton, UIColor, UIControlState, UIControlEvents } from 'UIKit';
 import { CoreGraphics } from 'CoreGraphics';
-
-const UIControlStateNormal = UIKit.UIControlStateNormal;
-const UIControlStateSelected = UIKit.UIControlStateSelected;
-const UIControlEventTouchUpInside = UIKit.UIControlEventTouchUpInside;
-const CGRectMake = CoreGraphics.CGRectMake;
 
 (function (container) {
     const button = new UIButton();
@@ -12,8 +7,8 @@ const CGRectMake = CoreGraphics.CGRectMake;
 
     button.backgroundColor = UIColor.redColor;
     button.layer.cornerRadius = 6;
-    button.frame = CGRectMake(50, 50, 300, 45);
-    button.setTitleForState('CLICK ME', UIControlStateNormal);
+    button.frame = CoreGraphics.CGRectMake(50, 50, 300, 45);
+    button.setTitleForState('CLICK ME', UIControlState.Normal);
 
     ButtonDelegate.addMethod({
         selector: 'buttonPressed:',
@@ -28,11 +23,11 @@ const CGRectMake = CoreGraphics.CGRectMake;
 
     const delegate = new ButtonDelegate();
 
-    delegate.buttonPressed = function(sender) {
+    delegate.buttonPressed = function() {
         alert('Button pressed!');
     };
 
-    button.addTargetActionForControlEvents(delegate, 'buttonPressed:', UIControlEventTouchUpInside);
+    button.addTargetActionForControlEvents(delegate, 'buttonPressed:', UIControlEvents.TouchUpInside);
 
     container.add(button);
 })($.window);
