@@ -2,9 +2,30 @@
  * I wrap code that executes on creation in a self-executing function just to
  * keep it organised, not to protect global scope like it would in alloy.js
  */
-(function constructor(args) {
+(function constructor() {
 	$.navWin.open();
+
+	OS_IOS && registerApplicationDelegates();
 })(arguments[0] || {});
+
+function registerApplicationDelegates() {
+	const TiApp = require('Titanium/TiApp');
+	const TiApplicationDelegate = require('subclasses/applicationdelegate');
+	
+	// Instantiate the delegate subclass
+	var applicationDelegate = new TiApplicationDelegate();
+
+	// Called when the application finished launching. Initialize SDK's here for example
+	applicationDelegate.didFinishLaunchingWithOptions = function (application, options) {
+		Ti.API.warn('didFinishLaunchingWithOptions: called!');
+		return true;
+	};
+
+	// -- Add more delegate in app/lib/ios/subclasses/applicationdelegate.js -- //
+
+	// Register the delegate and you're done!
+	TiApp.app().registerApplicationDelegate(applicationDelegate);
+}
 
 function onListViewItemclick(e) {
 	// We've set the items special itemId-property to the controller name
