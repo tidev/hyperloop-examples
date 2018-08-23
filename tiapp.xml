@@ -2,7 +2,7 @@
 <ti:app xmlns:ti="http://ti.appcelerator.org">
 	<id>com.appcelerator.sample.hyperloop</id>
 	<name>Hyperloop_Sample</name>
-	<version>3.1.0</version>
+	<version>3.1.2</version>
 	<publisher>Appcelerator</publisher>
 	<url>http://www.appcelerator.com</url>
 	<description>This app demonstrates Hyperloop</description>
@@ -64,7 +64,7 @@
 	</android>
 	<modules>
 		<!-- Download the latest version from https://github.com/appcelerator-modules/hyperloop-builds/releases -->
-		<module version="3.1.1">hyperloop</module>
+		<module version="3.1.2">hyperloop</module>
 	</modules>
 	<deployment-targets>
 		<target device="android">true</target>
