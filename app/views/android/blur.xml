@@ -2,6 +2,7 @@
 	<Window id="win" title="Blur">
 
 		<ScrollView>
+			<ImageView id="img" image="/appicon.png"/>
 			<View class="vbox" id="blur_container" />
 		</ScrollView>
 
