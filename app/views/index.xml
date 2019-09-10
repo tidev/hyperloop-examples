@@ -1,10 +1,5 @@
 <Alloy>
-
-	<!--
-	The module-attribute will result in require('xp.ui').createNavigationWindow()
-	See app/lib/xp.ui.js for how we use this to emulate the iOS-only NavigationWindow for Android
-	-->
-	<NavigationWindow id="navWin" module="xp.ui">
+	<NavigationWindow id="navWin">
 		<Window title="Hyperloop Examples" onOpen="onOpen">
 			<ListView onItemclick="onListViewItemclick">
 				<ListSection>
@@ -41,6 +36,5 @@
 				</ListSection>
 			</ListView>
 		</Window>
-
 	</NavigationWindow>
 </Alloy>
