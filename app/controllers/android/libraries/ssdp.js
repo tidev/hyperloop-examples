@@ -25,9 +25,12 @@ function startSearch() {
       Ti.API.error('Error: ' + exception.getMessage());
     }
   }));
+  
+  $.stopButton.enabled = true;
 }
 
 function stopSearch() {
   client.stopDiscovery();
   client = null;
+  $.stopButton.enabled = false;
 }
