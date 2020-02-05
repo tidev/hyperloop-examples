@@ -30,15 +30,15 @@ import Runnable from 'java.lang.Runnable';
 
 	// Do the animation
 	$.button.addEventListener('click', () => {
-		$.notice.setText('');
+		$.notice.text = '';
 		flag = !flag;
 
 		// this function is called after the animation completes
 		const runnable = new Runnable({
 			run: () => {
-				$.notice.setText('Animation completed!');
+				$.notice.text = 'Animation completed!';
 				setTimeout(() => {
-					$.notice.setText('');
+					$.notice.text = '';
 				}, 2000);
 			}
 		});

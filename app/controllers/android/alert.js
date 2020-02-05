@@ -7,7 +7,7 @@ function showAlert() {
   builder.setTitle('My Title').setMessage('My Message').setCancelable(false); // modal
   builder.setPositiveButton('OK', new OnClickListener({
       onClick: (d, which) => {
-          $.notice.setText('Clicked!');
+          $.notice.text = 'Clicked!';
       }
   }));
   builder.create().show();

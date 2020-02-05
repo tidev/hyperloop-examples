@@ -22,7 +22,7 @@ const activity = new Activity(Ti.Android.currentActivity);
       const message = 'Menu reselected to "' + menuItem.getTitle() + '"';
 
       Ti.API.info(message);
-      $.stateLabel.setText(message);
+      $.stateLabel.text = message;
 
       return true;
     }
@@ -34,7 +34,7 @@ const activity = new Activity(Ti.Android.currentActivity);
       const message = 'Menu item "' + menuItem.getTitle() + '" selected!';
 
       Ti.API.info(message);
-      $.stateLabel.setText(message);
+      $.stateLabel.text = message;
 
       // TODO: Add more logic here to actually change the currently selected item / Titanium view as well
 
