@@ -30,9 +30,7 @@ for iOS and learning how to use Hyperloop in your own project.
 ### Android
 
 You can download the [Android Programming Guide](http://docs.appcelerator.com/platform/latest/#!/guide/Android_Hyperloop_Programming_Guide) for information on running this demo application 
-for Android and learning how to use Hyperloop in your own project. To use the `build.gradle`, run `gradle getDeps` from Terminal and it will install the example 
-dependency (Volley) to `app/platform`. Note: We ship the volley-1.1.0.aar with this project already, so developer do not need to run Gradle manually. 
-In the future, Gradle will be handled from Hyperloop directly, like CocoaPods on iOS!
+for Android and learning how to use Hyperloop in your own project.
 
 ### Windows
 
