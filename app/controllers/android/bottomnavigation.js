@@ -1,4 +1,4 @@
-import BottomNavigationView from 'android.support.design.widget.BottomNavigationView';
+import BottomNavigationView from 'com.google.android.material.bottomnavigation.BottomNavigationView';
 import Activity from 'android.app.Activity';
 import LayoutParams from 'android.widget.FrameLayout.LayoutParams';
 import ViewGroupLayoutParams from 'android.view.ViewGroup.LayoutParams';

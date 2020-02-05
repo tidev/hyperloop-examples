@@ -16,8 +16,8 @@ function startRequest() {
 
         alert('Request completed!');
         session.finishTasksAndInvalidate();
-        $.btn.setTitle('Start request!');
-        $.btn.setEnabled(true);
+        $.btn.title = 'Start request!';
+        $.btn.enabled = true;
     });
     
     delegate.didBecomeInvalidWithError = function(session, error) {
@@ -26,7 +26,7 @@ function startRequest() {
     };
 
     UIApplication.sharedApplication.networkActivityIndicatorVisible = true;
-    $.btn.setEnabled(false);
-    $.btn.setTitle('Loading ...');
+    $.btn.enabled = false;
+    $.btn.title = 'Loading ...';
     task.resume();
 }

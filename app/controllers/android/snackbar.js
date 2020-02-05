@@ -1,4 +1,4 @@
-import Snackbar from 'android.support.design.widget.Snackbar';
+import Snackbar from 'com.google.android.material.snackbar.Snackbar';
 
 (function (container) {
 	$.button.addEventListener('click', () => {
