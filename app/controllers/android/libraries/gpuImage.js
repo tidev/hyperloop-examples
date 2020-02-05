@@ -6,7 +6,8 @@ import Activity from 'android.app.Activity';
 import BitmapFactory from 'android.graphics.BitmapFactory';
 
 // Require third party library
-import GPUImageLib from 'jp.co.cyberagent.android.gpuimage.*';
+import GPUImageView from 'jp.co.cyberagent.android.gpuimage.GPUImageView';
+import GPUImageFilter from 'jp.co.cyberagent.android.gpuimage.filter.*';
 
 // Get instance of native activity with current Ti activity
 const activity = new Activity(Ti.Android.currentActivity);
@@ -35,9 +36,9 @@ const AssetManager = Context.getAssets();
     'Sketch': 'GPUImageSketchFilter',
     'Gaussian Blur': 'GPUImageGaussianBlurFilter',
     'Pixelate': 'GPUImagePixelationFilter',
-    'Edge Detection': 'GPUImageSobelEdgeDetection',
+    'Edge Detection': 'GPUImageSobelEdgeDetectionFilter',
     'Invert': 'GPUImageColorInvertFilter',
-    'Sepia': 'GPUImageSepiaFilter',
+    'Sepia': 'GPUImageSepiaToneFilter',
     'Emboss': 'GPUImageEmbossFilter',
     'Posterize': 'GPUImagePosterizeFilter',
     'Toon': 'GPUImageToonFilter',
@@ -45,7 +46,7 @@ const AssetManager = Context.getAssets();
     'Saturation': 'GPUImageSaturationFilter'
   };
 
-  const canAdjustFx = ['GPUImageContrastFilter', 'GPUImageHueFilter', 'GPUImageSaturationFilter'];
+  const canAdjustFx = ['GPUImageContrastFilter', 'GPUImageSaturationFilter'];
 
   const fxManager = {
     values: {
@@ -109,7 +110,7 @@ const AssetManager = Context.getAssets();
    */
   function addImageView() {
     //Save instance of GPUImageView. GPUImageView needs the context
-    $['image'] = new GPUImageLib['GPUImageView'](activity);
+    $['image'] = new GPUImageView(activity);
     //Add image to hierarchy
     $.bitmapContainer.add($.image);
   }
@@ -218,9 +219,9 @@ const AssetManager = Context.getAssets();
    */
   function resetSlider() {
     //Limits are 0 - 200 but display 0 - 100
-    $.sliderValue.setText(DEFAULT_SLIDER_DISPLAY_VALUE);
+    $.sliderValue.text = DEFAULT_SLIDER_DISPLAY_VALUE;
     //Reset slider to default value
-    $.slider.setValue(DEFAULT_SLIDER_VALUE);
+    $.slider.value = DEFAULT_SLIDER_VALUE;
   }
 
   /**
@@ -233,10 +234,11 @@ const AssetManager = Context.getAssets();
     const canAdjust = (canAdjustFx.indexOf(filter) !== -1) ? true : false;
 
     //If can adjusted show slider and display value
-    $.sliderContainer.setVisible(canAdjust);
-    $.sliderValueContainer.setVisible(canAdjust);
+    $.sliderContainer.visible = canAdjust;
+    $.sliderValueContainer.visible = canAdjust;
 
-    $.image.setFilter((canAdjust ? new GPUImageLib[filter]($.slider.value / 100) : new GPUImageLib[filter]()));
+    const FilterClass = GPUImageFilter[filter];
+    $.image.setFilter(canAdjust ? new FilterClass($.slider.value / 100) : new FilterClass());
   }
 
   /**
@@ -275,7 +277,7 @@ const AssetManager = Context.getAssets();
    * @param  {object}       e
    */
   function onSliderChange(e) {
-    $.sliderValue.setText(Math.trunc(e.value / 2));
+    $.sliderValue.text = Math.trunc(e.value / 2);
     setFilter(fxManager.fx);
   }
 

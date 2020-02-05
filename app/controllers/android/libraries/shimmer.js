@@ -26,7 +26,7 @@ import FBShimmerFrameLayout from 'com.facebook.shimmer.ShimmerFrameLayout';
   shimmer.setLayoutParams(new LayoutParams(ViewGroupLayoutParams.WRAP_CONTENT, ViewGroupLayoutParams.WRAP_CONTENT, Gravity.CENTER));
   shimmer.duration = 1000;
   shimmer.addView(loadingLabel);
-  shimmer.startShimmerAnimation();
+  shimmer.startShimmer();
 
   container.add(shimmer);
 })($.shimmer_container);

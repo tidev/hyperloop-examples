@@ -13,8 +13,8 @@ function startRequest() {
               Ti.API.info('Response is: ' + response);
 
               alert('Request completed!');
-              $.btn.setTitle('Start request!');
-              $.btn.setEnabled(true);
+              $.btn.title = 'Start request!';
+              $.btn.enabled = true;
           }
       }),
       new VolleyPackage.Response.ErrorListener({
@@ -24,8 +24,8 @@ function startRequest() {
       })
   );
 
-  $.btn.setEnabled(false);
-  $.btn.setTitle('Loading ...');
+  $.btn.enabled = false;
+  $.btn.title = 'Loading ...';
 
   queue.add(request);
 }
