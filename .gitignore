@@ -17,3 +17,4 @@ Thumbs.db
 /.gradle
 /plugins/ti.alloy/hooks/alloy.js
 /.classpath
+app/platform/android/.gradle/
