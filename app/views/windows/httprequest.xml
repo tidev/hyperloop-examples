@@ -1,5 +1,0 @@
-<Alloy>
-	<Window id="win" title="HTTP Request">
-		<Button id="btn" title="Start request!" onClick="startRequest" />
-	</Window>
-</Alloy>

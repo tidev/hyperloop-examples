@@ -8,7 +8,6 @@ const CGRectMake = CoreGraphics.CGRectMake;
 const pathData = [
 	{ radius: 100, startAngle:270, endAngle: 89, lineWidth: 50, duration: 0.25, title: 'iOS', value:'300', lblTop: 320, lblLeft: 325 },
 	{ radius: 100, startAngle:90, endAngle: 180, lineWidth: 30, duration: 0.25, title: 'Android', value:'100', lblTop: 410, lblLeft: 30 },
-	{ radius: 100, startAngle:181, endAngle: 269, lineWidth: 10,duration: 0.25, title: 'Windows', value:'50', lblTop: 210, lblLeft: 30 }
 ];
 
 const colors = [

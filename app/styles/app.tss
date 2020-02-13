@@ -24,10 +24,6 @@ overrode the settings with other TSS, XML, or JS settings:
 	backgroundColor: '#FFF'
 }
 
-'Window[platform=windows]' : {
-	backgroundColor: 'green'
-}
-
 'TextField[platform=ios]' : {
 	width: Ti.UI.FILL,
 	borderStyle: Ti.UI.INPUT_BORDERSTYLE_ROUNDED
