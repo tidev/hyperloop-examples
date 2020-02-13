@@ -1,18 +1,14 @@
 # Hyperloop Examples
 
-This sample app demonstrates direct native API access using Appcelerator Hyperloop for iOS, Android and Windows UWP.
+This sample app demonstrates direct native API access using Appcelerator Hyperloop for iOS and Android.
 
 Learn more about Hyperloop [here](http://www.appcelerator.com/mobile-app-development-products/hyperloop/)!
 
 ## Requirements
 
-- [x] Titanium SDK 7.2.0+
-- [x] Hyperloop 3.1.1+
+- [x] Titanium SDK 9.0.0+
+- [x] Hyperloop 5.0.0+
 - [x] Alloy 1.9.0+
-
-## Optional Requirements
-
-- [x] Gradle 4.4+
 
 ## Running this app
 
@@ -31,11 +27,6 @@ for iOS and learning how to use Hyperloop in your own project.
 
 You can download the [Android Programming Guide](http://docs.appcelerator.com/platform/latest/#!/guide/Android_Hyperloop_Programming_Guide) for information on running this demo application 
 for Android and learning how to use Hyperloop in your own project.
-
-### Windows
-
-You can download the [Windows Programming Guide](http://docs.appcelerator.com/platform/latest/#!/guide/Windows_Hyperloop_Programming_Guide) for information on running this demo application f
-or Windows and learning how to use Hyperloop in your own project.
 
 ## License
 
