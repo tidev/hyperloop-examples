@@ -64,14 +64,14 @@
 	</android>
 	<modules>
 		<!-- Download the latest version from https://github.com/appcelerator-modules/hyperloop-builds/releases -->
-		<module version="5.0.0">hyperloop</module>
+		<module version="5.0.3">hyperloop</module>
 	</modules>
 	<deployment-targets>
 		<target device="android">true</target>
 		<target device="ipad">true</target>
 		<target device="iphone">true</target>
 	</deployment-targets>
-	<sdk-version>9.0.0.GA</sdk-version>
+	<sdk-version>9.0.3.GA</sdk-version>
 	<plugins>
 	<plugin version="1.0">ti.alloy</plugin>
 	</plugins>
