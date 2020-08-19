@@ -2,10 +2,7 @@ import BottomNavigationView from 'com.google.android.material.bottomnavigation.B
 import Activity from 'android.app.Activity';
 import LayoutParams from 'android.widget.FrameLayout.LayoutParams';
 import ViewGroupLayoutParams from 'android.view.ViewGroup.LayoutParams';
-import Color from 'android.graphics.Color';
 import Gravity from 'android.view.Gravity';
-import ColorStateList from 'android.content.res.ColorStateList';
-import R from 'android.R';
 
 const activity = new Activity(Ti.Android.currentActivity);
 
@@ -36,9 +33,7 @@ const activity = new Activity(Ti.Android.currentActivity);
       Ti.API.info(message);
       $.stateLabel.text = message;
 
-      // TODO: Add more logic here to actually change the currently selected item / Titanium view as well
-
-      return false;
+      return true;
     }
   }));
 
@@ -47,7 +42,14 @@ const activity = new Activity(Ti.Android.currentActivity);
   // In the future, this may also be possible by Ti.App.Android.R.*, but thats not available so far.
   bottomNav.inflateMenu(resIDFromString('tabs', 'menu'));
   bottomNav.setItemBackgroundResource(resIDFromString('tabs_background_color', 'color')); 
-  
+
+  // Add a (5) badge on the 2nd tab item.
+  // Note: This requires the app/activity to use a "Theme.MaterialComponents" based theme.
+  var menuItemId = bottomNav.getMenu().getItem(1).getItemId();
+  var badgeDrawable = bottomNav.getOrCreateBadge(menuItemId);
+  badgeDrawable.setVisible(true);
+  badgeDrawable.setNumber(5);
+
   // Uncomment to use custom item colors
   // 
   // const states = [
