@@ -2,7 +2,7 @@
 dependencies {
 	implementation 'com.android.volley:volley:1.1.1'
 	implementation 'com.facebook.shimmer:shimmer:0.5.0'
-	implementation 'com.google.android.material:material:1.1.0'
+	implementation 'com.google.android.material:material:1.2.0'
 	implementation 'io.resourcepool:ssdp-client:2.3.0'
 	implementation 'jp.co.cyberagent.android:gpuimage:2.0.4'
 }
