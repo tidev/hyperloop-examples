@@ -13,15 +13,26 @@ import Activity from 'android.app.Activity';
 
 	const drag = new OnTouchListener({
 		onTouch: (v, event) => {
-			const action = event.getAction();
-			if (action == MotionEvent.ACTION_MOVE || action == MotionEvent.ACTION_UP) {
-				const params = LayoutParams.cast(v.getLayoutParams());
-				// FIXME We're cheating by adjusting for the position of the parent view on screen here
-				// Ideally we'd use View.getLocationOnScreen(int[])
-				// http://stackoverflow.com/questions/2224844/how-to-get-the-absolute-coordinates-of-a-view
-				params.topMargin = event.getRawY() - 150 - v.getHeight();
-				params.leftMargin = event.getRawX() - 30 - (v.getWidth() / 2);
-				v.setLayoutParams(params);
+			const action = event.getActionMasked();
+			switch (action) {
+				case MotionEvent.ACTION_DOWN:
+					const params = LayoutParams.cast(v.getLayoutParams());
+					v.setTag({
+						leftMargin: params.leftMargin,
+						topMargin: params.topMargin,
+						dragStartX: event.getRawX(),
+						dragStartY: event.getRawY()
+					});
+					break;
+				case MotionEvent.ACTION_MOVE:
+					const tag = v.getTag();
+					if (tag) {
+						const params = LayoutParams.cast(v.getLayoutParams());
+						params.leftMargin = tag.leftMargin + (event.getRawX() - tag.dragStartX);
+						params.topMargin = tag.topMargin + (event.getRawY() - tag.dragStartY);
+						v.setLayoutParams(params);
+					}
+					break;
 			}
 			return true;
 		}
@@ -29,17 +40,16 @@ import Activity from 'android.app.Activity';
 
 	// Create a native layout to add our boxes to
 	const main = new FrameLayout(activity);
-	main.setLayoutParams(new LayoutParams(ViewGroupLayoutParams.MATCH_PARENT, ViewGroupLayoutParams.MATCH_PARENT, Gravity.TOP));
+	main.setLayoutParams(new LayoutParams(
+		ViewGroupLayoutParams.MATCH_PARENT,
+		ViewGroupLayoutParams.MATCH_PARENT,
+		Gravity.TOP));
 
 	// Let's create a box for each color constant
 	const colors = [
 		Color.BLUE,
-		Color.CYAN,
-		Color.DKGRAY,
 		Color.GRAY,
 		Color.GREEN,
-		Color.LTGRAY,
-		Color.MAGENTA,
 		Color.RED,
 		Color.WHITE,
 		Color.YELLOW
@@ -47,8 +57,8 @@ import Activity from 'android.app.Activity';
 	for (let i = 0; i < colors.length; i++) {
 		const temp = new View(activity);
 		temp.setBackgroundColor(colors[i]);
-		const layoutParams = new LayoutParams(50, 50, Gravity.TOP);
-		layoutParams.setMargins(0, i * 50, 0, 0);
+		const layoutParams = new LayoutParams(150, 150, Gravity.TOP);
+		layoutParams.setMargins(0, i * 150, 0, 0);
 		temp.setLayoutParams(layoutParams);
 		temp.setOnTouchListener(drag);
 		main.addView(temp);

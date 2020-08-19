@@ -1,9 +1,6 @@
 <Alloy>
 	<Window id="win" title="Touches">
-
-		<ScrollView>
-			<View class="vbox" id="touch_container" />
-		</ScrollView>
-
+		<Label bottom="30" touchEnabled="false" text="Drag the squares."/>
+		<View class="vbox" id="touch_container"/>
 	</Window>
 </Alloy>
