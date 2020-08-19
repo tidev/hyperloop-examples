@@ -1,50 +1,60 @@
 import Bitmap from 'android.graphics.Bitmap';
+import BitmapFactory from 'android.graphics.BitmapFactory';
 import Config from 'android.graphics.Bitmap.Config';
 import RenderScript from 'android.renderscript.RenderScript';
 import Allocation from 'android.renderscript.Allocation';
 import Element from 'android.renderscript.Element';
 import ScriptIntrinsicBlur from 'android.renderscript.ScriptIntrinsicBlur';
 import Activity from 'android.app.Activity';
-import Paint from 'android.graphics.Paint';
-import Color from 'android.graphics.Color';
-import Canvas from 'android.graphics.Canvas';
 import ImageView from 'android.widget.ImageView';
-    
-(function(container) {
-    const activity = new Activity(Ti.Android.currentActivity);
 
-    const WIDTH = 200;
-    const HEIGHT = 200;
+function onOpen() {
+	// Fetch the window's activity reference.
+	const activity = new Activity($.win.activity);
 
-    // create input image
-    // TODO pass ImageView/TiBlob
-    const bmp = Bitmap.createBitmap(WIDTH, HEIGHT, Config.ARGB_8888);
-    const canvas = new Canvas(bmp);
-    const paint = new Paint();
-    paint.setColor(Color.rgb(255, 0, 0));
-    paint.setStrokeWidth(10);
-    canvas.drawLine(WIDTH * 0.5, 0, WIDTH * 0.5, HEIGHT, paint);
-    paint.setColor(Color.rgb(0, 255, 0));
-    canvas.drawLine(0, HEIGHT * 0.5, WIDTH, HEIGHT * 0.5, paint);
+	// Load the source image from the APK's "assets" folder.
+	const stream = activity.getAssets().open('Resources/images/appc-logo.png')
+	$.sourceBitmap = BitmapFactory.decodeStream(stream);
+	stream.close();
 
-    // create blur output image
-    const bmpOut = Bitmap.createBitmap(WIDTH, HEIGHT, Config.ARGB_8888);
+	// Display a native ImageView with the above image.
+	$.imageView = new ImageView(activity);
+	$.imageView.setImageBitmap($.sourceBitmap);
+	$.win.insertAt({
+		position: 0,
+		view: $.imageView
+	});
+}
 
-    // blur
-    const rs = RenderScript.create(activity);
-    const blurScript = ScriptIntrinsicBlur.create(rs, Element.U8_4(rs));
-    const allIn = Allocation.createFromBitmap(rs, bmp);
-    const allOut = Allocation.createFromBitmap(rs, bmpOut);
+function onBlurImage() {
+	// Fetch the window's activity reference.
+	const activity = new Activity($.win.activity);
 
-    blurScript.setRadius(10.0); // set blur value
-    blurScript.setInput(allIn);
-    blurScript.forEach(allOut);
-    allOut.copyTo(bmpOut);
-    bmp.recycle();
-    rs.destroy();
+	// Create a blurred bitmap from the source bitmap.
+	const blurredBitmap = Bitmap.createBitmap($.sourceBitmap.getWidth(), $.sourceBitmap.getHeight(), Config.ARGB_8888);
+	const rs = RenderScript.create(activity);
+	const blurScript = ScriptIntrinsicBlur.create(rs, Element.U8_4(rs));
+	const allIn = Allocation.createFromBitmap(rs, $.sourceBitmap);
+	const allOut = Allocation.createFromBitmap(rs, blurredBitmap);
+	blurScript.setRadius(10.0);
+	blurScript.setInput(allIn);
+	blurScript.forEach(allOut);
+	allOut.copyTo(blurredBitmap);
+	rs.destroy();
 
-    // create imageview and attach it
-    const image = new ImageView(activity);
-    container.add(image);
-    image.setImageBitmap(bmpOut);
-})($.blur_container);
+	// Display the blurred image.
+	$.imageView.setImageBitmap(blurredBitmap);
+
+	// Update buttons.
+	$.blurButton.visible = false;
+	$.unblurButton.visible = true;
+}
+
+function onUnblurImage() {
+	// Display the original unblurred image.
+	$.imageView.setImageBitmap($.sourceBitmap);
+
+	// Update buttons.
+	$.blurButton.visible = true;
+	$.unblurButton.visible = false;
+}
