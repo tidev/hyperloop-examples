@@ -1,9 +1,6 @@
 <Alloy>
-	<Window id="win" title="Blur">
-
-		<ScrollView>
-			<View class="vbox" id="blur_container" />
-		</ScrollView>
-
+	<Window id="win" title="Blur" onOpen="onOpen">
+		<Button id="blurButton" bottom="30" onClick="onBlurImage">Blur Image</Button>
+		<Button id="unblurButton" bottom="30" visible="false" onClick="onUnblurImage">Unblur Image</Button>
 	</Window>
 </Alloy>
