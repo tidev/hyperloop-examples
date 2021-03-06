@@ -2,11 +2,11 @@
 <ti:app xmlns:ti="http://ti.appcelerator.org">
 	<id>com.appcelerator.sample.hyperloop</id>
 	<name>Hyperloop_Sample</name>
-	<version>4.0.0</version>
+	<version>5.0.0</version>
 	<publisher>Appcelerator</publisher>
 	<url>http://www.appcelerator.com</url>
 	<description>This app demonstrates Hyperloop</description>
-	<copyright>2015-2020 by Axway, Inc.</copyright>
+	<copyright>2015-2021 by Axway, Inc.</copyright>
 	<icon>appicon.png</icon>
 
 	<!-- Change to true and remove the <application> tag to select Theme.AppCompat.NoTitleBar -->
@@ -26,6 +26,8 @@
 		<use-jscore-framework>true</use-jscore-framework>
 		<plist>
 			<dict>
+				<key>UIUserInterfaceStyle</key>
+				<string>Light</string>
 				<key>UISupportedInterfaceOrientations~iphone</key>
 				<array>
 					<string>UIInterfaceOrientationPortrait</string>
@@ -64,15 +66,15 @@
 	</android>
 	<modules>
 		<!-- Download the latest version from https://github.com/appcelerator-modules/hyperloop-builds/releases -->
-		<module version="5.0.3">hyperloop</module>
+		<module version="7.0.1">hyperloop</module>
 	</modules>
 	<deployment-targets>
 		<target device="android">true</target>
 		<target device="ipad">true</target>
 		<target device="iphone">true</target>
 	</deployment-targets>
-	<sdk-version>9.0.3.GA</sdk-version>
+	<sdk-version>10.0.0.GA</sdk-version>
 	<plugins>
-	<plugin version="1.0">ti.alloy</plugin>
+		<plugin version="1.0">ti.alloy</plugin>
 	</plugins>
 </ti:app>

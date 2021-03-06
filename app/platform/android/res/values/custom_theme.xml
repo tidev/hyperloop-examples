@@ -1,17 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-	<color name="primary">#CD1625</color>
-	<color name="primary_dark">#A30A00</color>
-	<color name="accent">#333333</color>
-	<color name="black_transparent">#66000000</color>
-	<color name="white">#FFFFFF</color>
-
-	<style name="appcelerator" parent="Theme.MaterialComponents.Bridge">
-		<item name="colorPrimary">@color/primary</item>
-		<item name="colorAccent">@color/accent</item>
-		<item name="android:statusBarColor">@color/primary_dark</item>
-		<item name="android:navigationBarColor">@color/primary</item>
-	  	<item name="android:buttonBarPositiveButtonStyle">@color/white</item>
+	<style name="appcelerator" parent="@style/Theme.Titanium.Light">
+		<item name="colorPrimary">#c91326</item>
+		<item name="colorPrimaryDark">#900000</item>
+		<item name="colorAccent">#c91326</item>
+		<item name="android:textColorPrimary">#000000</item>
+		<item name="android:statusBarColor">#c91326</item>
+		<item name="android:navigationBarColor">#c91326</item>
 	</style>
 </resources>

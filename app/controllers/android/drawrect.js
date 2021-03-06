@@ -6,8 +6,8 @@ import Paint from 'android.graphics.Paint';
 import Path from 'android.graphics.Path';
 import Activity from 'android.app.Activity';
 	
-(function (container) {
-	const activity = new Activity(Ti.Android.currentActivity);
+$.win.activity.onCreate = () => {
+	const activity = new Activity($.win.activity);
 
 	// create a unique View subclass for doing our custom drawing
 	const CustomView = View.extend({
@@ -71,11 +71,10 @@ import Activity from 'android.app.Activity';
 	view.setBackgroundColor(Color.YELLOW);
 	layoutParams.setMargins(0, 0, 0, 0);
 	view.setLayoutParams(layoutParams);
-	container.add(view);
-
-})($.rect_container);
+	$.rect_container.add(view);
+};
 
 // convenience function for converting an angle in degrees to radians
-function DEGREES_TO_RADIANS (angle) {
+function DEGREES_TO_RADIANS(angle) {
 	return (Number(angle) / 180.0 * Math.PI);
-};
+}

@@ -52,7 +52,3 @@ overrode the settings with other TSS, XML, or JS settings:
 	height: 43,
 	left: 15
 }
-
-'ListItem[platform=android]' : {
-	color: '#DDD'
-}

@@ -1,5 +1,4 @@
 import FrameLayout from 'android.widget.FrameLayout';
-import ViewGroupLayoutParams from 'android.view.ViewGroup.LayoutParams';
 import Color from 'android.graphics.Color';
 import Gravity from 'android.view.Gravity';
 import View from 'android.view.View';
@@ -7,8 +6,8 @@ import Activity from 'android.app.Activity';
 import LayoutParams from 'android.widget.FrameLayout.LayoutParams';
 import Runnable from 'java.lang.Runnable';
 
-(function (container) {
-	const activity = new Activity(Ti.Android.currentActivity);
+$.win.activity.onCreate = () => {
+	const activity = new Activity($.win.activity);
 	let flag;
 
 	// Create a native layout to add our boxes to
@@ -26,7 +25,7 @@ import Runnable from 'java.lang.Runnable';
 	// otherwise it'd get clipped since when we add to the Ti view, it sizes it just large enough to hold it's original contents.
 	main.addView(view);
 	// add containing view to Ti view
-	container.add(main);
+	$.animateview_container.add(main);
 
 	// Do the animation
 	$.button.addEventListener('click', () => {
@@ -50,5 +49,4 @@ import Runnable from 'java.lang.Runnable';
 			 view.animate().alpha(1.0).scaleX(1).scaleY(1).xBy(-250).yBy(-250).rotation(-180).setDuration(1000).withEndAction(runnable).start();
 		}
 	});
-
-})($.animateview_container);
+};

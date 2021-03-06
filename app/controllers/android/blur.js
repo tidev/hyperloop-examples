@@ -8,7 +8,7 @@ import ScriptIntrinsicBlur from 'android.renderscript.ScriptIntrinsicBlur';
 import Activity from 'android.app.Activity';
 import ImageView from 'android.widget.ImageView';
 
-function onOpen() {
+$.win.activity.onCreate = () => {
 	// Fetch the window's activity reference.
 	const activity = new Activity($.win.activity);
 
@@ -24,7 +24,7 @@ function onOpen() {
 		position: 0,
 		view: $.imageView
 	});
-}
+};
 
 function onBlurImage() {
 	// Fetch the window's activity reference.

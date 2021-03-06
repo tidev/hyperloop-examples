@@ -5,13 +5,10 @@ import View from 'android.view.View';
 import TypedValue from 'android.util.TypedValue';
 import Typeface from 'android.graphics.Typeface';
 	
-(function (container) {
-  const activity = new Activity(Ti.Android.currentActivity);
+$.win.activity.onCreate = () => {
+	const activity = new Activity($.win.activity);
 
-	// TODO Use Spannables to make more like iOS AttributedString
-	// FIXME Find way to support the Unicode heart symbol (looks like the Google fonts may not have it?)
-	// Here's one person's related project: https://github.com/JoanZapata/android-iconify
-	const infoString = 'We <3 Android';
+	const infoString = 'We ♡ Android';
 	const label = new TextView(activity);
 
 	label.setTypeface(Typeface.create('Helvetica', Typeface.BOLD));
@@ -21,5 +18,5 @@ import Typeface from 'android.graphics.Typeface';
 	label.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
 	label.setShadowLayer(10.0, 0, 4, Color.GRAY);
 
-	container.add(label);
-})($.label_container);
+	$.label_container.add(label);
+};

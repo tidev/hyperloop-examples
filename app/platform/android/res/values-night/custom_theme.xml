@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<style name="appcelerator" parent="@style/Theme.Titanium.Dark">
+		<item name="colorPrimary">#d5544b</item>
+		<item name="colorAccent">#d5544b</item>
+	</style>
+</resources>
