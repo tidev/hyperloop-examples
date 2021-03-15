@@ -32,9 +32,7 @@ $.win.activity.onCreate = () => {
 		}
 	}));
 
-	// Crazy stuff here! So how does this work?
-	// Instead of using R.menu.tabs and R.colors.tabs_background_color, we use the programmatic approach to receive them
-	// In the future, this may also be possible by Ti.App.Android.R.*, but thats not available so far.
+	// Inflate this app's menu res file from: ./app/platform/android/res/menu/tabs.xml
 	bottomNav.inflateMenu(Ti.App.Android.R.menu.tabs);
 	bottomNav.setItemBackgroundResource(Ti.App.Android.R.color.tabs_background_color);
 
