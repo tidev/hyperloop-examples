@@ -5,8 +5,8 @@ import Uri from 'android.net.Uri';
 
 let mMediaPlayer;
 
-(function(container) {
-	const activity = new Activity(Ti.Android.currentActivity);
+$.win.activity.onCreate = () => {
+	const activity = new Activity($.win.activity);
 	const contentUri = Uri.parse('android.resource://' + activity.getPackageName() + '/raw/audio');
 
 	mMediaPlayer = new MediaPlayer();
@@ -18,7 +18,7 @@ let mMediaPlayer;
 	mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
 	mMediaPlayer.setDataSource(activity.getApplicationContext(), contentUri);
 	mMediaPlayer.prepare();
-})($.window);
+};
 
 function startMedia() {
 	mMediaPlayer.start();

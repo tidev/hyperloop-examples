@@ -8,8 +8,8 @@ import OnTouchListener from 'android.view.View.OnTouchListener';
 import MotionEvent from 'android.view.MotionEvent';
 import Activity from 'android.app.Activity';
 
-(function (container) {
-	const activity = new Activity(Ti.Android.currentActivity);
+$.win.activity.onCreate = () => {
+	const activity = new Activity($.win.activity);
 
 	const drag = new OnTouchListener({
 		onTouch: (v, event) => {
@@ -46,6 +46,7 @@ import Activity from 'android.app.Activity';
 		Gravity.TOP));
 
 	// Let's create a box for each color constant
+	const elevationInPixels = Ti.UI.convertUnits('5dp', Ti.UI.UNIT_PX);
 	const colors = [
 		Color.BLUE,
 		Color.GRAY,
@@ -57,6 +58,7 @@ import Activity from 'android.app.Activity';
 	for (let i = 0; i < colors.length; i++) {
 		const temp = new View(activity);
 		temp.setBackgroundColor(colors[i]);
+		temp.setElevation(elevationInPixels);
 		const layoutParams = new LayoutParams(150, 150, Gravity.TOP);
 		layoutParams.setMargins(0, i * 150, 0, 0);
 		temp.setLayoutParams(layoutParams);
@@ -65,5 +67,5 @@ import Activity from 'android.app.Activity';
 	}
 
 	// Add our layout to the Ti.UI.View
-	container.add(main);
-})($.touch_container);
+	$.touch_container.add(main);
+};

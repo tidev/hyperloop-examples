@@ -1,11 +1,9 @@
 <Alloy>
 	<Window id="win" title="View Animation">
-
 		<ScrollView>
 			<View class="vbox" id="animateview_container" />
 			<Button id="button">Animate</Button>
 			<Label id="notice" />
 		</ScrollView>
-
 	</Window>
 </Alloy>

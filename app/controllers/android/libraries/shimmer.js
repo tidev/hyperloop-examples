@@ -10,23 +10,22 @@ import FBShimmerFrameLayout from 'com.facebook.shimmer.ShimmerFrameLayout';
  *
  * A example using a combination of Native UI (from jar file) and Titanium UI.
  */
-(function (container) {
-  const activity = new Activity(Ti.Android.currentActivity);
-  const loadingLabel = Ti.UI.createLabel({
-    textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
-    text: 'Shimmer',
-    color: '#FFF',
-    font: {
-      fontSize:48
-    }
-  });
+$.win.activity.onCreate = () => {
+	const activity = new Activity($.win.activity);
+	const loadingLabel = Ti.UI.createLabel({
+		textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
+		text: 'Shimmer',
+		color: '#FFF',
+		font: {
+			fontSize:48
+		}
+	});
 
-  const shimmer = new FBShimmerFrameLayout(activity);
-
-  shimmer.setLayoutParams(new LayoutParams(ViewGroupLayoutParams.WRAP_CONTENT, ViewGroupLayoutParams.WRAP_CONTENT, Gravity.CENTER));
-  shimmer.duration = 1000;
-  shimmer.addView(loadingLabel);
-  shimmer.startShimmer();
-
-  container.add(shimmer);
-})($.shimmer_container);
+	const shimmer = new FBShimmerFrameLayout(activity);
+	shimmer.setLayoutParams(new LayoutParams(
+		ViewGroupLayoutParams.WRAP_CONTENT, ViewGroupLayoutParams.WRAP_CONTENT, Gravity.CENTER));
+	shimmer.duration = 1000;
+	shimmer.addView(loadingLabel);
+	shimmer.startShimmer();
+	$.shimmer_container.add(shimmer);
+};

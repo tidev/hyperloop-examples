@@ -2,16 +2,10 @@ import Activity from 'android.app.Activity';
 import Context from 'android.content.Context';
 import Inflater from 'android.view.LayoutInflater';
 
-const activity = new Activity(Ti.Android.currentActivity);
-    
-(function (container) {
-  const inflater = Inflater.cast(activity.getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE));
-  const view = inflater.inflate(resIDFromString('main_content', 'layout'), null);
-
-  container.add(view);
-})($.window);
-
-// Utility method to get a resource ID from a string
-function resIDFromString(variableName, resourceName) {
-  return activity.getResources().getIdentifier(variableName, resourceName, activity.getPackageName());
-}
+$.win.activity.onCreate = () => {
+	// Inflate this app's custom layout from: ./app/platform/android/res/layout/main_content.xml
+	const activity = new Activity($.win.activity);
+	const inflater = Inflater.cast(activity.getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE));
+	const view = inflater.inflate(Ti.App.Android.R.layout.main_content, null);
+	$.win.add(view);
+};

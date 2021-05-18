@@ -1,3 +1,3 @@
 <Alloy>
-	<Window id="window" title="Native Button"/>
+	<Window id="win" title="Native Button"/>
 </Alloy>

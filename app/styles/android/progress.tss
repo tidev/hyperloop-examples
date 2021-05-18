@@ -1,10 +1,10 @@
-"#container":{
-    width:Ti.UI.SIZE,
-    height: Ti.UI.SIZE
+"#container": {
+	width: Ti.UI.SIZE,
+	height: Ti.UI.SIZE
 }
-"#btn_start":{
-    bottom:10
+"#btn_start": {
+	bottom: 10
 }
-"#btn_switch":{
-    bottom:50
+"#btn_switch": {
+	bottom: 50
 }

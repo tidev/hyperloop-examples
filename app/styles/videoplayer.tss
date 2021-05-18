@@ -1,4 +1,4 @@
-".button": {
+".button[platform=ios]": {
 	backgroundColor: "#000",
 	tintColor: "#fff",
 	height: 50,

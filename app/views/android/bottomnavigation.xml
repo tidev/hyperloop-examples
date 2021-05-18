@@ -1,5 +1,5 @@
 <Alloy>
 	<Window id="win" title="Bottom Navigation View">
-		<Label id="stateLabel" color="white" />
+		<Label id="stateLabel"/>
 	</Window>
 </Alloy>
