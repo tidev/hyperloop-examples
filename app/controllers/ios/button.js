@@ -6,32 +6,29 @@ const UIControlEventTouchUpInside = UIKit.UIControlEventTouchUpInside;
 const CGRectMake = CoreGraphics.CGRectMake;
 
 (function (container) {
-    const button = new UIButton();
-    const ButtonDelegate = Hyperloop.defineClass('ButtonDelegate', 'NSObject');
+	const button = new UIButton();
+	const ButtonDelegate = Hyperloop.defineClass('ButtonDelegate', 'NSObject');
 
-    button.backgroundColor = UIColor.redColor;
-    button.layer.cornerRadius = 6;
-    button.frame = CGRectMake(50, 50, 300, 45);
-    button.setTitleForState('CLICK ME', UIControlStateNormal);
+	button.backgroundColor = UIColor.redColor;
+	button.layer.cornerRadius = 6;
+	button.frame = CGRectMake(50, 50, 300, 45);
+	button.setTitleForState('CLICK ME', UIControlStateNormal);
 
-    ButtonDelegate.addMethod({
-        selector: 'buttonPressed:',
-        instance: true,
-        arguments: ['UIButton'],
-        callback: function (sender) {
-            if (this.buttonPressed) {
-                this.buttonPressed(sender);
-            }
-        }
-    });
+	ButtonDelegate.addMethod({
+		selector: 'buttonPressed:',
+		instance: true,
+		arguments: ['UIButton'],
+		callback: function (sender) {
+			if (this.buttonPressed) {
+				this.buttonPressed(sender);
+			}
+		}
+	});
 
-    const delegate = new ButtonDelegate();
-
-    delegate.buttonPressed = function(sender) {
-        alert('Button pressed!');
-    };
-
-    button.addTargetActionForControlEvents(delegate, 'buttonPressed:', UIControlEventTouchUpInside);
-
-    container.add(button);
+	const delegate = new ButtonDelegate();
+	delegate.buttonPressed = function(sender) {
+		alert('Button pressed!');
+	};
+	button.addTargetActionForControlEvents(delegate, 'buttonPressed:', UIControlEventTouchUpInside);
+	container.add(button);
 })($.win);

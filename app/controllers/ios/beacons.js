@@ -35,27 +35,27 @@ let IDENTIFIER;
 	delegate.didRangeBeacons = function(manager, beacons, region) {
 		let message = '';
 
-	    if(beacons.count > 0) {
-	        let nearestBeacon = beacons.firstObject;
-	        switch(nearestBeacon.proximity) {
-	            case CLProximityFar:
-	                message = 'You are far away from the beacon';
-	                break;
-	            case CLProximityNear:
-	                message = 'You are near the beacon';
-	                break;
-	            case CLProximityImmediate:
-	                message = 'You are in the immediate proximity of the beacon';
-	                break;
-	            case CLProximityUnknown:
+		if(beacons.count > 0) {
+			let nearestBeacon = beacons.firstObject;
+			switch(nearestBeacon.proximity) {
+				case CLProximityFar:
+					message = 'You are far away from the beacon';
+					break;
+				case CLProximityNear:
+					message = 'You are near the beacon';
+					break;
+				case CLProximityImmediate:
+					message = 'You are in the immediate proximity of the beacon';
+					break;
+				case CLProximityUnknown:
 					message = 'You are at an unknown location';
 					break;
-	        }
-	    } else {
-	        message = 'No beacons are nearby';
-	    }
-		
-	    alert(message);
+			}
+		} else {
+			message = 'No beacons are nearby';
+		}
+
+		alert(message);
 	};
 	
 	locationManager = new CLLocationManager();

@@ -19,7 +19,7 @@ let viewArray = new Array();
 // original location of view
 let origPt;
 
-(function (container) {	
+(function (container) {
 	addCards(container);
 })($.tinder_container);
 

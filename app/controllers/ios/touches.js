@@ -5,7 +5,7 @@ import { PanGestureRecognizer } from '/subclasses/gesturerecognizer';
 const CGRectMake = CoreGraphics.CGRectMake;
 const CGPointMake = CoreGraphics.CGPointMake;
 const CGPointZero = CoreGraphics.CGPointZero;
-	
+
 (function (container) {
 	// create an instance of the class - one for each instance of the view
  	const panGesture1 = new PanGestureRecognizer();
