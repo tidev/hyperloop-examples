@@ -1,11 +1,8 @@
-import { UIView, UIColor, UIKit } from 'UIKit';
+import { UIView, UIKit } from 'UIKit';
 import { CoreGraphics } from 'CoreGraphics';
 import { PanGestureRecognizer } from '/subclasses/gesturerecognizer';
 
-const CGRectMake = CoreGraphics.CGRectMake;
-const CGSizeMake = CoreGraphics.CGSizeMake;
 const CGPointMake = CoreGraphics.CGPointMake;
-const CGColor = CoreGraphics.CGColor;
 const CGAffineTransformMakeRotation = CoreGraphics.CGAffineTransformMakeRotation;
 const CGAffineTransformScale = CoreGraphics.CGAffineTransformScale;
 const CGAffineTransformIdentity = CoreGraphics.CGAffineTransformIdentity;

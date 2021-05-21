@@ -1,5 +1,4 @@
-import { UIView, UIColor, UIBlurEffect, UIVisualEffectView, UIKit } from 'UIKit';
-import { CoreGraphics } from 'CoreGraphics';
+import { UIBlurEffect, UIVisualEffectView, UIKit } from 'UIKit';
 
 (function (container) {
     const blurEffectLight = UIBlurEffect.effectWithStyle(UIKit.UIBlurEffectStyleLight);
@@ -34,7 +33,7 @@ import { CoreGraphics } from 'CoreGraphics';
             imageView.add(blurView);
         }
         isBlurred = !isBlurred;
-        trigger.setTitle(isBlurred === true ? 'Unblur image' : 'Blur image');
+        trigger.title = isBlurred ? 'Unblur image' : 'Blur image';
     });
 
     container.add(imageView);

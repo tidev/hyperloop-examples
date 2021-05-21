@@ -16,15 +16,15 @@ function showAlertWithStyle(style) {
 	);
 
 	const alertAction = UIAlertAction.actionWithTitleStyleHandler('OK', UIAlertActionStyleDefault, () => {
-		$.notice.setText('Clicked OK!');
+		$.notice.text = 'Clicked OK!';
 	});
 		
 	const cancelAction = UIAlertAction.actionWithTitleStyleHandler('Cancel', UIAlertActionStyleCancel, () => {
-		$.notice.setText('Clicked Cancel!');
+		$.notice.text = 'Clicked Cancel!';
 	});
 	
 	const destructiveAction = UIAlertAction.actionWithTitleStyleHandler('Delete', UIAlertActionStyleDestructive, () => {
-		$.notice.setText('Clicked Delete!');
+		$.notice.text = 'Clicked Delete!';
 	});
 
 	alertController.addAction(alertAction);

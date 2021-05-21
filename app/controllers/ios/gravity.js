@@ -1,12 +1,10 @@
-import { UIDynamicAnimator, UIDynamicItemBehavior, UIGravityBehavior, UICollisionBehavior, UIColor } from 'UIKit';
+import { UIDynamicAnimator, UIDynamicItemBehavior, UIGravityBehavior, UICollisionBehavior } from 'UIKit';
 import { NSBundle, NSURL } from 'Foundation';
 import { AVAudioPlayer } from 'AVFoundation';
 import { CoreGraphics } from 'CoreGraphics';
-
 import { CollisionBehaviorDelegate } from '/subclasses/collisionbehaviordelegate';
 
 const CGPointMake = CoreGraphics.CGPointMake;
-const CGRectMake = CoreGraphics.CGRectMake;
 
 // wait for the window to finish before starting the ball drop
 setTimeout(() => {

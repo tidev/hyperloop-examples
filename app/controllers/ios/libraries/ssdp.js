@@ -1,4 +1,4 @@
-import { SSDPService, SSDPServiceBrowser } from 'CocoaSSDP';
+import { SSDPServiceBrowser } from 'CocoaSSDP';
 let browser;
 
 (function(container) {

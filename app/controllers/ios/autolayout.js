@@ -1,4 +1,4 @@
-import { UILabel, UIColor, UIScreen, UIView, NSLayoutConstraint, UIKit } from 'UIKit';
+import { UILabel, UIColor, UIView, NSLayoutConstraint, UIKit } from 'UIKit';
 
 (function (container) {
 	const label = new UILabel();

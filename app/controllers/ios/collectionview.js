@@ -1,11 +1,9 @@
-import { 
-	UIScreen, 
-	UICollectionView, 
-	UICollectionViewCell, 
-	UICollectionViewFlowLayout, 
-	UIView, 
-	UIColor, 
-	UIKit 
+import {
+	UIScreen,
+	UICollectionView,
+	UICollectionViewFlowLayout,
+	UIColor,
+	UIKit
 } from 'UIKit';
 
 import { CoreGraphics } from 'CoreGraphics';
@@ -18,8 +16,6 @@ const CGRectMake = CoreGraphics.CGRectMake;
 (function (container) {
 	// Subclass delegate + data source
 	const dataSourceDelegate = new CollectionViewDataSourceAndDelegate();
-
-	const numberOfColors = 50;
 
 	let colors = new Array();
 	let collectionView;

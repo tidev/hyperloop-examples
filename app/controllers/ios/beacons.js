@@ -1,5 +1,4 @@
 import { CLBeaconRegion, CLLocationManager, CoreLocation } from 'CoreLocation';
-import { UIApplication, UILocalNotification } from 'UIKit';
 import { NSUUID } from 'Foundation';
 import { LocationManagerDelegate } from '/subclasses/locationmanagerdelegate';
 
@@ -23,14 +22,14 @@ let IDENTIFIER;
 		locationManager.startRangingBeaconsInRegion(region);
 		locationManager.startUpdatingLocation();
 
-		presentNotification('You just entered the current region!');
+		alert('You just entered the current region!');
 	};
 	
 	delegate.didExitRegion = function(manager, region) {
 		locationManager.stopRangingBeaconsInRegion(region);
 		locationManager.stopUpdatingLocation();
 
-		presentNotification('You just exited the current region!');
+		alert('You just exited the current region!');
 	};
 	
 	delegate.didRangeBeacons = function(manager, beacons, region) {
@@ -56,7 +55,7 @@ let IDENTIFIER;
 	        message = 'No beacons are nearby';
 	    }
 		
-	    presentNotification(message);
+	    alert(message);
 	};
 	
 	locationManager = new CLLocationManager();
@@ -69,12 +68,4 @@ function startDiscovery() {
 	const region = CLBeaconRegion.alloc().initWithProximityUUIDMajorMinorIdentifier(uuid, 1, 1, IDENTIFIER);
 	
 	locationManager.startMonitoringForRegion(region);
-}
-
-function presentNotification(title) {
-	const notification = new UILocalNotification();
-	notification.alertBody = title;
-	notification.soundName = 'Default';
-	
-	UIApplication.sharedApplication.presentLocalNotificationNow(notification);	
 }

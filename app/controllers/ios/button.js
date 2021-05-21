@@ -1,8 +1,7 @@
-import { UIButton, UIScreen, UIColor, UILabel, UIKit } from 'UIKit';
+import { UIButton, UIColor, UIKit } from 'UIKit';
 import { CoreGraphics } from 'CoreGraphics';
 
 const UIControlStateNormal = UIKit.UIControlStateNormal;
-const UIControlStateSelected = UIKit.UIControlStateSelected;
 const UIControlEventTouchUpInside = UIKit.UIControlEventTouchUpInside;
 const CGRectMake = CoreGraphics.CGRectMake;
 
@@ -35,4 +34,4 @@ const CGRectMake = CoreGraphics.CGRectMake;
     button.addTargetActionForControlEvents(delegate, 'buttonPressed:', UIControlEventTouchUpInside);
 
     container.add(button);
-})($.window);
+})($.win);

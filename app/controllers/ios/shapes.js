@@ -1,9 +1,8 @@
-import { UIView, UIColor, UIScreen, UIBezierPath } from 'UIKit';
+import { UIView, UIColor, UIBezierPath } from 'UIKit';
 import { CAShapeLayer, CABasicAnimation } from 'QuartzCore';
 import { CoreGraphics } from 'CoreGraphics';
 
 const CGPointMake = CoreGraphics.CGPointMake;
-const CGRectMake = CoreGraphics.CGRectMake;
 
 const pathData = [
 	{ radius: 100, startAngle:270, endAngle: 89, lineWidth: 50, duration: 0.25, title: 'iOS', value:'300', lblTop: 320, lblLeft: 325 },
@@ -18,8 +17,6 @@ const colors = [
 
 let shapes = new Array();
 let labels = new Array();
-
-let view;
 let container;
 
 (function (_container) {
@@ -82,7 +79,7 @@ function animateSection (view, radius, startAngle, endAngle, lineWidth, duration
 
 function animateRing (view) {
 	const growAndFade = Ti.UI.createAnimation({
-		transform: Ti.UI.create2DMatrix().scale(1.5),
+		transform: Ti.UI.createMatrix2D().scale(1.5),
 		opacity: 0.0,
 		duration: 1500
 	});

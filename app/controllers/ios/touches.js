@@ -1,4 +1,4 @@
-import { UIView, UIColor, UIKit, UIPanGestureRecognizer } from 'UIKit';
+import { UIView, UIColor, UIKit } from 'UIKit';
 import { CoreGraphics } from 'CoreGraphics';
 import { PanGestureRecognizer } from '/subclasses/gesturerecognizer';
 
