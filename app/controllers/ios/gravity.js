@@ -1,6 +1,6 @@
 import { UIDynamicAnimator, UIDynamicItemBehavior, UIGravityBehavior, UICollisionBehavior } from 'UIKit';
 import { NSBundle, NSURL } from 'Foundation';
-import { AVAudioPlayer } from 'AVFoundation';
+import { AVAudioPlayer } from 'AVFAudio';
 import { CoreGraphics } from 'CoreGraphics';
 import { CollisionBehaviorDelegate } from '/subclasses/collisionbehaviordelegate';
 
