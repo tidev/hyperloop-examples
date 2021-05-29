@@ -1,6 +1,6 @@
 import { UIAlertController, UIAlertAction } from 'UIKit';
 import { UIKit } from 'UIKit';
-import { TiApp } from 'Titanium/TiApp';
+import { TiApp } from 'Titanium';
 
 const UIAlertControllerStyleAlert = UIKit.UIAlertControllerStyleAlert;
 const UIAlertControllerStyleActionSheet = UIKit.UIAlertControllerStyleActionSheet;
