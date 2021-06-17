@@ -1,5 +1,4 @@
 import { CLBeaconRegion, CLLocationManager, CoreLocation } from 'CoreLocation';
-import { UIApplication, UILocalNotification } from 'UIKit';
 import { NSUUID } from 'Foundation';
 import { LocationManagerDelegate } from '/subclasses/locationmanagerdelegate';
 
@@ -23,40 +22,40 @@ let IDENTIFIER;
 		locationManager.startRangingBeaconsInRegion(region);
 		locationManager.startUpdatingLocation();
 
-		presentNotification('You just entered the current region!');
+		alert('You just entered the current region!');
 	};
 	
 	delegate.didExitRegion = function(manager, region) {
 		locationManager.stopRangingBeaconsInRegion(region);
 		locationManager.stopUpdatingLocation();
 
-		presentNotification('You just exited the current region!');
+		alert('You just exited the current region!');
 	};
 	
 	delegate.didRangeBeacons = function(manager, beacons, region) {
 		let message = '';
 
-	    if(beacons.count > 0) {
-	        let nearestBeacon = beacons.firstObject;
-	        switch(nearestBeacon.proximity) {
-	            case CLProximityFar:
-	                message = 'You are far away from the beacon';
-	                break;
-	            case CLProximityNear:
-	                message = 'You are near the beacon';
-	                break;
-	            case CLProximityImmediate:
-	                message = 'You are in the immediate proximity of the beacon';
-	                break;
-	            case CLProximityUnknown:
+		if(beacons.count > 0) {
+			let nearestBeacon = beacons.firstObject;
+			switch(nearestBeacon.proximity) {
+				case CLProximityFar:
+					message = 'You are far away from the beacon';
+					break;
+				case CLProximityNear:
+					message = 'You are near the beacon';
+					break;
+				case CLProximityImmediate:
+					message = 'You are in the immediate proximity of the beacon';
+					break;
+				case CLProximityUnknown:
 					message = 'You are at an unknown location';
 					break;
-	        }
-	    } else {
-	        message = 'No beacons are nearby';
-	    }
-		
-	    presentNotification(message);
+			}
+		} else {
+			message = 'No beacons are nearby';
+		}
+
+		alert(message);
 	};
 	
 	locationManager = new CLLocationManager();
@@ -69,12 +68,4 @@ function startDiscovery() {
 	const region = CLBeaconRegion.alloc().initWithProximityUUIDMajorMinorIdentifier(uuid, 1, 1, IDENTIFIER);
 	
 	locationManager.startMonitoringForRegion(region);
-}
-
-function presentNotification(title) {
-	const notification = new UILocalNotification();
-	notification.alertBody = title;
-	notification.soundName = 'Default';
-	
-	UIApplication.sharedApplication.presentLocalNotificationNow(notification);	
 }

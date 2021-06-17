@@ -3,7 +3,6 @@ import { NSMutableAttributedString, Foundation } from 'Foundation';
 import { CoreGraphics } from 'CoreGraphics';
 
 const CGSizeMake = CoreGraphics.CGSizeMake;
-const CGRectMake = CoreGraphics.CGRectMake; 
 const NSMakeRange = Foundation.NSMakeRange;
 
 (function (container) {

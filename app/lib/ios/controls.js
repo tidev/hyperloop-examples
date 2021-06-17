@@ -3,7 +3,6 @@ import { CAShapeLayer } from 'QuartzCore';
 import { CoreGraphics } from 'CoreGraphics';
 
 const CGPointMake = CoreGraphics.CGPointMake;
-const CGRectMake = CoreGraphics.CGRectMake;
 
 function createWrapper(options) {
 	return Ti.UI.createView(options || {});
@@ -15,8 +14,8 @@ function DEGREES_TO_RADIANS(angle) {
 
 const createArrow = function (options) {
 	const wrapper = createWrapper(options);
-	wrapper.setTransform(Ti.UI.create2DMatrix().rotate(options.rotation || 0));
-	
+	wrapper.transform = Ti.UI.createMatrix2D().rotate(options.rotation || 0);
+
 	const view = UIView.cast(wrapper);
 
 	const path = UIBezierPath.bezierPath();

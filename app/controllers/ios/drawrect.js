@@ -1,4 +1,4 @@
-import { UIColor, UIView, UIBezierPath, UIKit } from 'UIKit';
+import { UIColor, UIBezierPath, UIKit } from 'UIKit';
 import { CoreGraphics } from 'CoreGraphics';
 import { DrawRectView } from '/subclasses/drawrectview';
 

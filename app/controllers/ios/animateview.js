@@ -16,7 +16,7 @@ const CGAffineTransformIdentity = CoreGraphics.CGAffineTransformIdentity;
 
 	$.button.addEventListener('click', () => {
 		flag = !flag;
-		$.notice.setText('');
+		$.notice.text = '';
 		// animate the UIView
 		UIView.animateWithDurationAnimationsCompletion(1.0, () => {
 			// this function will be called to handle the animation
@@ -36,9 +36,9 @@ const CGAffineTransformIdentity = CoreGraphics.CGAffineTransformIdentity;
 			}
 		}, (_done) => {
 			// this function is called after the animation completes
-			$.notice.setText('Animation completed!');
+			$.notice.text = 'Animation completed!';
 			setTimeout(() => {
-				$.notice.setText('');
+				$.notice.text = '';
 			}, 2000);
 		});
 	});

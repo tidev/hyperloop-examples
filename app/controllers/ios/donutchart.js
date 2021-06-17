@@ -4,7 +4,7 @@ import { DrawRectView } from '/subclasses/drawrectview';
 
 const CGPointMake = CoreGraphics.CGPointMake;
 const CGRectMake = CoreGraphics.CGRectMake;
-	
+
 /**
  * DonutChart example
  * @author: Bert Grantges
@@ -13,7 +13,6 @@ const CGRectMake = CoreGraphics.CGRectMake;
  * of Titanium Cross Platform code and IOS specific Native UI for drawing the more
  * complex objects on the screen.
  */
-
 (function (container) {
 	const Styles = {
 		midnight:  UIColor.colorWithRedGreenBlueAlpha(0.137, 0.180, 0.247, 1.000),

@@ -1,15 +1,13 @@
-import { UIScreen, UIColor, UITableView, UITableViewCell, UIKit } from 'UIKit';
-import { Foundation } from 'Foundation';
+import { UIScreen, UITableView, UITableViewCell, UIKit } from 'UIKit';
 import { TableViewDataSourceAndDelegate } from '/subclasses/tableviewdatasourcedelegate';
 
-const NSIndexPath = Foundation.NSIndexPath;
 const UITableViewStyleGrouped = UIKit.UITableViewStyleGrouped;
 const UITableViewCellStyleSubtitle = UIKit.UITableViewCellStyleSubtitle;
 const UITableViewCellAccessoryDisclosureIndicator = UIKit.UITableViewCellAccessoryDisclosureIndicator;
 
-(function (container) {	
+(function (container) {
 	// Grabs the JSON-file from app/lib/static/data.json 
-	const file = Ti.Filesystem.getFile(Ti.Filesystem.getResourcesDirectory() + 'static/data.json'); 
+	const file = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory, 'static', 'data.json'); 
 	const users = JSON.parse(file.read().text).users;
 
 	// Create + configure tableView
@@ -36,18 +34,17 @@ const UITableViewCellAccessoryDisclosureIndicator = UIKit.UITableViewCellAccesso
 		let cell = tableView.dequeueReusableCellWithIdentifier('hyperloop_cell');
 		const user = users[indexPath.row];
 
-    if (!cell) {
-        cell = UITableViewCell.alloc().initWithStyleReuseIdentifier(UITableViewCellStyleSubtitle, 'hyperloop_cell');
-    }
+		if (!cell) {
+			cell = UITableViewCell.alloc().initWithStyleReuseIdentifier(UITableViewCellStyleSubtitle, 'hyperloop_cell');
+		}
 
 		cell.textLabel.text = user.firstName + ' ' + user.lastName;
 		cell.detailTextLabel.text = user.email; // NOTE: These are no real mail-addresses ;-)
-    cell.accessoryType =  UITableViewCellAccessoryDisclosureIndicator;
-	
-    return cell;
+		cell.accessoryType =  UITableViewCellAccessoryDisclosureIndicator;
+		return cell;
 	};
 
-	dataSourceDelegate.didSelectRowAtIndexPath = function(tableView, indexPath) {		
+	dataSourceDelegate.didSelectRowAtIndexPath = function(tableView, indexPath) {
 		alert('Call me maybe: ' + users[indexPath.row].phone);
 		tableView.deselectRowAtIndexPathAnimated(indexPath, true);
 	};

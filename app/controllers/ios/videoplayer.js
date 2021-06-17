@@ -6,38 +6,38 @@ import { AVPlayer, AVPlayerLayer, AVFoundation } from 'AVFoundation';
 let player = null;
 
 (function(container) {
-  const CGRectMake = CoreGraphics.CGRectMake;
-  const CGPointMake = CoreGraphics.CGPointMake;
-  const AVLayerVideoGravityResizeAspectFill = AVFoundation.AVLayerVideoGravityResizeAspectFill;
-  
-  const videoSize = {
-      width: 300,
-      height: 200
-  };
+	const CGRectMake = CoreGraphics.CGRectMake;
+	const CGPointMake = CoreGraphics.CGPointMake;
+	const AVLayerVideoGravityResizeAspectFill = AVFoundation.AVLayerVideoGravityResizeAspectFill;
 
-  // Will search for /app/assets/videos/movie.mp4
-  const videoPath = NSBundle.mainBundle.pathForResourceOfType('/videos/movie', 'mp4');
-  const videoURL = NSURL.fileURLWithPath(videoPath);
+	const videoSize = {
+		width: 300,
+		height: 200
+	};
 
-  player = AVPlayer.playerWithURL(videoURL);
-  player.muted = true;
+	// Will search for /app/assets/videos/movie.mp4
+	const videoPath = NSBundle.mainBundle.pathForResourceOfType('/videos/movie', 'mp4');
+	const videoURL = NSURL.fileURLWithPath(videoPath);
 
-  const layer = AVPlayerLayer.playerLayerWithPlayer(player);
-  layer.videoGravity = AVLayerVideoGravityResizeAspectFill;
-  layer.frame = CGRectMake(0, 0, videoSize.width, videoSize.height);
+	player = AVPlayer.playerWithURL(videoURL);
+	player.muted = true;
 
-  const view = new UIView();
-  view.frame = CGRectMake(0, 0, videoSize.width, videoSize.height);
-  view.layer.addSublayer(layer);
-  view.center = CGPointMake(UIScreen.mainScreen.bounds.size.width / 2, (UIScreen.mainScreen.bounds.size.height / 2) - 43); // Center screen specs - nav height
+	const layer = AVPlayerLayer.playerLayerWithPlayer(player);
+	layer.videoGravity = AVLayerVideoGravityResizeAspectFill;
+	layer.frame = CGRectMake(0, 0, videoSize.width, videoSize.height);
 
-  container.add(view);
+	const view = new UIView();
+	view.frame = CGRectMake(0, 0, videoSize.width, videoSize.height);
+	view.layer.addSublayer(layer);
+	view.center = CGPointMake(UIScreen.mainScreen.bounds.size.width / 2, (UIScreen.mainScreen.bounds.size.height / 2) - 43); // Center screen specs - nav height
+
+	container.add(view);
 })($.window);
 
 function startPlayer() {
-  player.play();
+	player.play();
 }
 
 function pausePlayer() {
-  player.pause();
+	player.pause();
 }
