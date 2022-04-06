@@ -5,7 +5,7 @@ import Activity from 'android.app.Activity';
 function startRequest() {
 	const activity = new Activity($.win.activity);
 	const queue = VolleyToolbox.Volley.newRequestQueue(activity);
-	const url = 'https://www.appcelerator.com';
+	const url = 'https://www.titaniumsdk.com';
 
 	const request = new VolleyToolbox.StringRequest(VolleyPackage.Request.Method.GET, url,
 		new VolleyPackage.Response.Listener({

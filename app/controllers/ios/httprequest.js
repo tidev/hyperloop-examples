@@ -4,11 +4,11 @@ import { URLSessionDelegate } from '/subclasses/urlsessiondelegate';
 
 function startRequest() {
 	const delegate = new URLSessionDelegate();
-	const urlPath = NSURL.alloc().initWithString('https://appcelerator.com');
+	const urlPath = NSURL.alloc().initWithString('https://titaniumsdk.com');
 	const sessionConfiguration = NSURLSessionConfiguration.defaultSessionConfiguration;
 
 	// Set request headers like `User-Agent` and `Authorization`
-	sessionConfiguration.HTTPAdditionalHeaders = {'User-Agent' : 'Appcelerator Hyperloop'};
+	sessionConfiguration.HTTPAdditionalHeaders = {'User-Agent' : 'TiDev Hyperloop'};
 
 	const session = NSURLSession.sessionWithConfigurationDelegateDelegateQueue(sessionConfiguration, delegate, null);
 	const task = session.dataTaskWithURLCompletionHandler(urlPath, (data, response, error) => {
