@@ -1,8 +1,8 @@
 # Hyperloop Examples
 
-This sample app demonstrates direct native API access using Appcelerator Hyperloop for iOS and Android.
+This sample app demonstrates direct native API access using TiDev Hyperloop for iOS and Android.
 
-Learn more about Hyperloop [here](http://www.appcelerator.com/mobile-app-development-products/hyperloop/)!
+Learn more about Hyperloop [here](https://titaniumsdk.com/guide/Titanium_SDK/Titanium_SDK_Guide/Hyperloop/)!
 
 ## Requirements
 
@@ -12,20 +12,19 @@ Learn more about Hyperloop [here](http://www.appcelerator.com/mobile-app-develop
 
 ## Running this app
 
-*BEFORE* attempting to run this application, ensure that you have downloaded and followed the instructions from the appropriate guide below. 
-There are specific prerequisites that must be first met before this application will run properly. Also make sure you [enabled Hyperloop](http://docs.appcelerator.com/platform/latest/#!/guide/Enabling_Hyperloop) before getting started.
+_BEFORE_ attempting to run this application, ensure that you have downloaded and followed the instructions from the appropriate guide below.
+There are specific prerequisites that must be first met before this application will run properly. Also make sure you [enabled Hyperloop](https://titaniumsdk.com/guide/Titanium_SDK/Titanium_SDK_Guide/Hyperloop/Enabling_Hyperloop.html) before getting started.
 
-This sample application only runs on the simulator because it uses a demo application GUID. If you want to run this application on device, 
-you need to import the application into your own platform account using `appc new --import`.
+This sample application only runs on the simulator because it uses a demo application GUID.
 
 ### iOS
 
-You can download the [iOS Programming Guide](http://docs.appcelerator.com/platform/latest/#!/guide/iOS_Hyperloop_Programming_Guide) for information on running this demo application 
+You can download the [iOS Programming Guide](https://titaniumsdk.com/guide/Titanium_SDK/Titanium_SDK_Guide/Hyperloop/Hyperloop_Guides/iOS_Hyperloop_Programming_Guide/) for information on running this demo application
 for iOS and learning how to use Hyperloop in your own project.
 
 ### Android
 
-You can download the [Android Programming Guide](http://docs.appcelerator.com/platform/latest/#!/guide/Android_Hyperloop_Programming_Guide) for information on running this demo application 
+You can download the [Android Programming Guide](https://titaniumsdk.com/guide/Titanium_SDK/Titanium_SDK_Guide/Hyperloop/Hyperloop_Guides/Android_Hyperloop_Programming_Guide/) for information on running this demo application
 for Android and learning how to use Hyperloop in your own project.
 
 ## License

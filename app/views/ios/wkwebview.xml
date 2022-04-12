@@ -3,6 +3,6 @@
 		<RightNavButton>
 			<ActivityIndicator id="loader" />
 		</RightNavButton>
-		<WebView module="wkwebview" url="http://www.appcelerator.com" onLoad="onLoad"/>
+		<WebView module="wkwebview" url="http://titaniumsdk.com" onLoad="onLoad"/>
 	</Window>
 </Alloy>

@@ -3,10 +3,10 @@
 	<id>com.appcelerator.sample.hyperloop</id>
 	<name>Hyperloop_Sample</name>
 	<version>5.0.0</version>
-	<publisher>Appcelerator</publisher>
-	<url>http://www.appcelerator.com</url>
+	<publisher>TiDev</publisher>
+	<url>http://www.tidev.io</url>
 	<description>This app demonstrates Hyperloop</description>
-	<copyright>2015-2021 by Axway, Inc.</copyright>
+	<copyright>2022 by TiDev, Inc.</copyright>
 	<icon>appicon.png</icon>
 
 	<!-- Change to true and remove the <application> tag to select Theme.AppCompat.NoTitleBar -->
