@@ -10,7 +10,6 @@ TiApplicationDelegate.addMethod({
         'NSDictionary'
     ],
     callback: function(application, options) {
-        alert('HI')
         if (this.didFinishLaunchingWithOptions) {
             return this.didFinishLaunchingWithOptions(application, options);
         }
